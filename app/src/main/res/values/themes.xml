@@ -9,4 +9,7 @@
         <item name="android:fontFamily">@font/google_sans_bold</item>
         <item name="fontFamily">@font/proxima_nova_font</item>
     </style>
+    <style name="Button.White" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">#FFFFFF</item>
+    </style>
 </resources>
