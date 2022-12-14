@@ -1,8 +1,11 @@
 package com.example.android_steam_like
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,5 +16,29 @@ class MainActivity : AppCompatActivity() {
         getSupportActionBar()?.setDisplayShowCustomEnabled(true);
         getSupportActionBar()?.setCustomView(R.layout.custom_action_bar);
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+
+        val booking = listOf(
+            generateFakeBooking(),
+            generateFakeBooking(),
+            generateFakeBooking(),
+            generateFakeBooking(),
+            generateFakeBooking(),
+            generateFakeBooking(),
+            generateFakeBooking(),
+            generateFakeBooking(),
+            generateFakeBooking(),
+            generateFakeBooking(),
+            generateFakeBooking(),
+            generateFakeBooking(),
+            generateFakeBooking(),
+            generateFakeBooking(),
+        )
+
+        val listAdapter = ListAdapter(booking);
+        findViewById<RecyclerView>(R.id.test).apply {
+            layoutManager = LinearLayoutManager(this@MainActivity,)
+            adapter = listAdapter;
+        };
+
     }
 }
