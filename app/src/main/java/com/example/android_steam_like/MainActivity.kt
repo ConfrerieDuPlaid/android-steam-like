@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         val listAdapter = ListAdapter(booking);
-        findViewById<RecyclerView>(R.id.test).apply {
+        findViewById<RecyclerView>(R.id.game_list).apply {
             layoutManager = LinearLayoutManager(this@MainActivity,)
             adapter = listAdapter;
         };

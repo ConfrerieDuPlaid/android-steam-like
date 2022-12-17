@@ -95,7 +95,7 @@
         tools:ignore="MissingConstraints" />
 
     <include
-        android:id="@+id/test"
+        android:id="@+id/game_list"
         layout="@layout/game_list"
         android:layout_width="match_parent"
         android:layout_height="335dp"

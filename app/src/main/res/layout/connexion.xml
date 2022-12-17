@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Connexion">
+
+    <TextView
+        android:id="@+id/subscribe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bienvenu !"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="50sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="15dp"
+        />
+
+    <TextView
+        android:id="@+id/top_forget_password_message"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Veuillez vous connecter ou créer un nouveau compte pour utiliser l'application"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subscribe"
+        android:gravity="center"
+        android:layout_marginTop="15dp"
+        />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edit_text_shape"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:hint="E-mail"
+        app:layout_constraintTop_toBottomOf="@+id/top_forget_password_message"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edit_text_shape"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:hint="Mot de passe"
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/connection_button"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:background="@drawable/button_home_shape"
+        android:backgroundTint="#5D63DE"
+        android:layout_marginTop="150dp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Se connecter"
+        android:fontFamily="@font/proxima_nova_font"
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/create_new_account"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:background="@drawable/button_new_account_shape"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Créer un nouveau compte"
+        android:fontFamily="@font/proxima_nova_font"
+        app:layout_constraintTop_toBottomOf="@+id/connection_button"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:background="@drawable/button_forget_password"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/forget_password"
+        android:fontFamily="@font/proxima_nova_font"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="MissingConstraints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
