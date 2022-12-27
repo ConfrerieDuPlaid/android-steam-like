@@ -1,105 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/text_guide_line"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="10dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/image_guide_line_vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="284dp" />
-
-    <EditText
-        android:id="@+id/search_bar"
-        android:layout_width="350dp"
-        android:layout_height="50dp"
-        android:background="@drawable/edit_text_shape"
-        android:layout_marginTop="100dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:hint="Rechercher un jeu..."
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:drawableRight="@drawable/search"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-
-    <ImageView
-        android:id="@+id/game_image"
-        android:layout_width="wrap_content"
-        android:layout_height="235dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/stickies"
-        app:layout_constraintEnd_toEndOf="@+id/search_bar"
-        app:layout_constraintStart_toStartOf="@+id/search_bar"
-        app:layout_constraintTop_toBottomOf="@+id/search_bar" />
-
-
-    <TextView
-        android:id="@+id/game_title"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="75dp"
-        android:text="Titan Fall 2 Ultimate edition"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/text_guide_line"
-        app:layout_constraintTop_toTopOf="@+id/game_image"
-        />
-
-    <TextView
-        android:id="@+id/game_desc"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Une description d'un jeu mis en avant (peut être écris en dur)"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="@+id/text_guide_line"
-        app:layout_constraintTop_toBottomOf="@+id/game_title" />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="120dp"
-        android:src="@drawable/titan"
-        app:layout_constraintLeft_toRightOf="@+id/image_guide_line_vertical"
-        app:layout_constraintTop_toTopOf="@+id/game_title" />
-
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:background="@drawable/button_home_shape"
-        android:backgroundTint="#5D63DE"
-        android:layout_marginTop="15dp"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="@+id/text_guide_line"
-        android:text="En savoir plus"
-        android:fontFamily="@font/proxima_nova_font"
-        app:layout_constraintTop_toBottomOf="@+id/game_desc"
-        tools:ignore="MissingConstraints" />
-
-    <include
-        android:id="@+id/game_list"
-        layout="@layout/game_list"
+    android:id="@+id/scroll_view"
+    tools:context=".MainActivity"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="335dp"
-        app:layout_constraintEnd_toEndOf="@+id/game_image"
-        app:layout_constraintStart_toStartOf="@+id/game_image"
-        app:layout_constraintTop_toBottomOf="@+id/game_image" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="wrap_content"
+        tools:context=".MainActivity">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/text_guide_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="10dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/image_guide_line_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="10dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/list_guide_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="300dp" />
+
+        <EditText
+            android:id="@+id/search_bar"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@drawable/edit_text_shape"
+            android:layout_marginTop="50dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:hint="Rechercher un jeu..."
+            android:layout_marginEnd="35dp"
+            android:layout_marginStart="35dp"
+            android:paddingStart="15dp"
+            android:drawableRight="@drawable/search"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+
+        <ImageView
+            android:id="@+id/game_image"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/stickies"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_bar"
+            app:layout_constraintBottom_toTopOf="@+id/list_guide_line"/>
+
+
+        <TextView
+            android:id="@+id/game_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="51dp"
+            android:text="Titan Fall 2 Ultimate edition"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/text_guide_line"
+            app:layout_constraintTop_toTopOf="@+id/game_image"
+            app:layout_constraintRight_toRightOf="@+id/jacket"
+            />
+
+        <TextView
+            android:id="@+id/game_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Une description d'un jeu mis en avant (peut être écris en dur)"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@+id/jacket"
+            app:layout_constraintStart_toStartOf="@+id/text_guide_line"
+            app:layout_constraintTop_toBottomOf="@+id/game_title" />
+
+        <ImageView
+            android:id="@+id/jacket"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:src="@drawable/titan"
+            app:layout_constraintRight_toRightOf="@+id/image_guide_line_vertical"
+            app:layout_constraintTop_toTopOf="@+id/game_title"
+            android:contentDescription="cover image" />
+
+
+        <Button
+            android:id="@+id/know_more"
+            android:layout_width="162dp"
+            android:layout_height="0dp"
+            android:background="@drawable/button_home_shape"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="#5D63DE"
+            android:fontFamily="@font/proxima_nova_font"
+            android:text="En savoir plus"
+            android:textSize="10sp"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/game_image"
+            app:layout_constraintStart_toStartOf="@+id/text_guide_line"
+            app:layout_constraintTop_toBottomOf="@+id/game_desc" />
+
+        <include
+            android:id="@+id/game_list"
+            layout="@layout/game_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="@+id/game_image"
+            app:layout_constraintStart_toStartOf="@+id/game_image"
+            app:layout_constraintTop_toBottomOf="@+id/game_image" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</ScrollView>
