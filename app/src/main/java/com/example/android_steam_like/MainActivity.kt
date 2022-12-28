@@ -2,10 +2,15 @@ package com.example.android_steam_like
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
@@ -51,8 +56,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setButtonNavigation() {
-        val knowMore = findViewById<Button>(R.id.know_more)
-        knowMore.setOnClickListener {
+
+
+        findViewById<EditText>(R.id.search_bar).addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int,
+                                       before: Int, count: Int) {
+                if(s.toString().trim().isEmpty()){return}
+
+                //TODO faire les requêtes necessaires pour chercher des jeux
+                println(s)
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        findViewById<Button>(R.id.know_more).setOnClickListener {
             intent = Intent(this, game_detail::class.java)
             startActivity(intent)
         }
