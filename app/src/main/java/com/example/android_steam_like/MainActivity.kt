@@ -17,9 +17,8 @@ class MainActivity : AppCompatActivity() {
 
     val booking: MutableList<Game> = mutableListOf(
         generateFakeGame(),
-        generateFakeGame(),
-    )
 
+    )
     val listAdapter = ListAdapter(booking);
 
 
@@ -27,14 +26,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        getSupportActionBar()?.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar()?.setDisplayShowCustomEnabled(true);
-        getSupportActionBar()?.setCustomView(R.layout.custom_action_bar);
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+        setTopBar()
 
         setButtonNavigation()
 
-        http_request("https://store.steampowered.com/api/appdetails?appids=730", this).start()
+        http_request("http://localhost:3000/game/steam/730", this::addGame).start()
 
         findViewById<RecyclerView>(R.id.game_list).apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
@@ -42,10 +38,17 @@ class MainActivity : AppCompatActivity() {
         };
     }
 
+    private fun setTopBar() {
+        getSupportActionBar()?.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar()?.setDisplayShowCustomEnabled(true);
+        getSupportActionBar()?.setCustomView(R.layout.custom_action_bar);
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+    }
+
     fun addGame(game: Game){
         this.booking.add(game)
-        listAdapter.notifyItemInserted(booking.size);
-
+        listAdapter
+        listAdapter.notifyDataSetChanged();
     }
 
     private fun setButtonNavigation() {

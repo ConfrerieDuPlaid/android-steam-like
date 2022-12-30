@@ -117,9 +117,9 @@
             android:id="@+id/game_list"
             layout="@layout/game_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="@+id/game_image"
             app:layout_constraintStart_toStartOf="@+id/game_image"
-            app:layout_constraintTop_toBottomOf="@+id/game_image" />
+            app:layout_constraintTop_toBottomOf="@+id/game_image"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
