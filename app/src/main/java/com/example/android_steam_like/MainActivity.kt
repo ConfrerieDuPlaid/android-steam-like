@@ -9,22 +9,20 @@ import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Request
-import com.android.volley.toolbox.JsonRequest
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.internal.wait
-import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity() {
+
+    val booking: MutableList<Game> = mutableListOf(
+        generateFakeGame(),
+        generateFakeGame(),
+    )
+
+    val listAdapter = ListAdapter(booking);
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -36,23 +34,18 @@ class MainActivity : AppCompatActivity() {
 
         setButtonNavigation()
 
+        http_request("https://store.steampowered.com/api/appdetails?appids=730", this).start()
 
-        val booking = listOf(
-            generateFakeGame(),
-            generateFakeGame(),
-            generateFakeGame(),
-            generateFakeGame(),
-            generateFakeGame(),
-            generateFakeGame(),
-            generateFakeGame(),
-            generateFakeGame(),
-        )
-
-        val listAdapter = ListAdapter(booking);
         findViewById<RecyclerView>(R.id.game_list).apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = listAdapter;
         };
+    }
+
+    fun addGame(game: Game){
+        this.booking.add(game)
+        listAdapter.notifyItemInserted(booking.size);
+
     }
 
     private fun setButtonNavigation() {
