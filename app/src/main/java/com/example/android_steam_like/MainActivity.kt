@@ -30,7 +30,9 @@ class MainActivity : AppCompatActivity() {
 
         setButtonNavigation()
 
-        http_request("http://localhost:3000/game/steam/730", this::addGame).start()
+        println("je suis là")
+        http_request("https://store.steampowered.com/api/appdetails?appids=730", this::addGame).start()
+        println("je suis pas là")
 
         findViewById<RecyclerView>(R.id.game_list).apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
@@ -45,10 +47,9 @@ class MainActivity : AppCompatActivity() {
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
     }
 
-    fun addGame(game: Game){
+    private fun addGame(game: Game){
         this.booking.add(game)
-        listAdapter
-        listAdapter.notifyDataSetChanged();
+        listAdapter.notifyItemInserted(booking.size + 1)
     }
 
     private fun setButtonNavigation() {
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                                        before: Int, count: Int) {
                 if(s.toString().trim().isEmpty()){return}
 
-                //TODO faire les requêtes necessaires pour chercher des jeux
+
                 println(s)
             }
 
