@@ -93,16 +93,17 @@
             android:layout_weight="4"
             android:layout_width="0dp"
             android:layout_height="35dp"
+            android:backgroundTint="#5D63DE"
             android:background="@drawable/button_game_detail_left"
             android:hint="DESCRIPTION"
             android:textColorHint="@color/white" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/opinions"
             android:layout_width="0dp"
             android:layout_weight="4"
             android:layout_height="35dp"
             android:background="@drawable/button_game_detail_right"
-            android:backgroundTint="#5D63DE"
             android:hint="AVIS"
             android:textColorHint="@color/white" />
     </LinearLayout>
