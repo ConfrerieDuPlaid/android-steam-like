@@ -11,6 +11,7 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import org.json.JSONArray
 
 
 class MainActivity : AppCompatActivity() {
@@ -30,9 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         setButtonNavigation()
 
-        println("je suis là")
-        http_request("https://store.steampowered.com/api/appdetails?appids=730", this::addGame).start()
-        println("je suis pas là")
+        http_request("http://172.20.10.8:3000/game/top100", this::addGame).start()
 
         findViewById<RecyclerView>(R.id.game_list).apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
@@ -47,9 +46,28 @@ class MainActivity : AppCompatActivity() {
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
     }
 
-    private fun addGame(game: Game){
-        this.booking.add(game)
-        listAdapter.notifyItemInserted(booking.size + 1)
+    private fun addGame(res: String){
+        val gameJson = JSONArray(res)
+
+        for (i in 0 until gameJson.length()) {
+            this@MainActivity.runOnUiThread(java.lang.Runnable {
+                try{
+                    val game = gameJson.getJSONObject(i).getJSONObject("gameData");
+                    val gameName = game.getString("name");
+                    val editors = game.getJSONArray("publishers");
+                    val price = game.getString("priceInCents");
+                    val appId = game.getInt("steamAppid").toString();
+                    val newGame = Game(gameName, editors[0].toString(), price, appId)
+                    this.booking.add(newGame)
+                    listAdapter.notifyItemInserted(booking.size + 1)
+                } catch (e: java.lang.Exception){
+
+                }
+            })
+        }
+
+
+
     }
 
     private fun setButtonNavigation() {
