@@ -23,7 +23,7 @@ class game_detail : AppCompatActivity() {
         val appId = intent.getStringExtra("appId")
 
 
-        http_request("http://172.20.10.8:3000/game/$appId", this::displayDetail).start()
+        http_request("http://172.20.10.5:3000/game/$appId", this::displayDetail).start()
 
         setOnClickButton(appId)
     }
@@ -45,7 +45,7 @@ class game_detail : AppCompatActivity() {
 
             list.visibility  = View.VISIBLE
 
-            http_request("http://172.20.10.8:3000/comment/$appId", this::opinions).start()
+            http_request("http://172.20.10.5:3000/comment/$appId", this::opinions).start()
 
         }
     }
