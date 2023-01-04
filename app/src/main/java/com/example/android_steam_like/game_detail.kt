@@ -14,11 +14,11 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 class game_detail : AppCompatActivity() {
-    val list = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.avis);
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game_detail)
+        val list = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.avis)
         list.visibility  = View.GONE
         val appId = intent.getStringExtra("appId")
 
@@ -29,6 +29,8 @@ class game_detail : AppCompatActivity() {
     }
 
     private fun setOnClickButton(appId: String?) {
+        val list = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.avis)
+
         val descriptionButton = findViewById<Button>(R.id.description_button)
         val opinionsButton = findViewById<Button>(R.id.opinions)
 
