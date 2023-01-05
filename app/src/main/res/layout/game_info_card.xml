@@ -28,6 +28,13 @@
             app:layout_constraintGuide_end="90dp" />
 
         <ImageView
+            android:id="@+id/title_card_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            />
+
+        <ImageView
             android:id="@+id/game_image"
             android:layout_width="63dp"
             android:layout_height="80dp"

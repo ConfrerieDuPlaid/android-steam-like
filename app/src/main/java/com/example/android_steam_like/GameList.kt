@@ -38,7 +38,7 @@ class ListAdapter(private val products: List<Game>) : RecyclerView.Adapter<GameV
     }
 
     override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
-        holder.updateDay(
+        holder.updateGame(
             products[position]
         )
     }
@@ -52,14 +52,16 @@ class GameViewHolder(v: View) : RecyclerView.ViewHolder(v) {
     private val editorName = v.findViewById<TextView>(R.id.editor_name)
     private val gamePrice = v.findViewById<TextView>(R.id.game_price)
     private val gameImage = v.findViewById<ImageView>(R.id.game_image)
+    //private val gameBackground = v.findViewById<ImageView>(R.id.title_card_background)
     private val gameButton = v.findViewById<Button>(R.id.more_info)
 
 
-    fun updateDay(game: Game) {
+    fun updateGame(game: Game) {
         name.text = game.name
         editorName.text = game.editors
-        gamePrice.text = game.price
+        gamePrice.text = game.displayPrice()
         Glide.with(itemView).load(game.headerImage).into(gameImage)
+        //Glide.with(itemView).load(game.backgroundImage).into(gameBackground)
         gameButton.setOnClickListener {
             val intent = Intent(it.context, GameDetail::class.java)
             intent.putExtra("appId",game.appId)
@@ -68,5 +70,4 @@ class GameViewHolder(v: View) : RecyclerView.ViewHolder(v) {
             startActivity(it.context, intent, null)
         }
     }
-
 }
