@@ -57,7 +57,7 @@ class GameViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
     fun updateDay(game: Game) {
         name.text = game.name
-        editorName.text = game.editorName
+        editorName.text = game.editors
         gamePrice.text = game.price
         Glide.with(itemView).load(game.headerImage).into(gameImage)
         gameButton.setOnClickListener {

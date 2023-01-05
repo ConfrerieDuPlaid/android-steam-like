@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.json.JSONArray
+import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity() {
@@ -45,18 +46,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun addGame(res: String){
         val gameJson = JSONArray(res)
-
         for (i in 0 until gameJson.length()) {
             this@MainActivity.runOnUiThread(java.lang.Runnable {
                 try{
                     val game = gameJson.getJSONObject(i).getJSONObject("gameData")
-                    val gameName = game.getString("name")
-                    val editors = game.getJSONArray("publishers")
-                    val price = game.getString("priceInCents")
-                    val appId = game.getInt("steamAppid").toString()
-                    val headerImage = game.getString("headerImage")
-                    val backgroundImage = game.getString("backgroundImage")
-                    val newGame = Game(gameName, editors[0].toString(), price, appId, headerImage, null, backgroundImage)
+                    val newGame = Game.newFromGameData(game)
                     this.booking.add(newGame)
                     listAdapter.notifyItemInserted(booking.size + 1)
                 } catch (e: java.lang.Exception){
@@ -64,9 +58,6 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
-
-
-
     }
 
     private fun setButtonNavigation() {

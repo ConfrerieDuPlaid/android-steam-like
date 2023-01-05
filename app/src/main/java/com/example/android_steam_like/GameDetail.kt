@@ -107,17 +107,9 @@ class GameDetail : AppCompatActivity() {
 
 
     private fun displayDetail(res: String) {
-        val gameData = JSONObject(res)
-        val gameName = gameData.getString("name")
-        val editors = gameData.getJSONArray("publishers")
-        val price = gameData.getString("priceInCents")
-        val appId = gameData.getInt("steamAppid").toString()
-        val headerImage = gameData.getString("headerImage")
-        val description = gameData.getString("description")
-        val backgroundImage = gameData.getString("backgroundImage")
-        this.game = Game(gameName, editors[0].toString(), price, appId, headerImage, description, backgroundImage)
-        findViewById<TextView>(R.id.description).text = fromHtml(description, FROM_HTML_MODE_LEGACY)
-        findViewById<TextView>(R.id.game_name).text = gameName
-        findViewById<TextView>(R.id.game_editor).text = editors.join(", ").replace("\"", "")
+        this.game = Game.newFromGameData(JSONObject(res))
+        findViewById<TextView>(R.id.description).text = fromHtml(this.game!!.description!!, FROM_HTML_MODE_LEGACY)
+        findViewById<TextView>(R.id.game_name).text = this.game!!.name
+        findViewById<TextView>(R.id.game_editor).text = this.game!!.editors
     }
 }
