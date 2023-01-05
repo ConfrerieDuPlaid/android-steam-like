@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 class Wishlist : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_wish_list)
+        setContentView(R.layout.wish_list)
 
         val list = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.game_list);
         list.visibility  = View.GONE

@@ -25,7 +25,7 @@ class GameDetail : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_game_detail)
+        setContentView(R.layout.game_detail)
 
         val list = findViewById<RecyclerView>(R.id.game_comments)
         list.visibility  = View.GONE

@@ -6,6 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 class Likelist : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_likes)
+        setContentView(R.layout.like_list)
     }
 }

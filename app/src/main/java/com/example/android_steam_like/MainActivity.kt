@@ -38,10 +38,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setTopBar() {
-        getSupportActionBar()?.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar()?.setDisplayShowCustomEnabled(true);
-        getSupportActionBar()?.setCustomView(R.layout.custom_action_bar);
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM;
+        supportActionBar?.setDisplayShowCustomEnabled(true);
+        supportActionBar?.setCustomView(R.layout.custom_action_bar);
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun addGame(res: String){

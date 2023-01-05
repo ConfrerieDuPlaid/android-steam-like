@@ -19,7 +19,7 @@ class GameList: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.avis)
+        setContentView(R.layout.default_list)
         // TODO Changer cette ligne en fonction des layouts
     }
 }

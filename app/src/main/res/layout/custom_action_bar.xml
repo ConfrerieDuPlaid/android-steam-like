@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/google_sans_bold"
         android:textStyle="bold"
-        android:text="Acceuil"
+        android:text="Accueil"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textColor="@color/white"

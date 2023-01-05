@@ -26,7 +26,6 @@ class Game(
             for (i in 0 until screenshotsJson.length()) {
                 screenshots.add(i, screenshotsJson[i].toString())
             }
-            println(data.getJSONArray("publishers").join(", "))
             return Game(
                 gameName,
                 editors,
