@@ -1,12 +1,12 @@
 package com.example.android_steam_like
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 
 class CommentsList : AppCompatActivity() {
@@ -53,7 +53,6 @@ class CommentViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         username.text = Comment.username
         content.text = Comment.content
         val intScore = ((Comment.score * 100) % 5).toInt()
-        println(intScore)
         for (i in 0 until intScore) {
             stars[i].setImageResource(R.drawable.star_full)
         }

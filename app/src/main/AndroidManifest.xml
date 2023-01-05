@@ -24,21 +24,21 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".game_detail"
+            android:name=".GameDetail"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".forget_password"
+            android:name=".ForgetPassword"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".new_account"
+            android:name=".NewAccount"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -52,14 +52,14 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".wish_list"
+            android:name=".Wishlist"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".likes"
+            android:name=".Likelist"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"

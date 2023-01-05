@@ -2,13 +2,9 @@ package com.example.android_steam_like
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import org.json.JSONArray
-import org.json.JSONObject
-import kotlin.reflect.KFunction2
 
 
-
-class http_request(val url: String, val callBack: (input: String) -> Unit, ) : Thread() {
+class HttpRequest(val url: String, val callBack: (input: String) -> Unit, ) : Thread() {
     override fun run() {
         val client = OkHttpClient();
         val request = Request.Builder()

@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         setButtonNavigation()
 
-        http_request(ServerConfig.baseURL()+ "/game/top100", this::addGame).start()
+        HttpRequest(ServerConfig.baseURL()+ "/game/top100", this::addGame).start()
 
         findViewById<RecyclerView>(R.id.game_list).apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
@@ -49,16 +49,18 @@ class MainActivity : AppCompatActivity() {
         for (i in 0 until gameJson.length()) {
             this@MainActivity.runOnUiThread(java.lang.Runnable {
                 try{
-                    val game = gameJson.getJSONObject(i).getJSONObject("gameData");
-                    val gameName = game.getString("name");
-                    val editors = game.getJSONArray("publishers");
-                    val price = game.getString("priceInCents");
-                    val appId = game.getInt("steamAppid").toString();
-                    val newGame = Game(gameName, editors[0].toString(), price, appId)
+                    val game = gameJson.getJSONObject(i).getJSONObject("gameData")
+                    val gameName = game.getString("name")
+                    val editors = game.getJSONArray("publishers")
+                    val price = game.getString("priceInCents")
+                    val appId = game.getInt("steamAppid").toString()
+                    val headerImage = game.getString("headerImage")
+                    val backgroundImage = game.getString("backgroundImage")
+                    val newGame = Game(gameName, editors[0].toString(), price, appId, headerImage, null, backgroundImage)
                     this.booking.add(newGame)
                     listAdapter.notifyItemInserted(booking.size + 1)
                 } catch (e: java.lang.Exception){
-
+                    println(e.message)
                 }
             })
         }
@@ -76,26 +78,23 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
                 if(s.toString().trim().isEmpty()){return}
-
-
-                println(s)
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
 
         findViewById<Button>(R.id.know_more).setOnClickListener {
-            intent = Intent(this, game_detail::class.java)
+            intent = Intent(this, GameDetail::class.java)
             startActivity(intent)
         }
 
         findViewById<ImageButton>(R.id.action_bar_like).setOnClickListener {
-            intent = Intent(this, likes::class.java)
+            intent = Intent(this, Likelist::class.java)
             startActivity(intent)
         }
 
         findViewById<ImageButton>(R.id.action_bar_favorite).setOnClickListener {
-            intent = Intent(this, wish_list::class.java)
+            intent = Intent(this, Wishlist::class.java)
             startActivity(intent)
         }
     }

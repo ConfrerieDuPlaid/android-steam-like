@@ -1,14 +1,14 @@
 package com.example.android_steam_like
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class wish_list : AppCompatActivity() {
+class Wishlist : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wish_list)
@@ -19,7 +19,7 @@ class wish_list : AppCompatActivity() {
 
         val listAdapter = ListAdapter(booking);
         findViewById<RecyclerView>(R.id.game_list).apply {
-            layoutManager = LinearLayoutManager(this@wish_list)
+            layoutManager = LinearLayoutManager(this@Wishlist)
             adapter = listAdapter;
         };
 

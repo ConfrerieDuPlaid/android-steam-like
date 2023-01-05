@@ -12,10 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
-import okhttp3.internal.wait
 
 class GameList: AppCompatActivity() {
 
@@ -61,11 +58,13 @@ class GameViewHolder(v: View) : RecyclerView.ViewHolder(v) {
     fun updateDay(game: Game) {
         name.text = game.name
         editorName.text = game.editorName
-        gamePrice.text = game.gamePrice
-        Glide.with(itemView).load("https://static.openfoodfacts.org/images/products/308/368/008/5304/front_fr.7.400.jpg").into(gameImage)
+        gamePrice.text = game.price
+        Glide.with(itemView).load(game.headerImage).into(gameImage)
         gameButton.setOnClickListener {
-            val intent = Intent(it.context, game_detail::class.java)
+            val intent = Intent(it.context, GameDetail::class.java)
             intent.putExtra("appId",game.appId)
+            intent.putExtra("headerImage",game.headerImage)
+            intent.putExtra("backgroundImage",game.backgroundImage)
             startActivity(it.context, intent, null)
         }
     }
