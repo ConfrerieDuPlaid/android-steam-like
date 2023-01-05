@@ -17,7 +17,7 @@
         app:layout_constraintGuide_begin="250dp" />
 
     <ImageView
-        android:id="@+id/like_image"
+        android:id="@+id/wish_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@+id/like_guide_line"
@@ -26,7 +26,7 @@
         android:src="@drawable/empty_whishlist"/>
 
     <TextView
-        android:id="@+id/empty_like_text"
+        android:id="@+id/empty_wish_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
@@ -37,7 +37,7 @@
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/like_image" />
+        app:layout_constraintTop_toBottomOf="@+id/wish_image" />
 
     <include
         android:id="@+id/game_list"

@@ -46,8 +46,8 @@ class WishList : AppCompatActivity() {
             }
             if (this.wishes.isNotEmpty()) {
                 findViewById<RecyclerView>(R.id.game_list).visibility = View.VISIBLE
-                findViewById<TextView>(R.id.empty_like_text).visibility = View.GONE;
-                findViewById<ImageView>(R.id.like_image).visibility = View.GONE;
+                findViewById<TextView>(R.id.empty_wish_text).visibility = View.GONE;
+                findViewById<ImageView>(R.id.wish_image).visibility = View.GONE;
             }
         }
     }
