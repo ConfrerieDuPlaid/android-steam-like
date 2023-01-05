@@ -27,9 +27,6 @@ class GameList: AppCompatActivity() {
     }
 }
 
-
-public fun generateFakeGame() = Game("CS/GO", "VALV", "12", "730")
-
 class ListAdapter(private val products: List<Game>) : RecyclerView.Adapter<GameViewHolder>() {
 
 

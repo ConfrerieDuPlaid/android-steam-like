@@ -16,10 +16,7 @@ import org.json.JSONArray
 
 class MainActivity : AppCompatActivity() {
 
-    val booking: MutableList<Game> = mutableListOf(
-        generateFakeGame(),
-
-    )
+    val booking: MutableList<Game> = mutableListOf()
     val listAdapter = ListAdapter(booking);
 
 
@@ -31,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         setButtonNavigation()
 
-        http_request("http://172.20.10.5:3000/game/top100", this::addGame).start()
+        http_request(ServerConfig.baseURL()+ "/game/top100", this::addGame).start()
 
         findViewById<RecyclerView>(R.id.game_list).apply {
             layoutManager = LinearLayoutManager(this@MainActivity)

@@ -15,16 +15,7 @@ class wish_list : AppCompatActivity() {
 
         val list = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.game_list);
         list.visibility  = View.GONE
-        val booking = listOf(
-            generateFakeGame(),
-            generateFakeGame(),
-            generateFakeGame(),
-            generateFakeGame(),
-            generateFakeGame(),
-            generateFakeGame(),
-            generateFakeGame(),
-            generateFakeGame(),
-        )
+        val booking: MutableList<Game> = mutableListOf()
 
         val listAdapter = ListAdapter(booking);
         findViewById<RecyclerView>(R.id.game_list).apply {
