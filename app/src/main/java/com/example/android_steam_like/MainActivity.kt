@@ -12,13 +12,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.json.JSONArray
-import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity() {
 
-    val booking: MutableList<Game> = mutableListOf()
-    val listAdapter = ListAdapter(booking);
+    private val games: MutableList<Game> = mutableListOf()
+    private val listAdapter = ListAdapter(games);
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +28,8 @@ class MainActivity : AppCompatActivity() {
 
         setButtonNavigation()
 
-        HttpRequest(ServerConfig.baseURL()+ "/game/top100", this::addGame).start()
+        if (games.isEmpty())
+            HttpRequest(ServerConfig.baseURL()+ "/game/top100", this::addGame).start()
 
         findViewById<RecyclerView>(R.id.game_list).apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
@@ -46,17 +46,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun addGame(res: String){
         val gameJson = JSONArray(res)
-        for (i in 0 until gameJson.length()) {
-            this@MainActivity.runOnUiThread(java.lang.Runnable {
+
+        this@MainActivity.runOnUiThread {
+            for (i in 0 until gameJson.length()) {
                 try{
                     val game = gameJson.getJSONObject(i).getJSONObject("gameData")
                     val newGame = Game.newFromGameData(game)
-                    this.booking.add(newGame)
-                    listAdapter.notifyItemInserted(booking.size + 1)
+                    this.games.add(newGame)
+                    listAdapter.notifyItemInserted(games.size + 1)
                 } catch (e: java.lang.Exception){
                     println(e.message)
                 }
-            })
+            }
         }
     }
 
@@ -80,12 +81,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<ImageButton>(R.id.action_bar_like).setOnClickListener {
-            intent = Intent(this, Likelist::class.java)
+            intent = Intent(this, LikeList::class.java)
             startActivity(intent)
         }
 
         findViewById<ImageButton>(R.id.action_bar_favorite).setOnClickListener {
-            intent = Intent(this, Wishlist::class.java)
+            intent = Intent(this, WishList::class.java)
             startActivity(intent)
         }
     }

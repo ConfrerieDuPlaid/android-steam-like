@@ -6,6 +6,7 @@ import okhttp3.Request
 
 class HttpRequest(val url: String, val callBack: (input: String) -> Unit, ) : Thread() {
     override fun run() {
+        println(url)
         val client = OkHttpClient();
         val request = Request.Builder()
             .url(url)

@@ -86,23 +86,23 @@ class GameDetail : AppCompatActivity() {
     private fun addOpinions(res: String) {
         val commentsJson = JSONArray(res)
         val circularWaiting = findViewById<ProgressBar>(R.id.progress_circular)
-        for (i in 0 until commentsJson.length()) {
-            try {
-                this@GameDetail.runOnUiThread {
-                    val commentJson = commentsJson.getJSONObject(i)
-                    val author = commentJson.getString("author")
-                    val score = commentJson.getDouble("score")
-                    val content = commentJson.getString("content")
-                    val comment = Comment(author, content, score)
-                    this.comments.add(comment)
-                    listAdapter.notifyItemInserted(comments.size + 1)
-                    circularWaiting.visibility = View.GONE
+
+        this@GameDetail.runOnUiThread {
+            for (i in 0 until commentsJson.length()) {
+                try {
+                        val commentJson = commentsJson.getJSONObject(i)
+                        val author = commentJson.getString("author")
+                        val score = commentJson.getDouble("score")
+                        val content = commentJson.getString("content")
+                        val comment = Comment(author, content, score)
+                        this.comments.add(comment)
+                        listAdapter.notifyItemInserted(comments.size + 1)
+                        circularWaiting.visibility = View.GONE
+                } catch(e: java.lang.Exception) {
+                    println(e.message)
                 }
-            } catch(e: java.lang.Exception) {
-                println(e.message)
             }
         }
-
     }
 
 

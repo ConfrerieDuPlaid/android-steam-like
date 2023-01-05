@@ -52,14 +52,14 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Wishlist"
+            android:name=".WishList"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Likelist"
+            android:name=".LikeList"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
