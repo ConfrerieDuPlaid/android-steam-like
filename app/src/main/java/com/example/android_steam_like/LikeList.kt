@@ -39,7 +39,6 @@ class LikeList : AppCompatActivity() {
                     val newGame = Game.newFromGameData(game)
                     this.likes.add(newGame)
                     listAdapter.notifyItemInserted(likes.size + 1)
-                    println(newGame)
                 } catch (e: java.lang.Exception) {
                     println(e.message)
                 }
