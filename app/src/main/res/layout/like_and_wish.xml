@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".MainActivity">
+    android:layout_width="match_parent"
+    tools:context=".game_top_bar">
+
 
     <ImageButton
         android:id="@+id/action_bar_like"
@@ -34,10 +34,11 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/google_sans_bold"
         android:textStyle="bold"
-        android:text="Accueil"
+        android:text="Détail d'un jeu"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textColor="@color/white"
         android:textSize="18sp"
         />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

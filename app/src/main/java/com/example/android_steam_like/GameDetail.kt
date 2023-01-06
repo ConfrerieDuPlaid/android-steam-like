@@ -2,11 +2,13 @@ package com.example.android_steam_like
 
 import android.graphics.Color
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.core.text.HtmlCompat.fromHtml
@@ -26,6 +28,11 @@ class GameDetail : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.game_detail)
+
+        supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM;
+        supportActionBar?.setDisplayShowCustomEnabled(true);
+        supportActionBar?.setCustomView(R.layout.like_and_wish);
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val list = findViewById<RecyclerView>(R.id.game_comments)
         list.visibility  = View.GONE
