@@ -11,6 +11,11 @@ class Like (
     companion object {
         private val likelistEndpoint = ServerConfig.baseURL() + "/likelist"
 
+        fun getUserLikelist (callback: (res: String) -> Unit, simplified: Boolean = false) {
+            val simplify = if (simplified) "?simplified=1" else ""
+            HttpRequest("$likelistEndpoint/63aae4227a5a6755c421d4e7$simplify", callback).start()
+        }
+
         fun addToLikelist (appid: String, callback: (res: String) -> Unit) {
             val body = JSONObject(mapOf("user" to "63aae4227a5a6755c421d4e7", "appid" to appid))
             HttpRequest(likelistEndpoint,

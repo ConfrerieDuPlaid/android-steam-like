@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.android_steam_like.entities.Comment
 import com.example.android_steam_like.entities.Game
-import com.example.android_steam_like.utils.HttpRequest
-import com.example.android_steam_like.utils.ServerConfig
 import layout.Like
 import layout.Wish
 import org.json.JSONArray
@@ -43,7 +41,7 @@ class GameDetail : AppCompatActivity() {
         val appId = this.intent.getStringExtra("appId")
         setContent()
 
-        HttpRequest(ServerConfig.baseURL()+ "/game/$appId", this::displayDetail).start()
+        Game.getGameByAppId(appId, this::displayDetail)
 
         findViewById<ProgressBar>(R.id.progress_circular).visibility = View.GONE
 
@@ -91,7 +89,7 @@ class GameDetail : AppCompatActivity() {
             description.visibility = View.GONE
             if (comments.isEmpty()) {
                 circularWaiting.visibility = View.VISIBLE
-                HttpRequest(ServerConfig.baseURL()+ "/comment/$appId", this::addOpinions).start()
+                Comment.getCommentsByAppId(appId, this::addOpinions)
             }
         }
     }
@@ -143,8 +141,8 @@ class GameDetail : AppCompatActivity() {
                 Like.addToLikelist(appId, this::setLike)
             }
         }
-        HttpRequest(ServerConfig.baseURL() + "/wishlist/63aae4227a5a6755c421d4e7?simplified=1", this::setWishButton).start()
-        HttpRequest(ServerConfig.baseURL() + "/likelist/63aae4227a5a6755c421d4e7?simplified=1", this::setLikeButton).start()
+        Wish.getUserWishlist(this::setWishButton, true)
+        Like.getUserLikelist(this::setLikeButton, true)
     }
 
     private fun setWishButton (res: String) {

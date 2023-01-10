@@ -1,5 +1,7 @@
 package com.example.android_steam_like.entities
 
+import com.example.android_steam_like.utils.HttpRequest
+import com.example.android_steam_like.utils.ServerConfig
 import org.json.JSONObject
 
 class Game(
@@ -19,6 +21,9 @@ class Game(
     }
 
     companion object {
+        private val gameEndpoint: String = ServerConfig.baseURL() + "/game"
+        private val top100Endpoint: String = "$gameEndpoint/top100"
+
         fun newFromGameData(data: JSONObject): Game {
             val gameName = data.getString("name")
             val editors = data.getJSONArray("publishers").join(", ").replace("\"", "")
@@ -42,6 +47,14 @@ class Game(
                 backgroundImage,
                 screenshots
             )
+        }
+
+        fun getTop100 (callback: (res: String) -> Unit) {
+            HttpRequest(top100Endpoint, callback).start()
+        }
+
+        fun getGameByAppId (appId: String?, callback: (res: String) -> Unit) {
+            HttpRequest("$gameEndpoint/$appId", callback).start()
         }
     }
 

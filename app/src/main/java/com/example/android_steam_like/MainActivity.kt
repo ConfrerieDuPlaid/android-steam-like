@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_steam_like.entities.Game
-import com.example.android_steam_like.utils.HttpRequest
-import com.example.android_steam_like.utils.ServerConfig
 import org.json.JSONArray
 
 
@@ -32,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         setButtonNavigation()
 
         if (games.isEmpty())
-            HttpRequest(ServerConfig.baseURL()+ "/game/top100", this::addGame).start()
+            Game.getTop100(this::addGame)
 
         findViewById<RecyclerView>(R.id.game_list).apply {
             layoutManager = LinearLayoutManager(this@MainActivity)

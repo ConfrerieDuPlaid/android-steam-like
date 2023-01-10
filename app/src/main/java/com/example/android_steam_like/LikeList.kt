@@ -8,8 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_steam_like.entities.Game
-import com.example.android_steam_like.utils.HttpRequest
-import com.example.android_steam_like.utils.ServerConfig
+import layout.Like
 import org.json.JSONArray
 
 class LikeList : AppCompatActivity() {
@@ -24,7 +23,7 @@ class LikeList : AppCompatActivity() {
         list.visibility  = View.GONE
 
         if (likes.isEmpty())
-            HttpRequest(ServerConfig.baseURL()+ "/likelist/63aae4227a5a6755c421d4e7", this::addGame).start()
+            Like.getUserLikelist(this::addGame)
 
         val listAdapter = ListAdapter(likes);
         findViewById<RecyclerView>(R.id.game_list).apply {
