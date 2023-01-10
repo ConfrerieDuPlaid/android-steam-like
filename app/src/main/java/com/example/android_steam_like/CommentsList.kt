@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.android_steam_like.entities.Comment
 
 class CommentsList : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

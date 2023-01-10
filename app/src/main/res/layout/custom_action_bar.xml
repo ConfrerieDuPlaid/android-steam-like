@@ -8,18 +8,18 @@
     tools:context=".MainActivity">
 
     <ImageButton
-        android:id="@+id/action_bar_like"
+        android:id="@+id/action_like_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:background="@android:color/transparent"
         android:src="@drawable/like"
-        app:layout_constraintEnd_toStartOf="@+id/action_bar_favorite"
+        app:layout_constraintEnd_toStartOf="@+id/action_wish_game"
         android:paddingRight="25dp"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/action_bar_favorite"
+        android:id="@+id/action_wish_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

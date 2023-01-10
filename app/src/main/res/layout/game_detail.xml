@@ -145,4 +145,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         />
 
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        android:id="@+id/game_top_bar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:backgroundTint="@color/white"-->
+<!--        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
+<!--        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

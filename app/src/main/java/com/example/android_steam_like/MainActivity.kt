@@ -11,6 +11,9 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.android_steam_like.entities.Game
+import com.example.android_steam_like.utils.HttpRequest
+import com.example.android_steam_like.utils.ServerConfig
 import org.json.JSONArray
 
 
@@ -80,12 +83,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        findViewById<ImageButton>(R.id.action_bar_like).setOnClickListener {
+        findViewById<ImageButton>(R.id.action_like_game).setOnClickListener {
             intent = Intent(this, LikeList::class.java)
             startActivity(intent)
         }
 
-        findViewById<ImageButton>(R.id.action_bar_favorite).setOnClickListener {
+        findViewById<ImageButton>(R.id.action_wish_game).setOnClickListener {
             intent = Intent(this, WishList::class.java)
             startActivity(intent)
         }

@@ -1,4 +1,4 @@
-package com.example.android_steam_like
+package com.example.android_steam_like.utils
 
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -11,7 +11,7 @@ import org.json.JSONObject
 class HttpRequest(private val url: String, val callBack: (input: String) -> Unit, private val method: String = "GET", private val bodyJson: JSONObject? = null) : Thread() {
     private val allowedMethods: List<String> = listOf("GET", "POST", "PATCH", "DELETE")
     private val mediaType = "application/json; charset=utf-8".toMediaType()
-    private val client = OkHttpClient();
+    private val client = OkHttpClient()
 
     override fun run() {
         if (!this.methodIsAllowed(method)) return
@@ -21,10 +21,10 @@ class HttpRequest(private val url: String, val callBack: (input: String) -> Unit
         client.newCall(request).execute().use {
             try {
                 val response = client.newCall(request).execute()
-                val res = response.body?.string();
+                val res = response.body?.string()
                 if (res != null) {
                     callBack(res)
-                };
+                }
             } catch (e: java.lang.Exception) {
                 println("error : " + e.message)
             }

@@ -1,4 +1,4 @@
-package com.example.android_steam_like
+package com.example.android_steam_like.utils
 
 class ServerConfig {
     companion object {
