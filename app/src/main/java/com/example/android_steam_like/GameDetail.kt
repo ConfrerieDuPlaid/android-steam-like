@@ -32,6 +32,7 @@ class GameDetail : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.appId = this.intent.getStringExtra("appId")
 
         setContentView(R.layout.game_detail)
         ActionBar.supportActionbar(supportActionBar, this::setHeartListener, this::setStarListener)
@@ -39,30 +40,25 @@ class GameDetail : AppCompatActivity() {
 
         val list = findViewById<RecyclerView>(R.id.game_comments)
         list.visibility  = View.GONE
-        this.appId = this.intent.getStringExtra("appId")
-        setContent()
+        setImages()
 
         Game.getGameByAppId(appId, this::displayDetail)
+        setOnClickButton()
 
         findViewById<ProgressBar>(R.id.progress_circular).visibility = View.GONE
-
-        setOnClickButton(appId)
-
-        setGameActionButtons()
-
         findViewById<RecyclerView>(R.id.game_comments).apply {
             layoutManager = LinearLayoutManager(this@GameDetail)
             adapter = listAdapter
         }
     }
 
-    private fun setContent() {
+    private fun setImages() {
         HtmlImage(this@GameDetail, findViewById(R.id.background), this.intent.getStringExtra("backgroundImage"))
         HtmlImage(this@GameDetail, findViewById(R.id.game_cover_image), this.intent.getStringExtra("headerImage"))
         HtmlImage(this@GameDetail, findViewById(R.id.title_card_background), this.intent.getStringExtra("backgroundImage"))
     }
 
-    private fun setOnClickButton(appId: String?) {
+    private fun setOnClickButton() {
         val list = findViewById<RecyclerView>(R.id.game_comments)
         val description = findViewById<TextView>(R.id.description)
         val descriptionButton = findViewById<Button>(R.id.description_button)
@@ -86,7 +82,7 @@ class GameDetail : AppCompatActivity() {
             description.visibility = View.GONE
             if (comments.isEmpty()) {
                 circularWaiting.visibility = View.VISIBLE
-                Comment.getCommentsByAppId(appId, this::addOpinions)
+                Comment.getCommentsByAppId(this.appId, this::addOpinions)
             }
         }
     }
@@ -122,7 +118,14 @@ class GameDetail : AppCompatActivity() {
     }
 
     private fun setHeartListener () {
-        println("Heart")
+        findViewById<ImageButton>(R.id.action_heart).setOnClickListener {
+            if (this.likeId != null) {
+                Like.removeFromLikelist(this.likeId!!, this::unsetLike)
+            } else {
+                Like.addToLikelist(this.appId, this::setLike)
+            }
+        }
+        Like.getUserLikelist(this::setLikeButton, true)
     }
 
     private fun setStarListener () {
@@ -134,18 +137,6 @@ class GameDetail : AppCompatActivity() {
                 Wish.addToWishlist(this.appId, this::setWish)
             }
         }
-    }
-
-
-    private fun setGameActionButtons() {
-        findViewById<ImageButton>(R.id.action_heart).setOnClickListener {
-            if (this.likeId != null) {
-                Like.removeFromLikelist(this.likeId!!, this::unsetLike)
-            } else {
-                Like.addToLikelist(this.appId, this::setLike)
-            }
-        }
-        Like.getUserLikelist(this::setLikeButton, true)
     }
 
     private fun setWishButton (res: String) {

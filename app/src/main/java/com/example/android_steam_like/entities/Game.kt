@@ -23,6 +23,7 @@ class Game(
     companion object {
         private val gameEndpoint: String = ServerConfig.baseURL() + "/game"
         private val top100Endpoint: String = "$gameEndpoint/top100"
+        private val searchEndpoint: String = "https://steamcommunity.com/actions/SearchApps"
 
         fun newFromGameData(data: JSONObject): Game {
             val gameName = data.getString("name")
@@ -55,6 +56,10 @@ class Game(
 
         fun getGameByAppId (appId: String?, callback: (res: String) -> Unit) {
             HttpRequest("$gameEndpoint/$appId", callback).start()
+        }
+
+        fun getGamesByName (name: String, callback: (res: String) -> Unit) {
+            HttpRequest("$searchEndpoint/$name", callback).start()
         }
     }
 
