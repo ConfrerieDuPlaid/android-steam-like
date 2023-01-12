@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:id="@+id/top_bar"
     android:layout_height="wrap_content"
-    tools:context=".MainActivity">
+    android:layout_width="match_parent"
+    tools:context=".GameTopBar">
+
 
     <ImageButton
         android:id="@+id/action_like_game"
@@ -34,10 +35,13 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/google_sans_bold"
         android:textStyle="bold"
-        android:text="Accueil"
+        android:text="View title"
+        android:id="@+id/view_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:textColor="@color/white"
         android:textSize="18sp"
         />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

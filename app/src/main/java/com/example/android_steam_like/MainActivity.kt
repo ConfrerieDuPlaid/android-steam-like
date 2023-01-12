@@ -7,10 +7,11 @@ import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
-import androidx.appcompat.app.ActionBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.android_steam_like.components.NavBarComponent
 import com.example.android_steam_like.entities.Game
 import org.json.JSONArray
 
@@ -25,12 +26,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setTopBar()
-
+        NavBarComponent.supportActionbar(supportActionBar, this::setHeartListener, this::setStarListener)
+        findViewById<TextView>(R.id.view_title).text = "Accueil"
         setButtonNavigation()
 
         if (games.isEmpty())
-            Game.getTop100(this::addGame)
+            Game.getTop100(this::addGameToList)
 
         findViewById<RecyclerView>(R.id.game_list).apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
@@ -38,14 +39,7 @@ class MainActivity : AppCompatActivity() {
         };
     }
 
-    private fun setTopBar() {
-        supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM;
-        supportActionBar?.setDisplayShowCustomEnabled(true);
-        supportActionBar?.setCustomView(R.layout.custom_action_bar);
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-
-    private fun addGame(res: String){
+    private fun addGameToList(res: String){
         val gameJson = JSONArray(res)
 
         this@MainActivity.runOnUiThread {
@@ -62,9 +56,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setHeartListener() {
+        findViewById<ImageButton>(R.id.action_like_game).setOnClickListener {
+            intent = Intent(this, LikeList::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun setStarListener() {
+        findViewById<ImageButton>(R.id.action_wish_game).setOnClickListener {
+            intent = Intent(this, WishList::class.java)
+            startActivity(intent)
+        }
+    }
+
     private fun setButtonNavigation() {
-
-
         findViewById<EditText>(R.id.search_bar).addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -78,16 +84,6 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.know_more).setOnClickListener {
             intent = Intent(this, GameDetail::class.java)
-            startActivity(intent)
-        }
-
-        findViewById<ImageButton>(R.id.action_like_game).setOnClickListener {
-            intent = Intent(this, LikeList::class.java)
-            startActivity(intent)
-        }
-
-        findViewById<ImageButton>(R.id.action_wish_game).setOnClickListener {
-            intent = Intent(this, WishList::class.java)
             startActivity(intent)
         }
     }
