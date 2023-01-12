@@ -3,16 +3,19 @@ package com.example.android_steam_like
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.*
-import androidx.appcompat.app.ActionBar
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.core.text.HtmlCompat.fromHtml
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.example.android_steam_like.components.ActionBar
 import com.example.android_steam_like.entities.Comment
 import com.example.android_steam_like.entities.Game
+import layout.HtmlImage
 import layout.Like
 import layout.Wish
 import org.json.JSONArray
@@ -25,20 +28,18 @@ class GameDetail : AppCompatActivity() {
     private var game: Game? = null
     private var wishId: String? = null
     private var likeId: String? = null
+    private var appId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.game_detail)
-
-        supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-        supportActionBar?.setDisplayShowCustomEnabled(true)
-        supportActionBar?.setCustomView(R.layout.game_detail_action_bar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        ActionBar.supportActionbar(supportActionBar, this::setHeartListener, this::setStarListener)
+        findViewById<TextView>(R.id.view_title).text = "Détails du jeu"
 
         val list = findViewById<RecyclerView>(R.id.game_comments)
         list.visibility  = View.GONE
-        val appId = this.intent.getStringExtra("appId")
+        this.appId = this.intent.getStringExtra("appId")
         setContent()
 
         Game.getGameByAppId(appId, this::displayDetail)
@@ -56,13 +57,9 @@ class GameDetail : AppCompatActivity() {
     }
 
     private fun setContent() {
-        val background = findViewById<ImageView>(R.id.background)
-        val header = findViewById<ImageView>(R.id.game_cover_image)
-        val titleCard = findViewById<ImageView>(R.id.title_card_background)
-        Glide.with(this@GameDetail).load(this.intent.getStringExtra("backgroundImage")).into(background)
-        Glide.with(this@GameDetail).load(this.intent.getStringExtra("backgroundImage")).into(titleCard)
-        Glide.with(this@GameDetail).load(this.intent.getStringExtra("headerImage")).into(header)
-
+        HtmlImage(this@GameDetail, findViewById(R.id.background), this.intent.getStringExtra("backgroundImage"))
+        HtmlImage(this@GameDetail, findViewById(R.id.game_cover_image), this.intent.getStringExtra("headerImage"))
+        HtmlImage(this@GameDetail, findViewById(R.id.title_card_background), this.intent.getStringExtra("backgroundImage"))
     }
 
     private fun setOnClickButton(appId: String?) {
@@ -124,37 +121,41 @@ class GameDetail : AppCompatActivity() {
         findViewById<TextView>(R.id.game_editor).text = this.game!!.editors
     }
 
+    private fun setHeartListener () {
+        println("Heart")
+    }
 
-    private fun setGameActionButtons() {
-        val appId = this.intent.getStringExtra("appId")!!
-        findViewById<ImageButton>(R.id.action_wish_game).setOnClickListener {
+    private fun setStarListener () {
+        Wish.getUserWishlist(this::setWishButton, true)
+        findViewById<ImageButton>(R.id.action_star).setOnClickListener {
             if (this.wishId != null) {
                 Wish.removeFromWishlist(this.wishId!!, this::unsetWish)
             } else {
-                Wish.addToWishlist(appId, this::setWish)
+                Wish.addToWishlist(this.appId, this::setWish)
             }
         }
-        findViewById<ImageButton>(R.id.action_like_game).setOnClickListener {
+    }
+
+
+    private fun setGameActionButtons() {
+        findViewById<ImageButton>(R.id.action_heart).setOnClickListener {
             if (this.likeId != null) {
                 Like.removeFromLikelist(this.likeId!!, this::unsetLike)
             } else {
-                Like.addToLikelist(appId, this::setLike)
+                Like.addToLikelist(this.appId, this::setLike)
             }
         }
-        Wish.getUserWishlist(this::setWishButton, true)
         Like.getUserLikelist(this::setLikeButton, true)
     }
 
     private fun setWishButton (res: String) {
         val wishes = JSONArray(res)
-        val appId = this.intent.getStringExtra("appId")
-
         this@GameDetail.runOnUiThread {
             for (i in 0 until wishes.length()) {
                 try{
                     val wish = wishes.getJSONObject(i)
                     val wishedAppid: String = wish.getString("appid")
-                    if (wishedAppid == appId) {
+                    if (wishedAppid == this.appId) {
                         setWish(wish.toString())
                     }
                 } catch (e: java.lang.Exception){
@@ -167,35 +168,33 @@ class GameDetail : AppCompatActivity() {
     private fun setWish(res: String) {
         val wish = JSONObject(res)
         this.wishId = wish.getString("_id")
-        findViewById<ImageButton>(R.id.action_wish_game).setImageResource(R.drawable.whishlist_full)
+        findViewById<ImageButton>(R.id.action_star).setImageResource(R.drawable.whishlist_full)
     }
 
     private fun unsetWish(res: String = "") {
         this.wishId = null
-        findViewById<ImageButton>(R.id.action_wish_game).setImageResource(R.drawable.whishlist)
+        findViewById<ImageButton>(R.id.action_star).setImageResource(R.drawable.whishlist)
     }
 
     private fun setLike(res: String) {
         val like = JSONObject(res)
         this.likeId = like.getString("_id")
-        findViewById<ImageButton>(R.id.action_like_game).setImageResource(R.drawable.like_full)
+        findViewById<ImageButton>(R.id.action_heart).setImageResource(R.drawable.like_full)
     }
 
     private fun unsetLike(res: String = "") {
         this.likeId = null
-        findViewById<ImageButton>(R.id.action_like_game).setImageResource(R.drawable.like)
+        findViewById<ImageButton>(R.id.action_heart).setImageResource(R.drawable.like)
     }
 
     private fun setLikeButton (res: String) {
         val likes = JSONArray(res)
-        val appId = this.intent.getStringExtra("appId")
-
         this@GameDetail.runOnUiThread {
             for (i in 0 until likes.length()) {
                 try{
                     val like = likes.getJSONObject(i)
                     val likedAppid: String = like.getString("appid")
-                    if (likedAppid == appId) {
+                    if (likedAppid == this.appId) {
                         setLike(like.toString())
                     }
                 } catch (e: java.lang.Exception){

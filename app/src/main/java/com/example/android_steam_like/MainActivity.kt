@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android_steam_like.components.NavBarComponent
+import com.example.android_steam_like.components.ActionBar
 import com.example.android_steam_like.entities.Game
 import org.json.JSONArray
 
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        NavBarComponent.supportActionbar(supportActionBar, this::setHeartListener, this::setStarListener)
+        ActionBar.supportActionbar(supportActionBar, this::setHeartListener, this::setStarListener)
         findViewById<TextView>(R.id.view_title).text = "Accueil"
         setButtonNavigation()
 
@@ -57,14 +57,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setHeartListener() {
-        findViewById<ImageButton>(R.id.action_like_game).setOnClickListener {
+        findViewById<ImageButton>(R.id.action_heart).setOnClickListener {
             intent = Intent(this, LikeList::class.java)
             startActivity(intent)
         }
     }
 
     private fun setStarListener() {
-        findViewById<ImageButton>(R.id.action_wish_game).setOnClickListener {
+        findViewById<ImageButton>(R.id.action_star).setOnClickListener {
             intent = Intent(this, WishList::class.java)
             startActivity(intent)
         }

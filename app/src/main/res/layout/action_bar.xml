@@ -5,22 +5,22 @@
     android:id="@+id/top_bar"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    tools:context=".GameTopBar">
+    tools:context=".components.ActionBar">
 
 
     <ImageButton
-        android:id="@+id/action_like_game"
+        android:id="@+id/action_heart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:background="@android:color/transparent"
         android:src="@drawable/like"
-        app:layout_constraintEnd_toStartOf="@+id/action_wish_game"
+        app:layout_constraintEnd_toStartOf="@+id/action_star"
         android:paddingRight="25dp"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/action_wish_game"
+        android:id="@+id/action_star"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

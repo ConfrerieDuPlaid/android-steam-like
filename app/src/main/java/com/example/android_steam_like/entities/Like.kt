@@ -6,7 +6,7 @@ import org.json.JSONObject
 
 class Like (
     val id: String,
-    val appid: String
+    val appId: String
 ) {
     companion object {
         private val likelistEndpoint = ServerConfig.baseURL() + "/likelist"
@@ -16,8 +16,8 @@ class Like (
             HttpRequest("$likelistEndpoint/63aae4227a5a6755c421d4e7$simplify", callback).start()
         }
 
-        fun addToLikelist (appid: String, callback: (res: String) -> Unit) {
-            val body = JSONObject(mapOf("user" to "63aae4227a5a6755c421d4e7", "appid" to appid))
+        fun addToLikelist (appId: String?, callback: (res: String) -> Unit) {
+            val body = JSONObject(mapOf("user" to "63aae4227a5a6755c421d4e7", "appid" to appId))
             HttpRequest(likelistEndpoint,
                 callback,
                 "POST",
