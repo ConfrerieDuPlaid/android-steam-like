@@ -41,7 +41,7 @@ class WishList : AppCompatActivity() {
                     val newGame = Game.newFromGameData(game)
                     this.wishes.add(newGame)
                     listAdapter.notifyItemInserted(wishes.size + 1)
-                } catch (e: java.lang.Exception){
+                } catch (e: Exception){
                     println(e.message)
                 }
             }

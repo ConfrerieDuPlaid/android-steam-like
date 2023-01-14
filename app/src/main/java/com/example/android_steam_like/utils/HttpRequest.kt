@@ -25,7 +25,7 @@ class HttpRequest(private val url: String, val callBack: (input: String) -> Unit
                 if (res != null) {
                     callBack(res)
                 }
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 println("error : " + e.message)
             }
         }

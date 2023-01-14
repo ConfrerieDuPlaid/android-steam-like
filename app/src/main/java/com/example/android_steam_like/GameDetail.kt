@@ -102,7 +102,7 @@ class GameDetail : AppCompatActivity() {
                         this.comments.add(comment)
                         listAdapter.notifyItemInserted(comments.size + 1)
                         circularWaiting.visibility = View.GONE
-                } catch(e: java.lang.Exception) {
+                } catch(e: Exception) {
                     println(e.message)
                 }
             }
@@ -149,7 +149,7 @@ class GameDetail : AppCompatActivity() {
                     if (wishedAppid == this.appId) {
                         setWish(wish.toString())
                     }
-                } catch (e: java.lang.Exception){
+                } catch (e: Exception){
                     println(e.message)
                 }
             }
@@ -188,7 +188,7 @@ class GameDetail : AppCompatActivity() {
                     if (likedAppid == this.appId) {
                         setLike(like.toString())
                     }
-                } catch (e: java.lang.Exception){
+                } catch (e: Exception){
                     println(e.message)
                 }
             }

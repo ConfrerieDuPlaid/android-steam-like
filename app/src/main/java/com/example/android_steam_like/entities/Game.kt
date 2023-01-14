@@ -16,7 +16,7 @@ class Game(
 ) {
     fun displayPrice (): String {
         return if (this.price > 0.0)
-            "Prix : ${this.price.toString()} €"
+            "Prix : ${this.price} €"
         else "Gratuit"
     }
 
@@ -59,7 +59,8 @@ class Game(
         }
 
         fun getGamesByName (name: String, callback: (res: String) -> Unit) {
-            HttpRequest("$searchEndpoint/$name", callback).start()
+            if (name != "")
+                HttpRequest("$searchEndpoint/$name", callback).start()
         }
     }
 
