@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Connexion">
+    tools:context=".Login">
 
     <TextView
-        android:id="@+id/subscribe"
+        android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bienvenu !"
+        android:text="Bienvenue !"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="50sp"
@@ -21,7 +21,7 @@
         />
 
     <TextView
-        android:id="@+id/top_forget_password_message"
+        android:id="@+id/welcome_message"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="Veuillez vous connecter ou créer un nouveau compte pour utiliser l'application"
@@ -29,13 +29,13 @@
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subscribe"
+        app:layout_constraintTop_toBottomOf="@+id/welcome"
         android:gravity="center"
         android:layout_marginTop="15dp"
         />
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/user_email"
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
@@ -43,16 +43,16 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:hint="E-mail"
-        app:layout_constraintTop_toBottomOf="@+id/top_forget_password_message"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_message"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        android:inputType="textEmailAddress" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/user_password"
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
@@ -60,16 +60,17 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:hint="Mot de passe"
-        app:layout_constraintTop_toBottomOf="@+id/email"
+        app:layout_constraintTop_toBottomOf="@+id/user_email"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:inputType="textPassword"
         />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/connection_button"
+        android:id="@+id/login_button"
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:background="@drawable/button_home_shape"
@@ -80,11 +81,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:text="Se connecter"
         android:fontFamily="@font/proxima_nova_font"
-        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintTop_toBottomOf="@+id/user_password"
         />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/create_new_account"
+        android:id="@+id/new_account_button"
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:background="@drawable/button_new_account_shape"
@@ -94,10 +95,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:text="Créer un nouveau compte"
         android:fontFamily="@font/proxima_nova_font"
-        app:layout_constraintTop_toBottomOf="@+id/connection_button"
+        app:layout_constraintTop_toBottomOf="@+id/login_button"
         tools:ignore="MissingConstraints" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/forgotten_password_button"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:background="@drawable/button_forget_password"

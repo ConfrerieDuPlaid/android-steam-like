@@ -8,7 +8,13 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
 
-class HttpRequest(private val url: String, val callBack: (input: String) -> Unit, private val method: String = "GET", private val bodyJson: JSONObject? = null) : Thread() {
+class HttpRequest(
+    private val url: String,
+    val callbackSuccess: (input: String) -> Unit,
+    private val method: String = "GET",
+    private val bodyJson: JSONObject? = null,
+    val callbackError: (e: Int) -> Unit = ::println,
+) : Thread() {
     private val allowedMethods: List<String> = listOf("GET", "POST", "PATCH", "DELETE")
     private val mediaType = "application/json; charset=utf-8".toMediaType()
     private val client = OkHttpClient()
@@ -22,11 +28,15 @@ class HttpRequest(private val url: String, val callBack: (input: String) -> Unit
             try {
                 val response = client.newCall(request).execute()
                 val res = response.body?.string()
-                if (res != null) {
-                    callBack(res)
+                if (response.code < 400) {
+                    if (res != null) {
+                        callbackSuccess(res)
+                    }
+                } else {
+                    callbackError(response.code)
                 }
             } catch (e: Exception) {
-                println("error : " + e.message)
+                println(e)
             }
         }
     }

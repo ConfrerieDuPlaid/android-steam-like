@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Connexion">
+    tools:context=".Login">
 
     <TextView
         android:id="@+id/subscribe"
@@ -22,7 +22,7 @@
         />
 
     <TextView
-        android:id="@+id/top_forget_password_message"
+        android:id="@+id/welcome_message"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Veuillez saisir ces différentes informations, afin que vos listes soient sauvegardées."
@@ -44,7 +44,7 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:hint="Nom d'utilisateur"
-        app:layout_constraintTop_toBottomOf="@+id/top_forget_password_message"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_message"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:gravity="center"
@@ -53,7 +53,7 @@
         />
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/user_email"
         android:layout_width="375dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
@@ -70,7 +70,7 @@
         />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/user_password"
         android:layout_width="375dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
@@ -78,7 +78,7 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:hint="Mot de passe"
-        app:layout_constraintTop_toBottomOf="@+id/email"
+        app:layout_constraintTop_toBottomOf="@+id/user_email"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:gravity="center"
@@ -98,14 +98,14 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintTop_toBottomOf="@+id/user_password"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/connection_button"
+        android:id="@+id/login_button"
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:background="@drawable/button_home_shape"
@@ -116,7 +116,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:text="S'inscrire"
         android:fontFamily="@font/proxima_nova_font"
-        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintTop_toBottomOf="@+id/user_password"
         />
 
 
