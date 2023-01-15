@@ -5,7 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login">
+    tools:context=".Signin">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/top_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="50dp"/>
 
     <TextView
         android:id="@+id/subscribe"
@@ -17,7 +24,7 @@
         android:textSize="50sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/top_guideline"
         android:layout_marginTop="50dp"
         />
 
@@ -50,6 +57,7 @@
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:inputType="text"
         />
 
     <EditText
@@ -67,6 +75,7 @@
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:inputType="textEmailAddress"
         />
 
     <EditText
@@ -84,10 +93,11 @@
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:inputType="textPassword"
         />
 
     <EditText
-        android:id="@+id/password_verification"
+        android:id="@+id/user_password_verification"
         android:layout_width="375dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
@@ -99,13 +109,12 @@
         android:paddingRight="15dp"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@+id/user_password"
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        android:inputType="textPassword" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/login_button"
+        android:id="@+id/signin_button"
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:background="@drawable/button_home_shape"

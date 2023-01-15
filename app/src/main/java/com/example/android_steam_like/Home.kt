@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_steam_like.components.ActionBar
 import com.example.android_steam_like.entities.Game
+import com.example.android_steam_like.entities.User
 import org.json.JSONArray
 
 
@@ -74,8 +75,7 @@ class Home : AppCompatActivity() {
         findViewById<EditText>(R.id.search_bar).addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-            override fun onTextChanged(s: CharSequence, start: Int,
-                                       before: Int, count: Int) {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if(s.toString().trim().isEmpty()){return}
             }
 
