@@ -47,7 +47,6 @@ class User (
                 "email" to email,
                 "password" to password
             ))
-            println(body)
             HttpRequest(
                 loginEndpoint,
                 callback,
@@ -63,6 +62,15 @@ class User (
                 callback,
                 "PATCH"
             ).start()
+        }
+
+        fun resetPassword (token: String, password: String, callback: (res: String) -> Unit) {
+            HttpRequest(
+                "$userEndpoint/$token",
+                callback,
+                "PATCH",
+                JSONObject(mapOf("password" to password))
+            )
         }
     }
 }

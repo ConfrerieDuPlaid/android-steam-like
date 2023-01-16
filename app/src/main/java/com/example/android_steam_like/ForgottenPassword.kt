@@ -1,5 +1,6 @@
 package com.example.android_steam_like
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -7,6 +8,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.android_steam_like.entities.User
+import org.json.JSONObject
 
 class ForgottenPassword : AppCompatActivity() {
     private var emailInput: EditText? = null
@@ -22,12 +24,15 @@ class ForgottenPassword : AppCompatActivity() {
         supportActionBar?.hide()
 
         setDataFromIntent()
-        displayOnlyResetInputs()
+        displayRequestTokenInputs()
         setTokenRequestListener()
+        setResetPasswordListener()
     }
 
     private fun setToken (res: String) {
-        println(res)
+        val token = JSONObject(res).getString("token")
+        this.tokenInput?.setText(token, TextView.BufferType.EDITABLE)
+        displayPasswordResetInputs()
     }
 
     private fun setTokenRequestListener () {
@@ -36,6 +41,17 @@ class ForgottenPassword : AppCompatActivity() {
             if (email != "") {
                 println("sendRequest")
                 User.requestToken(email, this::setToken)
+            }
+        }
+    }
+
+    private fun setResetPasswordListener () {
+        findViewById<Button>(R.id.reset_password_button).setOnClickListener {
+            this.password = this.passwordInput?.text.toString()
+            val token = this.tokenInput?.text.toString()
+            val passwordVerification = this.passwordVerifInput?.text.toString()
+            if (token != "" && this.password != "" && passwordVerification == this.password) {
+                User.resetPassword(token, this.password, this::backToLogin)
             }
         }
     }
@@ -53,20 +69,24 @@ class ForgottenPassword : AppCompatActivity() {
         }
     }
 
-    private fun displayOnlyResetInputs () {
+    private fun displayRequestTokenInputs () {
         this.tokenInput?.visibility = View.INVISIBLE
         this.passwordInput?.visibility = View.INVISIBLE
         this.passwordVerifInput?.visibility = View.INVISIBLE
         findViewById<Button>(R.id.reset_password_button).visibility = View.INVISIBLE
     }
 
-    private fun displayOnlyNewPasswordInputs () {
+    private fun displayPasswordResetInputs () {
         this.emailInput?.visibility = View.INVISIBLE
         findViewById<Button>(R.id.request_token_button).visibility = View.INVISIBLE
         this.tokenInput?.visibility = View.VISIBLE
         this.passwordInput?.visibility = View.VISIBLE
         this.passwordVerifInput?.visibility = View.VISIBLE
         findViewById<Button>(R.id.reset_password_button).visibility = View.VISIBLE
+    }
 
+    private fun backToLogin (res: String) {
+        intent = Intent(this, Login::class.java)
+        startActivity(intent)
     }
 }
