@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -72,19 +73,26 @@ class Home : AppCompatActivity() {
     }
 
     private fun setButtonNavigation() {
-        findViewById<EditText>(R.id.search_bar).addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if(s.toString().trim().isEmpty()){return}
+        val editText = findViewById<EditText>(R.id.search_bar);
+        editText.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                Game.getGamesByName(editText.text.toString(), this::displayGameByName)
+                false
+            } else {
+                false
             }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
+        }
 
         findViewById<Button>(R.id.know_more).setOnClickListener {
             intent = Intent(this, GameDetail::class.java)
             startActivity(intent)
         }
+    }
+
+
+    private fun displayGameByName(res: String) {
+        intent = Intent(this, SearchGameList::class.java);
+        intent.putExtra("result", res);
+        startActivity(intent);
     }
 }
