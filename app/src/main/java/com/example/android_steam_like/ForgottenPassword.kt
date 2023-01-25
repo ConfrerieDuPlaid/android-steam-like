@@ -1,5 +1,6 @@
 package com.example.android_steam_like
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -7,6 +8,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.android_steam_like.entities.User
+import org.json.JSONObject
 
 class ForgottenPassword : AppCompatActivity() {
     private var emailInput: EditText? = null
@@ -27,16 +29,44 @@ class ForgottenPassword : AppCompatActivity() {
     }
 
     private fun setToken (res: String) {
-        println(res)
+        val jsonRes = JSONObject(res);
+        this.tokenInput?.setText(jsonRes.getString("token"))
+        displayOnlyNewPasswordInputs()
+    }
+
+    private fun tokenRequestFail (code: Int) {
+        println(code)
     }
 
     private fun setTokenRequestListener () {
         findViewById<Button>(R.id.request_token_button).setOnClickListener {
             email = emailInput?.text.toString()
             if (email != "") {
-                println("sendRequest")
-                User.requestToken(email, this::setToken)
+                User.requestToken(
+                    email,
+                    this::setToken,
+                    this::tokenRequestFail
+                )
             }
+        }
+
+        findViewById<Button>(R.id.reset_password_button).setOnClickListener {
+            val token = tokenInput!!.text.toString()
+            val password = passwordInput!!.text.toString();
+            println("toke : $token password : $password")
+                User.resetPassword(
+                    password,
+                    token,
+                    this::backHome
+                )
+        }
+    }
+
+    private fun backHome(res: String){
+        println(res)
+        if (res.toInt()  == 1){
+            intent = Intent(this, Login::class.java);
+            startActivity(intent);
         }
     }
 
@@ -61,12 +91,13 @@ class ForgottenPassword : AppCompatActivity() {
     }
 
     private fun displayOnlyNewPasswordInputs () {
-        this.emailInput?.visibility = View.INVISIBLE
-        findViewById<Button>(R.id.request_token_button).visibility = View.INVISIBLE
-        this.tokenInput?.visibility = View.VISIBLE
-        this.passwordInput?.visibility = View.VISIBLE
-        this.passwordVerifInput?.visibility = View.VISIBLE
-        findViewById<Button>(R.id.reset_password_button).visibility = View.VISIBLE
-
+        this.runOnUiThread {
+            this.emailInput?.visibility = View.INVISIBLE
+            findViewById<Button>(R.id.request_token_button).visibility = View.INVISIBLE
+            this.tokenInput?.visibility = View.VISIBLE
+            this.passwordInput?.visibility = View.VISIBLE
+            this.passwordVerifInput?.visibility = View.VISIBLE
+            findViewById<Button>(R.id.reset_password_button).visibility = View.VISIBLE
+        }
     }
 }

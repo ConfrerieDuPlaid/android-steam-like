@@ -26,7 +26,7 @@ class HttpRequest(
         request.header("Content")
         client.newCall(request).execute().use {
             try {
-                val response = client.newCall(request).execute()
+                val response = it
                 val res = response.body?.string()
                 if (response.code < 400) {
                     if (res != null) {

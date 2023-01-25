@@ -56,12 +56,28 @@ class User (
             ).start()
         }
 
-        fun requestToken (email: String, callback: (res: String) -> Unit) {
+        fun requestToken (email: String, callback: (res: String) -> Unit, error: (code: Int) -> Unit) {
+            val url = "$userEndpoint/recPwd/$email";
             HttpRequest(
-                "$userEndpoint/recPwd/$email",
+                url,
                 callback,
-                "PATCH"
+                "PATCH",
+                JSONObject(),
+
             ).start()
+        }
+
+        fun resetPassword(password: String, token: String, callback: (res: String) -> Unit){
+            val url = "$userEndpoint/$token";
+            println(url)
+            HttpRequest(
+                url,
+                callback,
+                "PATCH",
+                JSONObject(mapOf(
+                    "password" to password
+                )),
+                ).start()
         }
     }
 }
