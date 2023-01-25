@@ -43,13 +43,12 @@ class User (
 
         fun signin (username: String, email: String, password: String, callback: (res: String) -> Unit, error: (code: Int) -> Unit) {
             val body = JSONObject(mapOf(
-                "username" to username,
                 "email" to email,
+                "username" to username,
                 "password" to password
             ))
-            println(body)
             HttpRequest(
-                loginEndpoint,
+                userEndpoint,
                 callback,
                 "POST",
                 body,
