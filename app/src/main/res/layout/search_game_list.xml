@@ -6,13 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".SearchGameList">
 
+    <EditText
+        android:id="@+id/search_bar"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/edit_text_shape"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:hint="Rechercher un jeu..."
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        android:drawableRight="@drawable/search"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/result_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:text="Nombres de résultats : "
+        app:layout_constraintTop_toBottomOf="@+id/search_bar"
+        app:layout_constraintStart_toStartOf="@+id/search_bar"
+        android:layout_marginTop="30dp"
+        />
+
     <include
         android:id="@+id/game_list"
         layout="@layout/default_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/result_number"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
