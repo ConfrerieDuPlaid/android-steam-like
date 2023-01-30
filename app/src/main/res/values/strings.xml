@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">android-steam-like</string>
     <string name="forget_password"><u>Mot de passe oublié</u></string>
+    <string name="password">Mot de passe</string>
 </resources>

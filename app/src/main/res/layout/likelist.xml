@@ -19,32 +19,19 @@
 
     <ImageView
         android:id="@+id/like_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/ViewIcon"
         app:layout_constraintTop_toTopOf="@+id/like_guide_line"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/empty_likes"/>
+
     <TextView
         android:id="@+id/empty_like_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:text="ous n'avez pas encore liké de contenu. Cliquez sur le coeur pour en rajouter"
-        android:fontFamily="@font/proxima_nova_font"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        style="@style/Subtitle"
+        android:text="Vous n'avez pas encore liké de contenu. Cliquez sur le coeur pour en rajouter"
         app:layout_constraintTop_toBottomOf="@+id/like_image" />
 
     <include
         android:id="@+id/game_list"
         layout="@layout/default_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        style="@style/GamesList"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

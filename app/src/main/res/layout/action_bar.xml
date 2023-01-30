@@ -11,38 +11,24 @@
 
     <ImageButton
         android:id="@+id/action_heart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:background="@android:color/transparent"
+        style="@style/ActionImageButton"
         android:src="@drawable/like"
         app:layout_constraintEnd_toStartOf="@+id/action_star"
-        android:paddingRight="25dp"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:paddingEnd="25dp"
+        />
 
     <ImageButton
         android:id="@+id/action_star"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:background="@android:color/transparent"
+        style="@style/ActionImageButton"
         android:src="@drawable/whishlist"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/google_sans_bold"
-        android:textStyle="bold"
-        android:text="View title"
         android:id="@+id/view_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        style="@style/ViewTitle"
+        android:text="View title"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:textColor="@color/white"
-        android:textSize="18sp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
