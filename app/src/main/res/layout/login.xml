@@ -30,17 +30,16 @@
 
     <EditText
         android:id="@+id/user_email"
-        style="@style/TextInput"
+        style="@style/EmailInput"
         android:hint="E-mail"
         app:layout_constraintTop_toBottomOf="@+id/welcome_message"
-        android:inputType="textEmailAddress" />
+        />
 
     <EditText
         android:id="@+id/user_password"
-        style="@style/TextInput"
+        style="@style/PasswordInput"
         android:hint="Mot de passe"
         app:layout_constraintTop_toBottomOf="@+id/user_email"
-        android:inputType="textPassword"
         />
 
     <androidx.appcompat.widget.AppCompatButton

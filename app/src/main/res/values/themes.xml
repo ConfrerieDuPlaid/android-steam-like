@@ -27,6 +27,7 @@
 
     <style name="Title" parent="TitleText">
         <item name="android:textSize">50sp</item>
+        <item name="android:layout_marginTop">50dp</item>
         <item name="fontFamily">@font/google_sans_bold</item>
     </style>
 
@@ -61,8 +62,17 @@
         <item name="android:background">@drawable/edit_text_shape</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textColorHint">@color/white</item>
+        <item name="android:inputType">text</item>
         <item name="android:gravity">center</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
+    </style>
+
+    <style name="PasswordInput" parent="TextInput">
+        <item name="android:inputType">textPassword</item>
+    </style>
+
+    <style name="EmailInput" parent="TextInput">
+        <item name="android:inputType">textEmailAddress</item>
     </style>
 </resources>
