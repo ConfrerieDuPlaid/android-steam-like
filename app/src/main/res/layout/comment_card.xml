@@ -38,66 +38,48 @@
 
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/comment_username"
-            android:text="Nom de l'utilisateur"
-            android:textColor="@color/white"
+            style="@style/WrappedText"
+            android:text="Utilisateur"
             app:layout_constraintBottom_toTopOf="@id/horizontal_guideline"
             app:layout_constraintLeft_toRightOf="@id/text_guideline" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/comment_content"
-            android:text="Ceci est le texte de description"
-            android:textColor="@color/white"
+            style="@style/WrappedText"
+            android:text="Contenu du commentaire"
             app:layout_constraintTop_toBottomOf="@id/horizontal_guideline"
             app:layout_constraintLeft_toRightOf="@id/text_guideline"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp" />
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
             android:id="@+id/star_5"
-            android:src="@drawable/star"
+            style="@style/StarIcon"
             app:layout_constraintBottom_toTopOf="@id/horizontal_guideline"
             app:layout_constraintRight_toLeftOf="@id/stars_guideline"/>
         
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
             android:id="@+id/star_4"
-            android:src="@drawable/star"
-            android:layout_marginEnd="3dp"
+            style="@style/StarIcon"
             app:layout_constraintBottom_toTopOf="@id/horizontal_guideline"
             app:layout_constraintRight_toLeftOf="@id/star_5"/>
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
             android:id="@+id/star_3"
-            android:src="@drawable/star"
-            android:layout_marginEnd="3dp"
+            style="@style/StarIcon"
             app:layout_constraintBottom_toTopOf="@id/horizontal_guideline"
             app:layout_constraintRight_toLeftOf="@id/star_4"/>
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
             android:id="@+id/star_2"
-            android:src="@drawable/star"
-            android:layout_marginEnd="3dp"
+            style="@style/StarIcon"
             app:layout_constraintBottom_toTopOf="@id/horizontal_guideline"
             app:layout_constraintRight_toLeftOf="@id/star_3"/>
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
             android:id="@+id/star_1"
-            android:src="@drawable/star"
-            android:layout_marginEnd="3dp"
+            style="@style/StarIcon"
             app:layout_constraintBottom_toTopOf="@id/horizontal_guideline"
             app:layout_constraintRight_toLeftOf="@id/star_2"/>
 

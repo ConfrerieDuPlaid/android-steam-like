@@ -94,22 +94,15 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/description_button"
-            android:layout_weight="4"
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:backgroundTint="@color/lavender"
-            android:background="@drawable/button_game_detail_left"
-            android:hint="DESCRIPTION"
-            android:textColorHint="@color/white" />
+            style="@style/NarrowAccentedActionButton"
+            android:background="@drawable/button_rounded_left"
+            android:text="Description" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/opinions"
-            android:layout_width="0dp"
-            android:layout_weight="4"
-            android:layout_height="35dp"
-            android:background="@drawable/button_game_detail_right"
-            android:hint="AVIS"
-            android:textColorHint="@color/white" />
+            style="@style/NarrowActionButton"
+            android:background="@drawable/button_rounded_right"
+            android:text="Avis"/>
     </LinearLayout>
 
     <TextView
