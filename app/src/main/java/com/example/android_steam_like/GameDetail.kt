@@ -8,6 +8,7 @@ import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.core.text.HtmlCompat.fromHtml
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -62,23 +63,21 @@ class GameDetail : AppCompatActivity() {
         val list = findViewById<RecyclerView>(R.id.game_comments)
         val description = findViewById<TextView>(R.id.description)
         val descriptionButton = findViewById<Button>(R.id.description_button)
-        val opinionsButton = findViewById<Button>(R.id.opinions)
+        val commentsButton = findViewById<Button>(R.id.comments_button)
         val circularWaiting = findViewById<ProgressBar>(R.id.progress_circular)
 
         descriptionButton.setOnClickListener {
-            opinionsButton.setBackgroundColor(Color.TRANSPARENT)
-            descriptionButton.setBackgroundColor(0x5D63DE)
+            descriptionButton.setBackgroundResource(R.drawable.button_rounded_left_full)
+            commentsButton.setBackgroundResource(R.drawable.button_rounded_right)
             circularWaiting.visibility = View.GONE
             list.visibility  = View.GONE
             description.visibility = View.VISIBLE
         }
 
-        opinionsButton.setOnClickListener {
-            descriptionButton.setBackgroundColor(Color.TRANSPARENT)
-            opinionsButton.setBackgroundColor(0x5D63DE)
-
+        commentsButton.setOnClickListener {
+            descriptionButton.setBackgroundResource(R.drawable.button_rounded_left)
+            commentsButton.setBackgroundResource(R.drawable.button_rounded_right_full)
             list.visibility  = View.VISIBLE
-
             description.visibility = View.GONE
             if (comments.isEmpty()) {
                 circularWaiting.visibility = View.VISIBLE

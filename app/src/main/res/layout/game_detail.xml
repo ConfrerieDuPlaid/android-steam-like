@@ -94,12 +94,12 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/description_button"
-            style="@style/NarrowAccentedActionButton"
-            android:background="@drawable/button_rounded_left"
+            style="@style/NarrowActionButton"
+            android:background="@drawable/button_rounded_left_full"
             android:text="Description" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/opinions"
+            android:id="@+id/comments_button"
             style="@style/NarrowActionButton"
             android:background="@drawable/button_rounded_right"
             android:text="Avis"/>

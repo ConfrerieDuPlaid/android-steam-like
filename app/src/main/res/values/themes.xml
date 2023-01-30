@@ -89,10 +89,6 @@
         <item name="textAllCaps">true</item>
     </style>
 
-    <style name="NarrowAccentedActionButton" parent="NarrowActionButton">
-        <item name="android:backgroundTint">@color/lavender</item>
-    </style>
-
     <style name="TextInput" parent="Widget.AppCompat.EditText">
         <item name="android:layout_width">350dp</item>
         <item name="android:layout_height">50dp</item>
