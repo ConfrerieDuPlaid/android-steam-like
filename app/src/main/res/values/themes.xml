@@ -26,7 +26,7 @@
     </style>
 
     <style name="Title" parent="TitleText">
-        <item name="android:textSize">50sp</item>
+        <item name="android:textSize">40sp</item>
         <item name="android:layout_marginTop">50dp</item>
         <item name="fontFamily">@font/google_sans_bold</item>
     </style>
@@ -46,6 +46,7 @@
     </style>
 
     <style name="AccentActionButton" parent="ActionButton">
+        <item name="android:layout_marginTop">150dp</item>
         <item name="android:backgroundTint">@color/lavender</item>
     </style>
 

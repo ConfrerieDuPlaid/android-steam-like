@@ -45,7 +45,6 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/login_button"
         style="@style/AccentActionButton"
-        android:layout_marginTop="150dp"
         android:text="Se connecter"
         app:layout_constraintTop_toBottomOf="@+id/user_password"
         />
