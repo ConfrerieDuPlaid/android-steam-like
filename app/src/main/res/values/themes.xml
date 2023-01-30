@@ -6,10 +6,63 @@
         <item name="colorOnPrimary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:fontFamily">@font/google_sans_bold</item>
+        <item name="android:fontFamily">@font/proxima_nova_font</item>
         <item name="fontFamily">@font/proxima_nova_font</item>
     </style>
     <style name="Button.White" parent="ThemeOverlay.AppCompat">
         <item name="colorAccent">#FFFFFF</item>
+    </style>
+
+    <style name="TitleText" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Title" parent="TitleText">
+        <item name="android:textSize">50sp</item>
+        <item name="fontFamily">@font/google_sans_bold</item>
+    </style>
+
+    <style name="Subtitle" parent="TitleText">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="ActionButton" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">350dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="android:background">@drawable/button</item>
+    </style>
+
+    <style name="AccentActionButton" parent="ActionButton">
+        <item name="android:backgroundTint">@color/lavender</item>
+    </style>
+
+    <style name="NoAccentActionButton" parent="ActionButton">
+        <item name="android:background">@drawable/button_no_accent</item>
+    </style>
+
+    <style name="TextInput" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">350dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:background">@drawable/edit_text_shape</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
     </style>
 </resources>

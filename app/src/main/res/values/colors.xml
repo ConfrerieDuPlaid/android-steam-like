@@ -10,4 +10,8 @@
     <color name="blue">#FF222741</color>
     <color name="background">#1A2025</color>
     <color name="button_purple">#636AF6</color>
+    <color name="lavender">#FF5D63DE</color>
+    <color name="warning">#FFFF004F</color>
+    <color name="star">#FFF5A623</color>
+    <color name="transparent">#00000000</color>
 </resources>
