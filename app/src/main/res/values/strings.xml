@@ -3,7 +3,7 @@
     <string name="forget_password"><u>Mot de passe oublié</u></string>
     <string name="password">Mot de passe</string>
     <string name="more_info">En savoir plus</string>
-    <string name="search">Rechercher un jeu...</string>
+    <string name="search">Rechercher un jeu…</string>
     <string name="example_game_name">Titan Fall 2 Ultimate edition</string>
     <string name="example_game_editor">EA</string>
     <string name="description">Description</string>
@@ -31,4 +31,8 @@
     <string name="create_account">Créer un nouveau compte</string>
     <string name="signup">Inscription</string>
     <string name="signin">S\'inscrire</string>
+    <string name="home">Accueil</string>
+    <string name="wishlist">Ma liste de souhaits</string>
+    <string name="likelist">Mes likes</string>
+    <string name="game_detail">Détail du jeu</string>
 </resources>

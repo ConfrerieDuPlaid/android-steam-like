@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -30,12 +31,13 @@ class Home : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home)
+        ActionBar.supportActionbar(supportActionBar, this::setHeartListener, this::setStarListener)
+        ActionBar.setActionBarTitle(supportActionBar!!.customView, resources.getString(R.string.home))
         GlobalScope.launch(Dispatchers.Main) {
             getGames()
         }
 
-        ActionBar.supportActionbar(supportActionBar, this::setHeartListener, this::setStarListener)
-        findViewById<TextView>(R.id.view_title).text = "Accueil"
+//        findViewById<TextView>(R.id.view_title).text = "Accueil"
         setButtonNavigation()
 
         findViewById<RecyclerView>(R.id.game_list).apply {

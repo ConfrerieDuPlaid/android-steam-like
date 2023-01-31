@@ -9,7 +9,7 @@ import org.json.JSONObject
 class Game(
     val name: String,
     val editors: String,
-    val price: Double,
+    val price: Double?,
     val appId: String,
     val headerImage: String,
     val description: String?,
@@ -17,9 +17,13 @@ class Game(
     val screenshots: MutableList<String>
 ) {
 
+    fun price (): Double {
+        return price ?: 0.0;
+    }
+
     fun displayPrice (): String {
-        return if (this.price > 0.0)
-            "Prix : ${this.price} €"
+        return if (this.price() > 0.0)
+            "Prix : ${this.price()} €"
         else "Gratuit"
     }
 
@@ -30,8 +34,8 @@ class Game(
 
         fun newFromGameData(data: steamApi.GameData): Game {
             val gameName = data.name
-            val editors = data.publishers.toString()
-            val price = data.priceInCents.toDouble() / 100.0
+            val editors = data.publishers.joinToString()
+            val price = data.priceInCents / 100.0
             val appId = data.steamAppid.toString()
             val headerImage = data.headerImage
             val description = data.description

@@ -1,8 +1,12 @@
 package com.example.android_steam_like.components
 
+import android.opengl.Visibility
 import android.os.Bundle
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageButton
 import com.example.android_steam_like.R
 
 class ActionBar : AppCompatActivity() {
@@ -31,6 +35,16 @@ class ActionBar : AppCompatActivity() {
         ) {
             setHeartActionCallback()
             setStarActionCallback()
+        }
+
+        fun setActionBarTitle(v: View, title: String) {
+            val titleTxtView = v.findViewById<TextView>(R.id.view_title);
+            titleTxtView.setText(title);
+        }
+
+        fun hideUserActionButtons (v: View) {
+            v.findViewById<AppCompatImageButton>(R.id.action_heart).visibility = View.GONE
+            v.findViewById<AppCompatImageButton>(R.id.action_star).visibility = View.GONE
         }
     }
 }

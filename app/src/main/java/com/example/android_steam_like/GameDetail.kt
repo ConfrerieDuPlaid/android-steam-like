@@ -41,13 +41,12 @@ class GameDetail : AppCompatActivity() {
         this.appId = this.intent.getStringExtra("appId")
 
         setContentView(R.layout.game_detail)
+        ActionBar.supportActionbar(supportActionBar, this::setHeartListener, this::setStarListener)
+        ActionBar.setActionBarTitle(supportActionBar!!.customView, resources.getString(R.string.game_detail))
 
         GlobalScope.launch(Dispatchers.Main) {
             getGameById(appId!!)
         }
-
-        ActionBar.supportActionbar(supportActionBar, this::setHeartListener, this::setStarListener)
-        findViewById<TextView>(R.id.view_title).text = "Détails du jeu"
 
         val list = findViewById<RecyclerView>(R.id.game_comments)
         list.visibility  = View.GONE

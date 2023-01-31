@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.android_steam_like.components.ActionBar
 import com.example.android_steam_like.entities.Game
 import com.example.android_steam_like.utils.steamApi
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +24,10 @@ class WishList : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.wishlist)
+        ActionBar.supportActionbar(supportActionBar, ::println, ::println)
+        ActionBar.hideUserActionButtons(supportActionBar!!.customView)
+        ActionBar.setActionBarTitle(supportActionBar!!.customView, resources.getString(R.string.wishlist))
+
 
         val list = findViewById<RecyclerView>(R.id.game_list);
         list.visibility  = View.GONE
