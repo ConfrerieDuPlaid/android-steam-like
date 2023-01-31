@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_steam_like.components.ActionBar
 import com.example.android_steam_like.entities.Game
-import com.example.android_steam_like.utils.SteamAPI
+import com.example.android_steam_like.utils.CustomSteamAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -46,14 +46,14 @@ class Home : AppCompatActivity() {
 
     private suspend fun getGames() {
         try {
-            val request = withContext(Dispatchers.IO) { SteamAPI.NetworkRequest.getGameTop1000() }
+            val request = withContext(Dispatchers.IO) { CustomSteamAPI.NetworkRequest.getGameTop1000() }
             addGameToList(request)
         } catch (e: Exception) {
             println("Une erreur est survenue ${e.message}")
         }
     }
 
-    private fun addGameToList(res: MutableList<SteamAPI.GameResponse>){
+    private fun addGameToList(res: MutableList<CustomSteamAPI.GameResponse>){
         val gameJson = JSONArray(res)
 
         this@Home.runOnUiThread {

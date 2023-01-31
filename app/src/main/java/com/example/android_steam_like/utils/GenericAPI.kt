@@ -5,7 +5,7 @@ import kotlinx.coroutines.withContext
 
 class GenericAPI {
     companion object {
-        suspend fun <K,T> call (apiFun: suspend (data: K) -> T, data: K, callback: (res: T) -> Unit) {
+        suspend fun <ParameterType, ReturnType> call (apiFun: suspend (data: ParameterType) -> ReturnType, data: ParameterType, callback: (res: ReturnType) -> Unit) {
             try {
                 val request = withContext(Dispatchers.IO) { apiFun(data) }
                 callback(request)

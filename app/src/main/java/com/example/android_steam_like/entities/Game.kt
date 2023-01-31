@@ -2,7 +2,7 @@ package com.example.android_steam_like.entities
 
 import com.example.android_steam_like.utils.HttpRequest
 import com.example.android_steam_like.utils.ServerConfig
-import com.example.android_steam_like.utils.SteamAPI
+import com.example.android_steam_like.utils.CustomSteamAPI
 
 class Game(
     val name: String,
@@ -30,7 +30,7 @@ class Game(
         private val top100Endpoint: String = "$gameEndpoint/top100"
         private val searchEndpoint: String = "https://steamcommunity.com/actions/SearchApps"
 
-        fun newFromGameData(data: SteamAPI.GameData): Game {
+        fun newFromGameData(data: CustomSteamAPI.GameData): Game {
             val gameName = data.name
             val editors = data.publishers.joinToString()
             val price = data.priceInCents / 100.0

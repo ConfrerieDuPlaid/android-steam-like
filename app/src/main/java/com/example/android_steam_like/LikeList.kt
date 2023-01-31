@@ -9,6 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_steam_like.components.ActionBar
 import com.example.android_steam_like.entities.Game
+import com.example.android_steam_like.utils.CustomSteamAPI
+import com.example.android_steam_like.utils.CustomSteamAPI.NetworkRequest.getLikeList
+import com.example.android_steam_like.utils.GenericAPI
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import layout.Like
 import org.json.JSONArray
 
@@ -26,8 +32,9 @@ class LikeList : AppCompatActivity() {
         val list = findViewById<RecyclerView>(R.id.game_list);
         list.visibility  = View.GONE
 
-        if (likes.isEmpty())
-            Like.getUserLikelist(this::addGame)
+        GlobalScope.launch(Dispatchers.Main) {
+            getLikeList()
+        }
 
         val listAdapter = ListAdapter(likes);
         findViewById<RecyclerView>(R.id.game_list).apply {
@@ -36,21 +43,23 @@ class LikeList : AppCompatActivity() {
         };
     }
 
-    private fun addGame(res: String) {
-        val gameJson = JSONArray(res)
-        this@LikeList.runOnUiThread {
-            for (i in 0 until gameJson.length()) {
-                try {
+    private suspend fun getLikeList () {
 
-                    listAdapter.notifyItemInserted(likes.size + 1)
-                } catch (e: Exception) {
-                    println(e.message)
-                }
+        GenericAPI.call(CustomSteamAPI.NetworkRequest::getLikeList, 0, this::addGame)
+    }
+
+    private fun addGame(res: List<CustomSteamAPI.WishLikeData>) {
+        this@LikeList.runOnUiThread {
+            for (element in res) {
+                val game = element.gameData!!
+                val newGame = Game.newFromGameData(game)
+                this.likes.add(newGame)
+                listAdapter.notifyItemInserted(likes.size + 1)
             }
             if (this.likes.isNotEmpty()) {
                 findViewById<RecyclerView>(R.id.game_list).visibility = View.VISIBLE
-                findViewById<TextView>(R.id.empty_like_text).visibility = View.GONE;
-                findViewById<ImageView>(R.id.like_image).visibility = View.GONE;
+                findViewById<TextView>(R.id.empty_wish_text).visibility = View.GONE;
+                findViewById<ImageView>(R.id.wish_image).visibility = View.GONE;
             }
         }
     }

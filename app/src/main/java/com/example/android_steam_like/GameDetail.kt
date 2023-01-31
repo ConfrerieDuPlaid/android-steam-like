@@ -15,15 +15,12 @@ import com.example.android_steam_like.components.ActionBar
 import com.example.android_steam_like.entities.Comment
 import com.example.android_steam_like.entities.Game
 import com.example.android_steam_like.utils.GenericAPI
-import com.example.android_steam_like.utils.SteamAPI
+import com.example.android_steam_like.utils.CustomSteamAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import layout.HtmlImage
-import layout.Like
 import org.json.JSONArray
-import org.json.JSONObject
 
 class GameDetail : AppCompatActivity() {
 
@@ -60,7 +57,7 @@ class GameDetail : AppCompatActivity() {
     }
 
     private suspend fun getGameById(appId: String) {
-        GenericAPI.call(SteamAPI.NetworkRequest::getGameById, appId, this::displayDetail)
+        GenericAPI.call(CustomSteamAPI.NetworkRequest::getGameById, appId, this::displayDetail)
     }
 
     private fun setImages() {
@@ -102,7 +99,7 @@ class GameDetail : AppCompatActivity() {
         }
     }
 
-    private fun addOpinions(res: List<SteamAPI.comment>) {
+    private fun addOpinions(res: List<CustomSteamAPI.comment>) {
         val commentsJson = JSONArray(res)
         val circularWaiting = findViewById<ProgressBar>(R.id.progress_circular)
 
@@ -123,7 +120,7 @@ class GameDetail : AppCompatActivity() {
         }
     }
 
-    private fun displayDetail(res: SteamAPI.GameData) {
+    private fun displayDetail(res: CustomSteamAPI.GameData) {
         findViewById<TextView>(R.id.description).text = fromHtml(res.description!!, FROM_HTML_MODE_LEGACY)
         findViewById<TextView>(R.id.game_name).text = res.name
         findViewById<TextView>(R.id.game_editor).text = res.publishers
@@ -133,14 +130,20 @@ class GameDetail : AppCompatActivity() {
     }
 
     private fun setHeartListener () {
+        GlobalScope.launch(Dispatchers.Main) {
+            getLikeList()
+        }
         findViewById<ImageButton>(R.id.action_heart).setOnClickListener {
-            if (this.likeId != null) {
-                Like.removeFromLikelist(this.likeId!!, this::unsetLike)
+            if (likeId != null) {
+                GlobalScope.launch(Dispatchers.Main) {
+                    removeFromLikeList(likeId!!)
+                }
             } else {
-                Like.addToLikelist(this.appId, this::setLike)
+                GlobalScope.launch(Dispatchers.Main) {
+                    addToLikeList(appId!!)
+                }
             }
         }
-        Like.getUserLikelist(this::setLikeButton, true)
     }
 
     private fun setStarListener () {
@@ -152,47 +155,54 @@ class GameDetail : AppCompatActivity() {
                 GlobalScope.launch(Dispatchers.Main) {
                     removeFromWishlist(wishId!!)
                 }
-            }else{
+            } else {
                 GlobalScope.launch(Dispatchers.Main) {
                     addToWishList(appId!!)
                 }
-
             }
         }
     }
 
     private suspend fun getGameComments(appId: String) {
-        GenericAPI.call(SteamAPI.NetworkRequest::getGameCommentById, appId, this::addOpinions)
+        GenericAPI.call(CustomSteamAPI.NetworkRequest::getGameCommentById, appId, this::addOpinions)
     }
 
     private suspend fun getWishList() {
-        GenericAPI.call(SteamAPI.NetworkRequest::getWihList, 1, this::setWishButton)
+        GenericAPI.call(CustomSteamAPI.NetworkRequest::getWihList, 1, this::setWishButton)
     }
 
     private suspend fun removeFromWishlist(wishId: String) {
-        GenericAPI.call(SteamAPI.NetworkRequest::removeFromWishlist, wishId, this::unsetWish)
+        GenericAPI.call(CustomSteamAPI.NetworkRequest::removeFromWishList, wishId, this::unsetWish)
     }
 
     private suspend fun addToWishList(appId: String) {
-        GenericAPI.call(SteamAPI.NetworkRequest::addToWishList, appId, this::setWish)
+        GenericAPI.call(CustomSteamAPI.NetworkRequest::addToWishList, appId, this::setWish)
     }
 
-    private fun setWishButton (res: List<SteamAPI.WishListData>) {
+    private suspend fun getLikeList() {
+        GenericAPI.call(CustomSteamAPI.NetworkRequest::getLikeList, 1, this::setLikeButton)
+    }
+
+    private suspend fun removeFromLikeList(likeId: String) {
+        GenericAPI.call(CustomSteamAPI.NetworkRequest::removeFromLikeList, likeId, this::unsetLike)
+    }
+
+    private suspend fun addToLikeList(appId: String) {
+        GenericAPI.call(CustomSteamAPI.NetworkRequest::addToLikeList, appId, this::setLike)
+    }
+
+    private fun setWishButton (res: List<CustomSteamAPI.WishLikeData>) {
         this@GameDetail.runOnUiThread {
             for (element in res) {
-                try{
-                    val wishedAppid: String = element.appid
-                    if (wishedAppid == this.appId) {
-                        setWish(element)
-                    }
-                } catch (e: Exception){
-                    println(e.message)
+                val wishedAppid: String = element.appid
+                if (wishedAppid == this.appId) {
+                    setWish(element)
                 }
             }
         }
     }
 
-    private fun setWish(res: SteamAPI.WishListData) {
+    private fun setWish(res: CustomSteamAPI.WishLikeData) {
         this.wishId = res._id
         findViewById<ImageButton>(R.id.action_star).setImageResource(R.drawable.whishlist_full)
     }
@@ -202,29 +212,22 @@ class GameDetail : AppCompatActivity() {
         findViewById<ImageButton>(R.id.action_star).setImageResource(R.drawable.whishlist)
     }
 
-    private fun setLike(res: String) {
-        val like = JSONObject(res)
-        this.likeId = like.getString("_id")
+    private fun setLike(res: CustomSteamAPI.WishLikeData) {
+        this.likeId = res._id
         findViewById<ImageButton>(R.id.action_heart).setImageResource(R.drawable.like_full)
     }
 
-    private fun unsetLike(res: String = "") {
+    private fun unsetLike(isGood: Int) {
         this.likeId = null
         findViewById<ImageButton>(R.id.action_heart).setImageResource(R.drawable.like)
     }
 
-    private fun setLikeButton (res: String) {
-        val likes = JSONArray(res)
+    private fun setLikeButton (res: List<CustomSteamAPI.WishLikeData>) {
         this@GameDetail.runOnUiThread {
-            for (i in 0 until likes.length()) {
-                try{
-                    val like = likes.getJSONObject(i)
-                    val likedAppid: String = like.getString("appid")
-                    if (likedAppid == this.appId) {
-                        setLike(like.toString())
-                    }
-                } catch (e: Exception){
-                    println(e.message)
+            for (element in res) {
+                val likedAppid: String = element.appid
+                if (likedAppid == this.appId) {
+                    setLike(element)
                 }
             }
         }

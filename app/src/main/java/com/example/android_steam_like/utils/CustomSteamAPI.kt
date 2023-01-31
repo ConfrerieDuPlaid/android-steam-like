@@ -3,8 +3,6 @@ import com.example.android_steam_like.entities.User
 import com.google.gson.annotations.SerializedName
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
@@ -14,7 +12,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-class SteamAPI {
+class CustomSteamAPI {
     data class GameData(
         val name: String,
         val publishers: List<String>,
@@ -39,7 +37,7 @@ class SteamAPI {
     )
 
 
-    data class WishListData(
+    data class WishLikeData(
         val _id: String,
         val appid: String,
         val user: String,
@@ -52,7 +50,7 @@ class SteamAPI {
         val backDefault: String,
     )
 
-    data class WishListBody(
+    data class AddWishLikeListBody(
         val user: String,
         val appid: String
     )
@@ -72,13 +70,25 @@ class SteamAPI {
         fun getWishList(
             @Path("userId") userId: String,
             @Query("simplified") simplified: Int = 0
-        ):  Deferred<List<WishListData>>
+        ):  Deferred<List<WishLikeData>>
 
         @DELETE("wishlist/{id}")
         fun removeFromWishlist(@Path("id") id: String): Deferred<Int>
 
         @POST("wishlist")
-        fun addToWishList(@Body body: WishListBody): Deferred<WishListData>
+        fun addToWishList(@Body body: AddWishLikeListBody): Deferred<WishLikeData>
+
+        @GET("likelist/{userId}")
+        fun getLikeList(
+            @Path("userId") userId: String,
+            @Query("simplified") simplified: Int = 0
+        ):  Deferred<List<WishLikeData>>
+
+        @DELETE("likelist/{id}")
+        fun removeFromLikeList(@Path("id") id: String): Deferred<Int>
+
+        @POST("likelist")
+        fun addToLikeList(@Body body: AddWishLikeListBody): Deferred<WishLikeData>
     }
 
     object NetworkRequest {
@@ -102,17 +112,30 @@ class SteamAPI {
             return api.getComment(appId).await()
         }
 
-        suspend fun getWihList(simplified: Int = 0): List<WishListData>{
+        suspend fun getWihList(simplified: Int = 0): List<WishLikeData>{
             return api.getWishList(User.getInstance()!!.id, simplified).await()
         }
 
-        suspend fun removeFromWishlist(id: String): Int{
+        suspend fun removeFromWishList(id: String): Int{
             return api.removeFromWishlist(id).await()
         }
 
-        suspend fun addToWishList(id: String): WishListData{
-            val body = WishListBody(User.getInstance()!!.id, id)
+        suspend fun addToWishList(id: String): WishLikeData{
+            val body = AddWishLikeListBody(User.getInstance()!!.id, id)
             return api.addToWishList(body).await()
+        }
+
+        suspend fun getLikeList(simplified: Int = 0): List<WishLikeData>{
+            return api.getLikeList(User.getInstance()!!.id, simplified).await()
+        }
+
+        suspend fun removeFromLikeList(id: String): Int{
+            return api.removeFromLikeList(id).await()
+        }
+
+        suspend fun addToLikeList(id: String): WishLikeData{
+            val body = AddWishLikeListBody(User.getInstance()!!.id, id)
+            return api.addToLikeList(body).await()
         }
     }
 }
