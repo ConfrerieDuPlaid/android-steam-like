@@ -100,7 +100,7 @@ class CustomSteamAPI {
             .build()
             .create(SteamCustomAPI::class.java)
 
-        suspend fun getGameTop1000(): MutableList<GameResponse> {
+        suspend fun getGameTop100(x: Any? = null): MutableList<GameResponse> {
             return api.getGame().await()
         }
 

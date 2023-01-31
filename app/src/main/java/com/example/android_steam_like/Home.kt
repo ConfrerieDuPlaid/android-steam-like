@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android_steam_like.components.ActionBar
 import com.example.android_steam_like.entities.Game
 import com.example.android_steam_like.utils.CustomSteamAPI
+import com.example.android_steam_like.utils.GenericAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -45,26 +46,15 @@ class Home : AppCompatActivity() {
     }
 
     private suspend fun getGames() {
-        try {
-            val request = withContext(Dispatchers.IO) { CustomSteamAPI.NetworkRequest.getGameTop1000() }
-            addGameToList(request)
-        } catch (e: Exception) {
-            println("Une erreur est survenue ${e.message}")
-        }
+        GenericAPI.call(CustomSteamAPI.NetworkRequest::getGameTop100, null, this::addGameToList)
     }
 
     private fun addGameToList(res: MutableList<CustomSteamAPI.GameResponse>){
-        val gameJson = JSONArray(res)
-
         this@Home.runOnUiThread {
-            for (i in 0 until gameJson.length()) {
-                try{
-                    val newGame = Game.newFromGameData(res[i].gameData)
-                    this.games.add(newGame)
-                    listAdapter.notifyItemInserted(games.size + 1)
-                } catch (e: java.lang.Exception){
-                    println(e.message)
-                }
+            for (element in res) {
+                val newGame = Game.newFromGameData(element.gameData)
+                this.games.add(newGame)
+                listAdapter.notifyItemInserted(games.size + 1)
             }
         }
     }
