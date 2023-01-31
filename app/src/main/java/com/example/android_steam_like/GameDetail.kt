@@ -100,15 +100,6 @@ class GameDetail : AppCompatActivity() {
         }
     }
 
-    private suspend fun getGameComments(appId: String) {
-        try {
-            val request = withContext(Dispatchers.IO) { steamApi.NetworkRequest.getGameCommentById(appId) }
-            addOpinions(request)
-        } catch (e: Exception) {
-            println("Une erreur est survenue ${e.message}")
-        }
-    }
-
     private fun getGameCommentById() {
         GlobalScope.launch(Dispatchers.Main) {
             getGameComments(appId!!)
@@ -156,24 +147,6 @@ class GameDetail : AppCompatActivity() {
         Like.getUserLikelist(this::setLikeButton, true)
     }
 
-    private suspend fun getWishList() {
-        try {
-            val request = withContext(Dispatchers.IO) { steamApi.NetworkRequest.getWihList(1) }
-            setWishButton(request)
-        } catch (e: Exception) {
-            println("Une erreur est survenue ${e.message}")
-        }
-    }
-
-    private suspend fun removeFromWishlist(wishId: String) {
-        try {
-            val req = withContext(Dispatchers.IO) { steamApi.NetworkRequest.removeFromWishlist(wishId) }
-            unsetWish(req)
-        } catch (e: Exception) {
-            println("Une erreur est survenue ${e.message}")
-        }
-    }
-
     private fun setStarListener () {
         GlobalScope.launch(Dispatchers.Main) {
             getWishList()
@@ -189,6 +162,34 @@ class GameDetail : AppCompatActivity() {
                 }
 
             }
+        }
+    }
+
+
+    private suspend fun getGameComments(appId: String) {
+        try {
+            val request = withContext(Dispatchers.IO) { steamApi.NetworkRequest.getGameCommentById(appId) }
+            addOpinions(request)
+        } catch (e: Exception) {
+            println("Une erreur est survenue ${e.message}")
+        }
+    }
+
+    private suspend fun getWishList() {
+        try {
+            val request = withContext(Dispatchers.IO) { steamApi.NetworkRequest.getWihList(1) }
+            setWishButton(request)
+        } catch (e: Exception) {
+            println("Une erreur est survenue ${e.message}")
+        }
+    }
+
+    private suspend fun removeFromWishlist(wishId: String) {
+        try {
+            val req = withContext(Dispatchers.IO) { steamApi.NetworkRequest.removeFromWishlist(wishId) }
+            unsetWish(req)
+        } catch (e: Exception) {
+            println("Une erreur est survenue ${e.message}")
         }
     }
 
