@@ -7,6 +7,4 @@ import org.json.JSONObject
 class Wish (
     val id: String,
     val appId: String
-) {
-
-}
+) {}

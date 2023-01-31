@@ -15,6 +15,10 @@ class User (
         private val loginEndpoint = "$userEndpoint/login"
         private var INSTANCE: User? = null
 
+        fun setInstance (u: User) {
+            INSTANCE = u
+        }
+
         fun setInstanceFromJson (res: JSONObject) {
             INSTANCE = User(
                 res.getString("id"),

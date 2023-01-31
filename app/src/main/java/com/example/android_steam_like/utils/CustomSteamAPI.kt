@@ -8,6 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -55,10 +56,33 @@ class CustomSteamAPI {
         val appid: String
     )
 
+    data class UserCredentials(
+        val email: String,
+        val password: String
+    )
+
+    data class UserSignupBody(
+        val username: String,
+        val email: String,
+        val password: String
+    )
+
+    data class RecPassword(
+        val token: String
+    )
+
+    data class ResPassword(
+        val token: String,
+        val password: String
+    )
+
+    data class Password(
+        val password: String
+    )
+
     interface SteamCustomAPI {
         @GET("game/top100")
         fun getGame(): Deferred<MutableList<GameResponse>>
-
 
         @GET("game/{appId}")
         fun getGameById(@Path("appId") appId: String): Deferred<GameData>
@@ -89,6 +113,18 @@ class CustomSteamAPI {
 
         @POST("likelist")
         fun addToLikeList(@Body body: AddWishLikeListBody): Deferred<WishLikeData>
+
+        @POST("user/login")
+        fun login (@Body body: UserCredentials): Deferred<User>
+
+        @POST("user")
+        fun signup (@Body body: UserSignupBody): Deferred<User>
+
+        @PATCH("user/recPwd/{email}")
+        fun requestToken (@Path("email") email: String): Deferred<RecPassword>
+
+        @PATCH("user/{token}")
+        fun resetPassword (@Path("token") password: String, @Body body: Password): Deferred<Int>
     }
 
     object NetworkRequest {
@@ -98,13 +134,13 @@ class CustomSteamAPI {
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build()
-            .create(SteamCustomAPI::class.java)
+            .create(CustomSteamAPI.SteamCustomAPI::class.java)
 
-        suspend fun getGameTop100(x: Any? = null): MutableList<GameResponse> {
+        suspend fun getGameTop100(x: Any? = null): MutableList<CustomSteamAPI.GameResponse> {
             return api.getGame().await()
         }
 
-        suspend fun getGameById(appId: String): GameData{
+        suspend fun getGameById(appId: String): CustomSteamAPI.GameData {
             return api.getGameById(appId).await()
         }
 
@@ -136,6 +172,23 @@ class CustomSteamAPI {
         suspend fun addToLikeList(id: String): WishLikeData{
             val body = AddWishLikeListBody(User.getInstance()!!.id, id)
             return api.addToLikeList(body).await()
+        }
+
+        suspend fun login (body: UserCredentials): User {
+            return api.login(body).await()
+        }
+
+        suspend fun signup (body: UserSignupBody): User {
+            return api.signup(body).await()
+        }
+
+        suspend fun requestToken (email: String): RecPassword {
+            return api.requestToken(email).await()
+        }
+
+        suspend fun resetPassword (data: ResPassword): Int {
+            val body = Password(data.password)
+            return api.resetPassword(data.token, body).await()
         }
     }
 }

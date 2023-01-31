@@ -9,6 +9,11 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.example.android_steam_like.entities.User
+import com.example.android_steam_like.utils.CustomSteamAPI
+import com.example.android_steam_like.utils.GenericAPI
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class Login : AppCompatActivity() {
@@ -29,20 +34,19 @@ class Login : AppCompatActivity() {
         setInputListeners()
     }
 
-    private fun login (res: String) {
-        User.setInstanceFromJson(JSONObject(res))
+    private fun login (res: User) {
+        User.setInstance(res)
         intent = Intent(this, Home::class.java)
         startActivity(intent)
-    }
-
-    private fun failLogin (code: Int) {
-        println("Identifiants invalides !")
     }
 
     private fun setLoginListener () {
         findViewById<Button>(R.id.login_button).setOnClickListener {
             if (this.email != "" && this.password != "") {
-                User.login(email, password, this::login, this::failLogin)
+                val userCredentials = CustomSteamAPI.UserCredentials(email, password)
+                GlobalScope.launch(Dispatchers.Main) {
+                    GenericAPI.call(CustomSteamAPI.NetworkRequest::login, userCredentials, ::login)
+                }
             }
         }
     }

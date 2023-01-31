@@ -26,9 +26,6 @@ class Game(
     }
 
     companion object {
-        private val gameEndpoint: String = ServerConfig.baseURL() + "/game"
-        private val top100Endpoint: String = "$gameEndpoint/top100"
-        private val searchEndpoint: String = "https://steamcommunity.com/actions/SearchApps"
 
         fun newFromGameData(data: CustomSteamAPI.GameData): Game {
             val gameName = data.name
@@ -53,23 +50,6 @@ class Game(
                 backgroundImage,
                 screenshots
             )
-        }
-
-        private suspend fun getGameById(appId: String) {
-
-        }
-
-        fun getTop100 (callback: (res: String) -> Unit) {
-            HttpRequest(top100Endpoint, callback).start()
-        }
-
-        fun getGameByAppId (appId: String?, callback: (res: String) -> Unit) {
-            HttpRequest("$gameEndpoint/$appId", callback).start()
-        }
-
-        fun getGamesByName (name: String, callback: (res: String) -> Unit) {
-            if (name != "")
-                HttpRequest("$searchEndpoint/$name", callback).start()
         }
     }
 
