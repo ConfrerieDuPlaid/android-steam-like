@@ -110,10 +110,7 @@ class GameDetail : AppCompatActivity() {
 
 
     private fun displayDetail(res: String) {
-        this.game = Game.newFromGameData(JSONObject(res))
-        findViewById<TextView>(R.id.description).text = fromHtml(this.game!!.description!!, FROM_HTML_MODE_LEGACY)
-        findViewById<TextView>(R.id.game_name).text = this.game!!.name
-        findViewById<TextView>(R.id.game_editor).text = this.game!!.editors
+
     }
 
     private fun setHeartListener () {

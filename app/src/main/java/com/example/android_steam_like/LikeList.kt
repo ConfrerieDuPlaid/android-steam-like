@@ -37,9 +37,7 @@ class LikeList : AppCompatActivity() {
         this@LikeList.runOnUiThread {
             for (i in 0 until gameJson.length()) {
                 try {
-                    val game = gameJson.getJSONObject(i).getJSONObject("gameData")
-                    val newGame = Game.newFromGameData(game)
-                    this.likes.add(newGame)
+
                     listAdapter.notifyItemInserted(likes.size + 1)
                 } catch (e: Exception) {
                     println(e.message)

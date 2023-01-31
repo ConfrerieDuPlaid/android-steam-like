@@ -38,8 +38,7 @@ class WishList : AppCompatActivity() {
             for (i in 0 until gameJson.length()) {
                 try{
                     val game = gameJson.getJSONObject(i).getJSONObject("gameData")
-                    val newGame = Game.newFromGameData(game)
-                    this.wishes.add(newGame)
+
                     listAdapter.notifyItemInserted(wishes.size + 1)
                 } catch (e: Exception){
                     println(e.message)

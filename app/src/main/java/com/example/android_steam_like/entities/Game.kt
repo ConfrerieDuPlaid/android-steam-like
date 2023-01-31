@@ -2,6 +2,7 @@ package com.example.android_steam_like.entities
 
 import com.example.android_steam_like.utils.HttpRequest
 import com.example.android_steam_like.utils.ServerConfig
+import com.example.android_steam_like.utils.steamApi
 import org.json.JSONObject
 
 class Game(
@@ -25,17 +26,17 @@ class Game(
         private val top100Endpoint: String = "$gameEndpoint/top100"
         private val searchEndpoint: String = "https://steamcommunity.com/actions/SearchApps"
 
-        fun newFromGameData(data: JSONObject): Game {
-            val gameName = data.getString("name")
-            val editors = data.getJSONArray("publishers").join(", ").replace("\"", "")
-            val price = data.getString("priceInCents").toDouble() / 100.0
-            val appId = data.getInt("steamAppid").toString()
-            val headerImage = data.getString("headerImage")
-            val description = data.getString("description")
-            val backgroundImage = data.getString("backgroundImage")
-            val screenshotsJson = data.getJSONArray("screenshots")
+        fun newFromGameData(data: steamApi.GameData): Game {
+            val gameName = data.name
+            val editors = data.publishers.toString()
+            val price = data.priceInCents.toDouble() / 100.0
+            val appId = data.steamAppid.toString()
+            val headerImage = data.headerImage
+            val description = data.description
+            val backgroundImage = data.backgroundImage
+            val screenshotsJson = data.screenshots
             val screenshots: MutableList<String> = mutableListOf()
-            for (i in 0 until screenshotsJson.length()) {
+            for (i in 0 until screenshotsJson.size) {
                 screenshots.add(i, screenshotsJson[i].toString())
             }
             return Game(
