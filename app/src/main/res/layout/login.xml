@@ -44,7 +44,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/login_button"
-        style="@style/AccentActionButton"
+        style="@style/LargeAccentActionButton"
         android:text="Se connecter"
         app:layout_constraintTop_toBottomOf="@+id/user_password"
         />
@@ -59,7 +59,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/forgotten_password_button"
-        style="@style/NoAccentActionButton"
+        style="@style/LargeNoAccentActionButton"
         android:text="@string/forget_password"
         app:layout_constraintBottom_toBottomOf="parent" />
 

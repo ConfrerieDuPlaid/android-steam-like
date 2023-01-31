@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -53,7 +54,7 @@ class GameViewHolder(v: View) : RecyclerView.ViewHolder(v) {
     private val gamePrice = v.findViewById<TextView>(R.id.game_price)
     private val gameImage = v.findViewById<ImageView>(R.id.game_image)
     //private val gameBackground = v.findViewById<ImageView>(R.id.title_card_background)
-    private val gameButton = v.findViewById<Button>(R.id.more_info)
+    private val gameButton = v.findViewById<AppCompatButton>(R.id.more_info)
 
 
     fun updateGame(game: Game) {
