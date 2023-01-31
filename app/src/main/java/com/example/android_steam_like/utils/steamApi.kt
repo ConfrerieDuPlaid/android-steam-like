@@ -3,9 +3,13 @@ import com.example.android_steam_like.entities.User
 import com.google.gson.annotations.SerializedName
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
+import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -34,9 +38,9 @@ class steamApi {
     )
 
 
-    data class WishList(
+    data class WishListData(
         val _id: String,
-        val appId: String,
+        val appid: String,
         val user: String,
         val gameData: GameData?
     )
@@ -58,12 +62,17 @@ class steamApi {
         @GET("comment/{appId}")
         fun getComment(@Path("appId") appId: String): Deferred<MutableList<comment>>
 
-        @GET("/wishlist/{userId}")
+        @GET("wishlist/{userId}")
         fun getWishList(
             @Path("userId") userId: String,
             @Query("simplified") simplified: Int = 0
-        ):  Deferred<List<WishList>>
+        ):  Deferred<List<WishListData>>
 
+        @DELETE("wishlist/{id}")
+        fun removeFromWishlist(@Path("id") id: String): Deferred<Int>
+
+        @POST("wishlist")
+        fun addToWishList(@Body body: JSONObject): Deferred<WishListData>
     }
 
     object NetworkRequest {
@@ -87,8 +96,17 @@ class steamApi {
             return api.getComment(appId).await()
         }
 
-        suspend fun getWihList(simplified: Int = 0): List<WishList>{
+        suspend fun getWihList(simplified: Int = 0): List<WishListData>{
             return api.getWishList(User.getInstance()!!.id, simplified).await()
+        }
+
+        suspend fun removeFromWishlist(id: String): Int{
+            return api.removeFromWishlist(id).await()
+        }
+
+        suspend fun addToWishList(id: String): WishListData{
+            val body = JSONObject(mapOf("user" to User.getInstance()!!.id, "appid" to id))
+            return api.addToWishList(body).await()
         }
     }
 }
