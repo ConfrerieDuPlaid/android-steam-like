@@ -27,7 +27,7 @@
     <TextView
         android:id="@+id/view_title"
         style="@style/ViewTitle"
-        android:text="View title"
+        android:text="@string/template_view_title"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 

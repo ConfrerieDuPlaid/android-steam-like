@@ -59,13 +59,13 @@
             <TextView
                 android:id="@+id/game_name"
                 style="@style/CardMainText"
-                android:text="BattleField 1"
+                android:text="@string/example_game_name"
                 android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/game_editor"
                 style="@style/CardDescText"
-                android:text="EA"
+                android:text="@string/example_game_editor"
                 android:layout_marginTop="4dp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -87,13 +87,13 @@
             android:id="@+id/description_button"
             style="@style/NarrowActionButton"
             android:background="@drawable/button_rounded_left_full"
-            android:text="Description" />
+            android:text="@string/description" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/comments_button"
             style="@style/NarrowActionButton"
             android:background="@drawable/button_rounded_right"
-            android:text="Avis"/>
+            android:text="@string/opinions"/>
     </LinearLayout>
 
     <TextView

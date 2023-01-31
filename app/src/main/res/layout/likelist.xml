@@ -26,7 +26,7 @@
     <TextView
         android:id="@+id/empty_like_text"
         style="@style/Subtitle"
-        android:text="Vous n'avez pas encore liké de contenu. Cliquez sur le coeur pour en rajouter"
+        android:text="@string/label_empty_likelist"
         app:layout_constraintTop_toBottomOf="@+id/like_image" />
 
     <include

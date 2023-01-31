@@ -1,5 +1,6 @@
 package com.example.android_steam_like.entities
 
+import com.example.android_steam_like.R
 import com.example.android_steam_like.utils.HttpRequest
 import com.example.android_steam_like.utils.ServerConfig
 import org.json.JSONObject
@@ -14,6 +15,7 @@ class Game(
     val backgroundImage: String?,
     val screenshots: MutableList<String>
 ) {
+
     fun displayPrice (): String {
         return if (this.price > 0.0)
             "Prix : ${this.price} €"

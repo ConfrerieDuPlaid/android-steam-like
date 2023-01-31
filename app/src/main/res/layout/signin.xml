@@ -17,14 +17,14 @@
     <TextView
         android:id="@+id/subscribe"
         style="@style/Title"
-        android:text="Inscription"
+        android:text="@string/signup"
         app:layout_constraintTop_toTopOf="@id/top_guideline"
         />
 
     <TextView
         android:id="@+id/welcome_message"
         style="@style/Subtitle"
-        android:text="Veuillez saisir ces différentes informations, afin que vos listes soient sauvegardées."
+        android:text="@string/label_signin"
         app:layout_constraintTop_toBottomOf="@+id/subscribe"
         />
 
@@ -32,14 +32,14 @@
         android:id="@+id/username"
         style="@style/TextInput"
         android:layout_marginTop="50dp"
-        android:hint="Nom d'utilisateur"
+        android:hint="@string/username"
         app:layout_constraintTop_toBottomOf="@+id/welcome_message"
         />
 
     <EditText
         android:id="@+id/user_email"
         style="@style/EmailInput"
-        android:hint="E-mail"
+        android:hint="@string/email"
         app:layout_constraintTop_toBottomOf="@+id/username"
         />
 
@@ -60,7 +60,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signin_button"
         style="@style/LargeAccentActionButton"
-        android:text="S'inscrire"
+        android:text="@string/signin"
         app:layout_constraintTop_toBottomOf="@+id/user_password"
         />
 

@@ -46,7 +46,7 @@
         <TextView
             android:id="@+id/game_name"
             style="@style/CardMainText"
-            android:text="Nom du jeu"
+            android:text="@string/template_game_name"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="@id/game_image_guideline"
@@ -55,7 +55,7 @@
         <TextView
             android:id="@+id/editor_name"
             style="@style/CardDescText"
-            android:text="Nom de l'éditeur"
+            android:text="@string/template_game_editor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/game_image_guideline"
             app:layout_constraintTop_toTopOf="parent"
@@ -64,7 +64,7 @@
         <TextView
             android:id="@+id/game_price"
             style="@style/CardDescText"
-            android:text="Prix : 10 €"
+            android:text="@string/template_game_price"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/game_image_guideline"
             app:layout_constraintTop_toTopOf="parent"

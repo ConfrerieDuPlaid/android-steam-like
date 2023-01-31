@@ -51,7 +51,7 @@
                 android:id="@+id/game_title"
                 style="@style/CardMainText"
                 android:layout_marginTop="51dp"
-                android:text="Titan Fall 2 Ultimate edition"
+                android:text="@string/example_game_name"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/text_guide_line"
                 app:layout_constraintTop_toTopOf="@+id/game_image"
@@ -64,7 +64,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Une description d'un jeu mis en avant (peut être écris en dur)"
+                android:text="@string/example_game_desc"
                 app:layout_constraintEnd_toStartOf="@+id/jacket"
                 app:layout_constraintStart_toStartOf="@+id/text_guide_line"
                 app:layout_constraintTop_toBottomOf="@+id/game_title" />
