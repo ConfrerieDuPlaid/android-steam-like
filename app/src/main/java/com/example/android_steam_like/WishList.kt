@@ -8,6 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_steam_like.entities.Game
+import com.example.android_steam_like.utils.steamApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import layout.Wish
 import org.json.JSONArray
 
@@ -22,8 +27,9 @@ class WishList : AppCompatActivity() {
         val list = findViewById<RecyclerView>(R.id.game_list);
         list.visibility  = View.GONE
 
-        if (wishes.isEmpty())
-            Wish.getUserWishlist(this::addGame)
+        GlobalScope.launch(Dispatchers.Main) {
+            getWishList()
+        }
 
         val listAdapter = ListAdapter(wishes);
         findViewById<RecyclerView>(R.id.game_list).apply {
@@ -32,13 +38,22 @@ class WishList : AppCompatActivity() {
         };
     }
 
-    private fun addGame(res: String){
-        val gameJson = JSONArray(res)
-        this@WishList.runOnUiThread {
-            for (i in 0 until gameJson.length()) {
-                try{
-                    val game = gameJson.getJSONObject(i).getJSONObject("gameData")
+    private suspend fun getWishList() {
+        try {
+            val request = withContext(Dispatchers.IO) { steamApi.NetworkRequest.getWihList() }
+            addGame(request)
+        } catch (e: Exception) {
+            println("Une erreur est survenue ${e.message}")
+        }
+    }
 
+    private fun addGame(res: List<steamApi.WishList>){
+        this@WishList.runOnUiThread {
+            for (element in res) {
+                try{
+                    val game = element.gameData!!
+                    val newGame = Game.newFromGameData(game)
+                    this.wishes.add(newGame)
                     listAdapter.notifyItemInserted(wishes.size + 1)
                 } catch (e: Exception){
                     println(e.message)

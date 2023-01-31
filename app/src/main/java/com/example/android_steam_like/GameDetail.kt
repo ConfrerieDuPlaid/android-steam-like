@@ -16,6 +16,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android_steam_like.components.ActionBar
 import com.example.android_steam_like.entities.Comment
 import com.example.android_steam_like.entities.Game
+import com.example.android_steam_like.utils.steamApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import layout.HtmlImage
 import layout.Like
 import layout.Wish
@@ -36,6 +41,11 @@ class GameDetail : AppCompatActivity() {
         this.appId = this.intent.getStringExtra("appId")
 
         setContentView(R.layout.game_detail)
+
+        GlobalScope.launch(Dispatchers.Main) {
+            getGameById(appId!!)
+        }
+
         ActionBar.supportActionbar(supportActionBar, this::setHeartListener, this::setStarListener)
         findViewById<TextView>(R.id.view_title).text = "Détails du jeu"
 
@@ -43,13 +53,21 @@ class GameDetail : AppCompatActivity() {
         list.visibility  = View.GONE
         setImages()
 
-        Game.getGameByAppId(appId, this::displayDetail)
         setOnClickButton()
 
         findViewById<ProgressBar>(R.id.progress_circular).visibility = View.GONE
         findViewById<RecyclerView>(R.id.game_comments).apply {
             layoutManager = LinearLayoutManager(this@GameDetail)
             adapter = listAdapter
+        }
+    }
+
+    private suspend fun getGameById(appId: String) {
+        try {
+            val request = withContext(Dispatchers.IO) { steamApi.NetworkRequest.getGameById(appId) }
+            displayDetail(request)
+        } catch (e: Exception) {
+            println("Une erreur est survenue ${e.message}")
         }
     }
 
@@ -81,22 +99,36 @@ class GameDetail : AppCompatActivity() {
             description.visibility = View.GONE
             if (comments.isEmpty()) {
                 circularWaiting.visibility = View.VISIBLE
-                Comment.getCommentsByAppId(this.appId, this::addOpinions)
+                getGameCommentById()
             }
         }
     }
 
-    private fun addOpinions(res: String) {
+    private suspend fun getGameComments(appId: String) {
+        try {
+            val request = withContext(Dispatchers.IO) { steamApi.NetworkRequest.getGameCommentById(appId) }
+            addOpinions(request)
+        } catch (e: Exception) {
+            println("Une erreur est survenue ${e.message}")
+        }
+    }
+
+    private fun getGameCommentById() {
+        GlobalScope.launch(Dispatchers.Main) {
+            getGameComments(appId!!)
+        }
+    }
+
+    private fun addOpinions(res: List<steamApi.comment>) {
         val commentsJson = JSONArray(res)
         val circularWaiting = findViewById<ProgressBar>(R.id.progress_circular)
 
         this@GameDetail.runOnUiThread {
             for (i in 0 until commentsJson.length()) {
                 try {
-                        val commentJson = commentsJson.getJSONObject(i)
-                        val author = commentJson.getString("author")
-                        val score = commentJson.getDouble("score")
-                        val content = commentJson.getString("content")
+                        val author = res[i].author
+                        val score = res[i].score.toDouble()
+                        val content = res[i].content
                         val comment = Comment(author, content, score)
                         this.comments.add(comment)
                         listAdapter.notifyItemInserted(comments.size + 1)
@@ -108,9 +140,13 @@ class GameDetail : AppCompatActivity() {
         }
     }
 
-
-    private fun displayDetail(res: String) {
-
+    private fun displayDetail(res: steamApi.GameData) {
+        findViewById<TextView>(R.id.description).text = fromHtml(res.description!!, FROM_HTML_MODE_LEGACY)
+        findViewById<TextView>(R.id.game_name).text = res.name
+        findViewById<TextView>(R.id.game_editor).text = res.publishers
+            .toString()
+            .replace("[", "")
+            .replace("]", "")
     }
 
     private fun setHeartListener () {

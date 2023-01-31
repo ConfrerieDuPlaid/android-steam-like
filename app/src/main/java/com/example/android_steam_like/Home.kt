@@ -13,14 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_steam_like.components.ActionBar
 import com.example.android_steam_like.entities.Game
-import com.example.android_steam_like.entities.User
 import com.example.android_steam_like.utils.steamApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
-import org.json.JSONObject
 
 
 class Home : AppCompatActivity() {
@@ -47,9 +45,8 @@ class Home : AppCompatActivity() {
     }
 
     private suspend fun getGames() {
-
         try {
-            val request = withContext(Dispatchers.IO) { steamApi.NetworkRequest.getPokemonsFromDitto() }
+            val request = withContext(Dispatchers.IO) { steamApi.NetworkRequest.getGameTop1000() }
             addGameToList(request)
         } catch (e: Exception) {
             println("Une erreur est survenue ${e.message}")
