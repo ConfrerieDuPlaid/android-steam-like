@@ -4,17 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_steam_like.components.ActionBar
 import com.example.android_steam_like.entities.Game
-import com.example.android_steam_like.utils.steamApi
+import com.example.android_steam_like.utils.SteamAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -48,14 +46,14 @@ class Home : AppCompatActivity() {
 
     private suspend fun getGames() {
         try {
-            val request = withContext(Dispatchers.IO) { steamApi.NetworkRequest.getGameTop1000() }
+            val request = withContext(Dispatchers.IO) { SteamAPI.NetworkRequest.getGameTop1000() }
             addGameToList(request)
         } catch (e: Exception) {
             println("Une erreur est survenue ${e.message}")
         }
     }
 
-    private fun addGameToList(res: MutableList<steamApi.GameResponse>){
+    private fun addGameToList(res: MutableList<SteamAPI.GameResponse>){
         val gameJson = JSONArray(res)
 
         this@Home.runOnUiThread {

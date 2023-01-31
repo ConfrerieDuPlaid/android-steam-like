@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_steam_like.components.ActionBar
 import com.example.android_steam_like.entities.Game
-import com.example.android_steam_like.utils.steamApi
+import com.example.android_steam_like.utils.SteamAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -43,14 +43,14 @@ class WishList : AppCompatActivity() {
 
     private suspend fun getWishList() {
         try {
-            val request = withContext(Dispatchers.IO) { steamApi.NetworkRequest.getWihList() }
+            val request = withContext(Dispatchers.IO) { SteamAPI.NetworkRequest.getWihList() }
             addGame(request)
         } catch (e: Exception) {
             println("Une erreur est survenue ${e.message}")
         }
     }
 
-    private fun addGame(res: List<steamApi.WishListData>){
+    private fun addGame(res: List<SteamAPI.WishListData>){
         this@WishList.runOnUiThread {
             for (element in res) {
                 try{

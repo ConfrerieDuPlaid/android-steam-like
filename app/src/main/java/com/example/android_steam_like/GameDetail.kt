@@ -14,7 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android_steam_like.components.ActionBar
 import com.example.android_steam_like.entities.Comment
 import com.example.android_steam_like.entities.Game
-import com.example.android_steam_like.utils.steamApi
+import com.example.android_steam_like.utils.GenericAPI
+import com.example.android_steam_like.utils.SteamAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -59,12 +60,7 @@ class GameDetail : AppCompatActivity() {
     }
 
     private suspend fun getGameById(appId: String) {
-        try {
-            val request = withContext(Dispatchers.IO) { steamApi.NetworkRequest.getGameById(appId) }
-            displayDetail(request)
-        } catch (e: Exception) {
-            println("Une erreur est survenue ${e.message}")
-        }
+        GenericAPI.call(SteamAPI.NetworkRequest::getGameById, appId, this::displayDetail)
     }
 
     private fun setImages() {
@@ -106,7 +102,7 @@ class GameDetail : AppCompatActivity() {
         }
     }
 
-    private fun addOpinions(res: List<steamApi.comment>) {
+    private fun addOpinions(res: List<SteamAPI.comment>) {
         val commentsJson = JSONArray(res)
         val circularWaiting = findViewById<ProgressBar>(R.id.progress_circular)
 
@@ -127,7 +123,7 @@ class GameDetail : AppCompatActivity() {
         }
     }
 
-    private fun displayDetail(res: steamApi.GameData) {
+    private fun displayDetail(res: SteamAPI.GameData) {
         findViewById<TextView>(R.id.description).text = fromHtml(res.description!!, FROM_HTML_MODE_LEGACY)
         findViewById<TextView>(R.id.game_name).text = res.name
         findViewById<TextView>(R.id.game_editor).text = res.publishers
@@ -165,45 +161,23 @@ class GameDetail : AppCompatActivity() {
         }
     }
 
-
     private suspend fun getGameComments(appId: String) {
-        try {
-            val request = withContext(Dispatchers.IO) { steamApi.NetworkRequest.getGameCommentById(appId) }
-            addOpinions(request)
-        } catch (e: Exception) {
-            println("Une erreur est survenue ${e.message}")
-        }
+        GenericAPI.call(SteamAPI.NetworkRequest::getGameCommentById, appId, this::addOpinions)
     }
 
     private suspend fun getWishList() {
-        try {
-            val request = withContext(Dispatchers.IO) { steamApi.NetworkRequest.getWihList(1) }
-            setWishButton(request)
-        } catch (e: Exception) {
-            println("Une erreur est survenue ${e.message}")
-        }
+        GenericAPI.call(SteamAPI.NetworkRequest::getWihList, 1, this::setWishButton)
     }
 
     private suspend fun removeFromWishlist(wishId: String) {
-        try {
-            val req = withContext(Dispatchers.IO) { steamApi.NetworkRequest.removeFromWishlist(wishId) }
-            unsetWish(req)
-        } catch (e: Exception) {
-            println("Une erreur est survenue ${e.message}")
-        }
+        GenericAPI.call(SteamAPI.NetworkRequest::removeFromWishlist, wishId, this::unsetWish)
     }
 
     private suspend fun addToWishList(appId: String) {
-        try {
-            val request = withContext(Dispatchers.IO) { steamApi.NetworkRequest.addToWishList(appId) }
-            setWish(request)
-        } catch (e: Exception) {
-            println("Une erreur est survenue ${e.message}")
-        }
+        GenericAPI.call(SteamAPI.NetworkRequest::addToWishList, appId, this::setWish)
     }
 
-    private fun setWishButton (res: List<steamApi.WishListData>) {
-
+    private fun setWishButton (res: List<SteamAPI.WishListData>) {
         this@GameDetail.runOnUiThread {
             for (element in res) {
                 try{
@@ -218,8 +192,7 @@ class GameDetail : AppCompatActivity() {
         }
     }
 
-    private fun setWish(res: steamApi.WishListData) {
-        println("res: $res");
+    private fun setWish(res: SteamAPI.WishListData) {
         this.wishId = res._id
         findViewById<ImageButton>(R.id.action_star).setImageResource(R.drawable.whishlist_full)
     }

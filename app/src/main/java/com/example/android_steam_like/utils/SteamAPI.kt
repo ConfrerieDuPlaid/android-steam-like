@@ -3,18 +3,18 @@ import com.example.android_steam_like.entities.User
 import com.google.gson.annotations.SerializedName
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
-import org.json.JSONObject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-class steamApi {
+class SteamAPI {
     data class GameData(
         val name: String,
         val publishers: List<String>,
@@ -57,7 +57,7 @@ class steamApi {
         val appid: String
     )
 
-    interface PokemonAPI {
+    interface SteamCustomAPI {
         @GET("game/top100")
         fun getGame(): Deferred<MutableList<GameResponse>>
 
@@ -88,7 +88,7 @@ class steamApi {
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build()
-            .create(PokemonAPI::class.java)
+            .create(SteamCustomAPI::class.java)
 
         suspend fun getGameTop1000(): MutableList<GameResponse> {
             return api.getGame().await()

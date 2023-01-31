@@ -1,10 +1,8 @@
 package com.example.android_steam_like.entities
 
-import com.example.android_steam_like.R
 import com.example.android_steam_like.utils.HttpRequest
 import com.example.android_steam_like.utils.ServerConfig
-import com.example.android_steam_like.utils.steamApi
-import org.json.JSONObject
+import com.example.android_steam_like.utils.SteamAPI
 
 class Game(
     val name: String,
@@ -32,7 +30,7 @@ class Game(
         private val top100Endpoint: String = "$gameEndpoint/top100"
         private val searchEndpoint: String = "https://steamcommunity.com/actions/SearchApps"
 
-        fun newFromGameData(data: steamApi.GameData): Game {
+        fun newFromGameData(data: SteamAPI.GameData): Game {
             val gameName = data.name
             val editors = data.publishers.joinToString()
             val price = data.priceInCents / 100.0
@@ -55,6 +53,10 @@ class Game(
                 backgroundImage,
                 screenshots
             )
+        }
+
+        private suspend fun getGameById(appId: String) {
+
         }
 
         fun getTop100 (callback: (res: String) -> Unit) {
