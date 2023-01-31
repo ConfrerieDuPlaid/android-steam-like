@@ -1,6 +1,5 @@
 package com.example.android_steam_like
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -8,7 +7,6 @@ import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.core.text.HtmlCompat.fromHtml
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +21,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import layout.HtmlImage
 import layout.Like
-import layout.Wish
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -159,26 +156,59 @@ class GameDetail : AppCompatActivity() {
         Like.getUserLikelist(this::setLikeButton, true)
     }
 
+    private suspend fun getWishList() {
+        try {
+            val request = withContext(Dispatchers.IO) { steamApi.NetworkRequest.getWihList(1) }
+            setWishButton(request)
+        } catch (e: Exception) {
+            println("Une erreur est survenue ${e.message}")
+        }
+    }
+
+    private suspend fun removeFromWishlist(wishId: String) {
+        try {
+            val req = withContext(Dispatchers.IO) { steamApi.NetworkRequest.removeFromWishlist(wishId) }
+            unsetWish(req)
+        } catch (e: Exception) {
+            println("Une erreur est survenue ${e.message}")
+        }
+    }
+
     private fun setStarListener () {
-        Wish.getUserWishlist(this::setWishButton, true)
+        GlobalScope.launch(Dispatchers.Main) {
+            getWishList()
+        }
         findViewById<ImageButton>(R.id.action_star).setOnClickListener {
-            if (this.wishId != null) {
-                Wish.removeFromWishlist(this.wishId!!, this::unsetWish)
-            } else {
-                Wish.addToWishlist(this.appId, this::setWish)
+            if (wishId != null) {
+                GlobalScope.launch(Dispatchers.Main) {
+                    removeFromWishlist(wishId!!)
+                }
+            }else{
+                GlobalScope.launch(Dispatchers.Main) {
+                    addToWishList(appId!!)
+                }
+
             }
         }
     }
 
-    private fun setWishButton (res: String) {
-        val wishes = JSONArray(res)
+    private suspend fun addToWishList(appId: String) {
+        try {
+            val request = withContext(Dispatchers.IO) { steamApi.NetworkRequest.addToWishList(appId) }
+            setWish(request)
+        } catch (e: Exception) {
+            println("Une erreur est survenue ${e.message}")
+        }
+    }
+
+    private fun setWishButton (res: List<steamApi.WishListData>) {
+
         this@GameDetail.runOnUiThread {
-            for (i in 0 until wishes.length()) {
+            for (element in res) {
                 try{
-                    val wish = wishes.getJSONObject(i)
-                    val wishedAppid: String = wish.getString("appid")
+                    val wishedAppid: String = element.appid
                     if (wishedAppid == this.appId) {
-                        setWish(wish.toString())
+                        setWish(element)
                     }
                 } catch (e: Exception){
                     println(e.message)
@@ -187,13 +217,13 @@ class GameDetail : AppCompatActivity() {
         }
     }
 
-    private fun setWish(res: String) {
-        val wish = JSONObject(res)
-        this.wishId = wish.getString("_id")
+    private fun setWish(res: steamApi.WishListData) {
+        println("res: $res");
+        this.wishId = res._id
         findViewById<ImageButton>(R.id.action_star).setImageResource(R.drawable.whishlist_full)
     }
 
-    private fun unsetWish(res: String = "") {
+    private fun unsetWish(isGood: Int) {
         this.wishId = null
         findViewById<ImageButton>(R.id.action_star).setImageResource(R.drawable.whishlist)
     }

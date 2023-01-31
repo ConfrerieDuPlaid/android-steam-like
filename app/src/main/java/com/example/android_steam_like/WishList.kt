@@ -14,8 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import layout.Wish
-import org.json.JSONArray
 
 class WishList : AppCompatActivity() {
     private val wishes: MutableList<Game> = mutableListOf()
@@ -52,7 +50,7 @@ class WishList : AppCompatActivity() {
         }
     }
 
-    private fun addGame(res: List<steamApi.WishList>){
+    private fun addGame(res: List<steamApi.WishListData>){
         this@WishList.runOnUiThread {
             for (element in res) {
                 try{
