@@ -14,7 +14,7 @@ import com.example.android_steam_like.utils.GenericAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import layout.WishLikeData
 
 class WishList : AppCompatActivity() {
     private val wishes: MutableList<Game> = mutableListOf()
@@ -46,7 +46,7 @@ class WishList : AppCompatActivity() {
         GenericAPI.call(CustomSteamAPI.NetworkRequest::getWihList, 0, this::addGame)
     }
 
-    private fun addGame(res: List<CustomSteamAPI.WishLikeData>){
+    private fun addGame(res: List<WishLikeData>){
         this@WishList.runOnUiThread {
             for (element in res) {
                 val game = element.gameData!!

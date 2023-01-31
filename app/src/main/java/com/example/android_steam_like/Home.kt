@@ -12,13 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_steam_like.components.ActionBar
 import com.example.android_steam_like.entities.Game
+import com.example.android_steam_like.entities.GameResponse
 import com.example.android_steam_like.utils.CustomSteamAPI
 import com.example.android_steam_like.utils.GenericAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.json.JSONArray
 
 
 class Home : AppCompatActivity() {
@@ -49,7 +48,7 @@ class Home : AppCompatActivity() {
         GenericAPI.call(CustomSteamAPI.NetworkRequest::getGameTop100, null, this::addGameToList)
     }
 
-    private fun addGameToList(res: MutableList<CustomSteamAPI.GameResponse>){
+    private fun addGameToList(res: MutableList<GameResponse>){
         this@Home.runOnUiThread {
             for (element in res) {
                 val newGame = Game.newFromGameData(element.gameData)

@@ -7,14 +7,12 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.android_steam_like.entities.User
+import com.example.android_steam_like.entities.UserSignupBody
 import com.example.android_steam_like.utils.CustomSteamAPI
-import com.example.android_steam_like.utils.CustomSteamAPI.NetworkRequest.signup
 import com.example.android_steam_like.utils.GenericAPI
-import com.example.android_steam_like.utils.HttpRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 
 class Signin : AppCompatActivity() {
     private var usernameInput: EditText? = null
@@ -67,7 +65,7 @@ class Signin : AppCompatActivity() {
             val passwordVerif = passwordVerifInput?.text.toString()
 
             if (username != "" && email != "" && password != "" && password == passwordVerif) {
-                val userCredentials = CustomSteamAPI.UserSignupBody(username, email, password)
+                val userCredentials = UserSignupBody(username, email, password)
                 GlobalScope.launch(Dispatchers.Main) {
                     GenericAPI.call(CustomSteamAPI.NetworkRequest::signup, userCredentials, ::signin)
                 }

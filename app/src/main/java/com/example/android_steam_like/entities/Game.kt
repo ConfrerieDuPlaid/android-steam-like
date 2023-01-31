@@ -1,14 +1,22 @@
 package com.example.android_steam_like.entities
 
-import com.example.android_steam_like.utils.HttpRequest
-import com.example.android_steam_like.utils.ServerConfig
-import com.example.android_steam_like.utils.CustomSteamAPI
+
+data class GameData(
+    val name: String,
+    val publishers: List<String>,
+    val priceInCents: Double,
+    val steamAppid: Int,
+    val headerImage: String,
+    val description: String?,
+    val backgroundImage: String?,
+    val screenshots: MutableList<String>,
+)
 
 class Game(
     val name: String,
-    val editors: String,
-    val price: Double?,
-    val appId: String,
+    val publishers: String,
+    val priceInCents: Double?,
+    val steamAppId: String,
     val headerImage: String,
     val description: String?,
     val backgroundImage: String?,
@@ -16,7 +24,7 @@ class Game(
 ) {
 
     fun price (): Double {
-        return price ?: 0.0;
+        return priceInCents ?: 0.0;
     }
 
     fun displayPrice (): String {
@@ -27,7 +35,7 @@ class Game(
 
     companion object {
 
-        fun newFromGameData(data: CustomSteamAPI.GameData): Game {
+        fun newFromGameData(data: GameData): Game {
             val gameName = data.name
             val editors = data.publishers.joinToString()
             val price = data.priceInCents / 100.0
@@ -54,3 +62,9 @@ class Game(
     }
 
 }
+
+data class GameResponse(
+    val rank: Int,
+    val appId: Int,
+    val gameData: GameData
+)

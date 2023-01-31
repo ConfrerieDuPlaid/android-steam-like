@@ -14,12 +14,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android_steam_like.components.ActionBar
 import com.example.android_steam_like.entities.Comment
 import com.example.android_steam_like.entities.Game
-import com.example.android_steam_like.utils.GenericAPI
+import com.example.android_steam_like.entities.GameData
 import com.example.android_steam_like.utils.CustomSteamAPI
+import com.example.android_steam_like.utils.GenericAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import layout.HtmlImage
+import layout.WishLikeData
 import org.json.JSONArray
 
 class GameDetail : AppCompatActivity() {
@@ -99,28 +101,31 @@ class GameDetail : AppCompatActivity() {
         }
     }
 
-    private fun addOpinions(res: List<CustomSteamAPI.comment>) {
+    private fun addOpinions(res: List<Comment>) {
         val commentsJson = JSONArray(res)
         val circularWaiting = findViewById<ProgressBar>(R.id.progress_circular)
 
         this@GameDetail.runOnUiThread {
-            for (i in 0 until commentsJson.length()) {
-                try {
-                        val author = res[i].author
-                        val score = res[i].score.toDouble()
-                        val content = res[i].content
-                        val comment = Comment(author, content, score)
-                        this.comments.add(comment)
-                        listAdapter.notifyItemInserted(comments.size + 1)
-                        circularWaiting.visibility = View.GONE
-                } catch(e: Exception) {
-                    println(e.message)
-                }
+            for (element in res) {
+                this.comments.add(element)
+                listAdapter.notifyItemInserted(comments.size + 1)
+                circularWaiting.visibility = View.GONE
             }
+//            for (i in 0 until commentsJson.length()) {
+//                try {
+//                        val author = res[i].author
+//                        val score = res[i].score.toDouble()
+//                        val content = res[i].content
+//                        val comment = Comment(author, content, score)
+//
+//                } catch(e: Exception) {
+//                    println(e.message)
+//                }
+//            }
         }
     }
 
-    private fun displayDetail(res: CustomSteamAPI.GameData) {
+    private fun displayDetail(res: GameData) {
         findViewById<TextView>(R.id.description).text = fromHtml(res.description!!, FROM_HTML_MODE_LEGACY)
         findViewById<TextView>(R.id.game_name).text = res.name
         findViewById<TextView>(R.id.game_editor).text = res.publishers
@@ -191,7 +196,7 @@ class GameDetail : AppCompatActivity() {
         GenericAPI.call(CustomSteamAPI.NetworkRequest::addToLikeList, appId, this::setLike)
     }
 
-    private fun setWishButton (res: List<CustomSteamAPI.WishLikeData>) {
+    private fun setWishButton (res: List<WishLikeData>) {
         this@GameDetail.runOnUiThread {
             for (element in res) {
                 val wishedAppid: String = element.appid
@@ -202,7 +207,7 @@ class GameDetail : AppCompatActivity() {
         }
     }
 
-    private fun setWish(res: CustomSteamAPI.WishLikeData) {
+    private fun setWish(res: WishLikeData) {
         this.wishId = res._id
         findViewById<ImageButton>(R.id.action_star).setImageResource(R.drawable.whishlist_full)
     }
@@ -212,7 +217,7 @@ class GameDetail : AppCompatActivity() {
         findViewById<ImageButton>(R.id.action_star).setImageResource(R.drawable.whishlist)
     }
 
-    private fun setLike(res: CustomSteamAPI.WishLikeData) {
+    private fun setLike(res: WishLikeData) {
         this.likeId = res._id
         findViewById<ImageButton>(R.id.action_heart).setImageResource(R.drawable.like_full)
     }
@@ -222,7 +227,7 @@ class GameDetail : AppCompatActivity() {
         findViewById<ImageButton>(R.id.action_heart).setImageResource(R.drawable.like)
     }
 
-    private fun setLikeButton (res: List<CustomSteamAPI.WishLikeData>) {
+    private fun setLikeButton (res: List<WishLikeData>) {
         this@GameDetail.runOnUiThread {
             for (element in res) {
                 val likedAppid: String = element.appid

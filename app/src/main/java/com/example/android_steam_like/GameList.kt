@@ -1,15 +1,12 @@
 package com.example.android_steam_like
 
 import android.content.Intent
-import android.graphics.Typeface
 import android.os.Bundle
 import android.text.SpannableString
-import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -63,7 +60,7 @@ class GameViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
     fun updateGame(game: Game) {
         name.text = game.name
-        editorName.text = game.editors
+        editorName.text = game.publishers
         Glide.with(itemView).load(game.headerImage).into(gameImage)
         val spannable = SpannableString(game.displayPrice())
         val separatorIndex = spannable.indexOf(" : ")
@@ -73,7 +70,7 @@ class GameViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         //Glide.with(itemView).load(game.backgroundImage).into(gameBackground)
         gameButton.setOnClickListener {
             val intent = Intent(it.context, GameDetail::class.java)
-            intent.putExtra("appId",game.appId)
+            intent.putExtra("appId",game.steamAppId)
             intent.putExtra("headerImage",game.headerImage)
             intent.putExtra("backgroundImage",game.backgroundImage)
             startActivity(it.context, intent, null)

@@ -1,6 +1,5 @@
 package com.example.android_steam_like.components
 
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView

@@ -7,14 +7,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.android_steam_like.entities.User
+import com.example.android_steam_like.entities.RecPassword
+import com.example.android_steam_like.entities.ResPassword
 import com.example.android_steam_like.utils.CustomSteamAPI
 import com.example.android_steam_like.utils.GenericAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 
 class ForgottenPassword : AppCompatActivity() {
     private var emailInput: EditText? = null
@@ -35,7 +34,7 @@ class ForgottenPassword : AppCompatActivity() {
         setResetPasswordListener()
     }
 
-    private fun setToken (res: CustomSteamAPI.RecPassword) {
+    private fun setToken (res: RecPassword) {
         this.tokenInput?.setText(res.token, TextView.BufferType.EDITABLE)
         displayPasswordResetInputs()
     }
@@ -57,7 +56,7 @@ class ForgottenPassword : AppCompatActivity() {
             val token = this.tokenInput?.text.toString()
             val passwordVerification = this.passwordVerifInput?.text.toString()
             if (token != "" && this.password != "" && passwordVerification == this.password) {
-                val body = CustomSteamAPI.ResPassword(token, password)
+                val body = ResPassword(token, password)
                 GlobalScope.launch(Dispatchers.Main) {
                     GenericAPI.call(CustomSteamAPI.NetworkRequest::resetPassword, body, ::backToLogin)
                 }

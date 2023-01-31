@@ -1,84 +1,14 @@
 package com.example.android_steam_like.utils
-import com.example.android_steam_like.entities.User
-import com.google.gson.annotations.SerializedName
+import com.example.android_steam_like.entities.*
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
+import layout.AddWishLikeListBody
+import layout.WishLikeData
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.PATCH
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 class CustomSteamAPI {
-    data class GameData(
-        val name: String,
-        val publishers: List<String>,
-        val priceInCents: Double,
-        val steamAppid: Int,
-        val headerImage: String,
-        val description: String?,
-        val backgroundImage: String?,
-        val screenshots: MutableList<String>,
-    )
-
-    data class GameResponse(
-        val rank: Int,
-        val appId: Int,
-        val gameData: GameData
-    )
-
-    data class comment(
-        val author: String,
-        val score: String,
-        val content: String,
-    )
-
-
-    data class WishLikeData(
-        val _id: String,
-        val appid: String,
-        val user: String,
-        val gameData: GameData?
-    )
-
-
-    data class Sprites(
-        @SerializedName("back_default")
-        val backDefault: String,
-    )
-
-    data class AddWishLikeListBody(
-        val user: String,
-        val appid: String
-    )
-
-    data class UserCredentials(
-        val email: String,
-        val password: String
-    )
-
-    data class UserSignupBody(
-        val username: String,
-        val email: String,
-        val password: String
-    )
-
-    data class RecPassword(
-        val token: String
-    )
-
-    data class ResPassword(
-        val token: String,
-        val password: String
-    )
-
-    data class Password(
-        val password: String
-    )
 
     interface SteamCustomAPI {
         @GET("game/top100")
@@ -88,7 +18,7 @@ class CustomSteamAPI {
         fun getGameById(@Path("appId") appId: String): Deferred<GameData>
 
         @GET("comment/{appId}")
-        fun getComment(@Path("appId") appId: String): Deferred<MutableList<comment>>
+        fun getComment(@Path("appId") appId: String): Deferred<MutableList<Comment>>
 
         @GET("wishlist/{userId}")
         fun getWishList(
@@ -134,17 +64,17 @@ class CustomSteamAPI {
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build()
-            .create(CustomSteamAPI.SteamCustomAPI::class.java)
+            .create(SteamCustomAPI::class.java)
 
-        suspend fun getGameTop100(x: Any? = null): MutableList<CustomSteamAPI.GameResponse> {
+        suspend fun getGameTop100(x: Any? = null): MutableList<GameResponse> {
             return api.getGame().await()
         }
 
-        suspend fun getGameById(appId: String): CustomSteamAPI.GameData {
+        suspend fun getGameById(appId: String): GameData {
             return api.getGameById(appId).await()
         }
 
-        suspend fun getGameCommentById(appId: String): List<comment>{
+        suspend fun getGameCommentById(appId: String): List<Comment>{
             return api.getComment(appId).await()
         }
 

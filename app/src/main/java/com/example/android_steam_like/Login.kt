@@ -7,14 +7,13 @@ import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import com.example.android_steam_like.entities.User
+import com.example.android_steam_like.entities.UserCredentials
 import com.example.android_steam_like.utils.CustomSteamAPI
 import com.example.android_steam_like.utils.GenericAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 
 class Login : AppCompatActivity() {
     private var email: String = ""
@@ -43,7 +42,7 @@ class Login : AppCompatActivity() {
     private fun setLoginListener () {
         findViewById<Button>(R.id.login_button).setOnClickListener {
             if (this.email != "" && this.password != "") {
-                val userCredentials = CustomSteamAPI.UserCredentials(email, password)
+                val userCredentials = UserCredentials(email, password)
                 GlobalScope.launch(Dispatchers.Main) {
                     GenericAPI.call(CustomSteamAPI.NetworkRequest::login, userCredentials, ::login)
                 }
