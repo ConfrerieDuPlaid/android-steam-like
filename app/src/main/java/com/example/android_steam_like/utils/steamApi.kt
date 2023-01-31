@@ -9,6 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -51,6 +52,11 @@ class steamApi {
         val backDefault: String,
     )
 
+    data class WishListBody(
+        val user: String,
+        val appid: String
+    )
+
     interface PokemonAPI {
         @GET("game/top100")
         fun getGame(): Deferred<MutableList<GameResponse>>
@@ -72,7 +78,7 @@ class steamApi {
         fun removeFromWishlist(@Path("id") id: String): Deferred<Int>
 
         @POST("wishlist")
-        fun addToWishList(@Body body: JSONObject): Deferred<WishListData>
+        fun addToWishList(@Body body: WishListBody): Deferred<WishListData>
     }
 
     object NetworkRequest {
@@ -105,7 +111,7 @@ class steamApi {
         }
 
         suspend fun addToWishList(id: String): WishListData{
-            val body = JSONObject(mapOf("user" to User.getInstance()!!.id, "appid" to id))
+            val body = WishListBody(User.getInstance()!!.id, id)
             return api.addToWishList(body).await()
         }
     }
