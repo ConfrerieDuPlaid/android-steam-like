@@ -6,12 +6,15 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.android_steam_like.Login$LoginFragment"
+        android:name="com.example.android_steam_like.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_signinFragment"
             app:destination="@id/signinFragment"
             />
+        <action
+            android:id="@+id/action_loginFragment_to_forgottenPassword"
+            app:destination="@id/forgottenPassword" />
     </fragment>
     <fragment
         android:id="@+id/signinFragment"
@@ -22,6 +25,14 @@
             app:argType="string" />
         <argument
             android:name="password"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgottenPassword"
+        android:name="com.example.android_steam_like.ForgottenPassword"
+        android:label="ForgottenPassword" >
+        <argument
+            android:name="email"
             app:argType="string" />
     </fragment>
 </navigation>
