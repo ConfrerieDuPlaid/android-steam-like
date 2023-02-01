@@ -7,62 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".Signin">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/top_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="50dp"/>
-
-    <TextView
-        android:id="@+id/subscribe"
-        style="@style/Title"
-        android:text="@string/signup"
-        app:layout_constraintTop_toTopOf="@id/top_guideline"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/signin_container"
+        app:defaultNavHost="true"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:navGraph="@navigation/app_nav"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         />
-
-    <TextView
-        android:id="@+id/welcome_message"
-        style="@style/Subtitle"
-        android:text="@string/label_signin"
-        app:layout_constraintTop_toBottomOf="@+id/subscribe"
-        />
-
-    <EditText
-        android:id="@+id/username"
-        style="@style/TextInput"
-        android:layout_marginTop="50dp"
-        android:hint="@string/username"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_message"
-        />
-
-    <EditText
-        android:id="@+id/user_email"
-        style="@style/EmailInput"
-        android:hint="@string/email"
-        app:layout_constraintTop_toBottomOf="@+id/username"
-        />
-
-    <EditText
-        android:id="@+id/user_password"
-        style="@style/PasswordInput"
-        android:hint="@string/password"
-        app:layout_constraintTop_toBottomOf="@+id/user_email"
-        />
-
-    <EditText
-        android:id="@+id/user_password_verification"
-        style="@style/PasswordInput"
-        android:hint="@string/password"
-        app:layout_constraintTop_toBottomOf="@+id/user_password"
-        />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/signin_button"
-        style="@style/LargeAccentActionButton"
-        android:text="@string/signin"
-        app:layout_constraintTop_toBottomOf="@+id/user_password"
-        />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
