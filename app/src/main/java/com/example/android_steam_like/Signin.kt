@@ -17,19 +17,15 @@ import com.example.android_steam_like.utils.GenericAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-
-class Signin : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.signin)
-        supportActionBar?.hide()
-
-//        supportFragmentManager.beginTransaction()
-//            .replace(R.id.signin_container, SigninFragment())
-//            .commit()
-    }
-}
+//
+//class Signin : AppCompatActivity() {
+//
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContentView(R.layout.signin)
+//        supportActionBar?.hide()
+//    }
+//}
 
 class SigninFragment: Fragment() {
     private var usernameInput: EditText? = null
@@ -51,7 +47,6 @@ class SigninFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setDataFromIntent(view)
         setSigninListener(view)
-
     }
 
     private fun setDataFromIntent (view: View) {
@@ -59,11 +54,8 @@ class SigninFragment: Fragment() {
         this.emailInput = view.findViewById(R.id.user_email)
         this.passwordInput = view.findViewById(R.id.user_password)
         this.passwordVerifInput = view.findViewById(R.id.user_password_verification)
-//            if (this.intent.hasExtra("email")) {
-//                this.email = this.intent.getStringExtra("email")!!
-//            }
-//            if (this.intent.hasExtra("password"))
-//                this.password = this.intent.getStringExtra("password")!!
+        this.email = arguments?.getString("email").toString()
+        this.password = arguments?.getString("password").toString()
         if (this.email != "") {
             this.emailInput?.setText(email, TextView.BufferType.EDITABLE)
         }

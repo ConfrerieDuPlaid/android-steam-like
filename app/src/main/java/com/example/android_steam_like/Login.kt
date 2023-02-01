@@ -9,11 +9,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import com.example.android_steam_like.databinding.LoginBinding
+import com.example.android_steam_like.databinding.LoginFragmentBinding
 import com.example.android_steam_like.entities.User
 import com.example.android_steam_like.entities.UserCredentials
 import com.example.android_steam_like.utils.CustomSteamAPI
@@ -36,7 +39,7 @@ class Login : AppCompatActivity() {
     }
 
     class LoginFragment: Fragment () {
-
+        private lateinit var binding: LoginFragmentBinding
         private var email: String = ""
         private var password: String = ""
 
@@ -45,15 +48,12 @@ class Login : AppCompatActivity() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
         ): View? {
-            return LayoutInflater.from(requireContext()).inflate(R.layout.login_fragment, container, false)
+            binding = LoginFragmentBinding.inflate(inflater, container, false)
+            return binding.root
         }
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
-        val navController = Navigation.findNavController(view)
-        println(navController)
-
-        println(findNavController())
             setNavLinks(view)
             setLoginListener(view)
             setInputListeners(view)
@@ -104,14 +104,15 @@ class Login : AppCompatActivity() {
         private fun setNavLinks (view: View) {
             view.findViewById<Button>(R.id.new_account_button).setOnClickListener {
                 findNavController().navigate(
-                    `Login$LoginFragmentDirections`.actionLoginFragmentToSigninFragment()
+                    R.id.signinFragment,
+                    bundleOf("email" to email, "password" to password)
                 )
-//                intent = Intent(this, Signin::class.java)
-//                if (email != "") intent.putExtra("email", email)
-//                if (password != "") intent.putExtra("password", password)
-//                startActivity(intent)
             }
             view.findViewById<Button>(R.id.forgotten_password_button).setOnClickListener {
+                findNavController().navigate(
+                    R.id.signinFragment,
+                    bundleOf("email" to email, "password" to password)
+                )
 //                intent = Intent(this, ForgottenPassword::class.java)
 //                if (email != "") intent.putExtra("email", email)
 //                startActivity(intent)
