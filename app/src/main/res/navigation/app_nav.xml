@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_nav"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.android_steam_like.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_signinFragment"
+            app:destination="@id/signinFragment"
+            />
+        <action
+            android:id="@+id/action_loginFragment_to_forgottenPassword"
+            app:destination="@id/forgottenPassword" />
+        <action
+            android:id="@+id/action_loginFragment_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
+    <fragment
+        android:id="@+id/signinFragment"
+        android:name="com.example.android_steam_like.SigninFragment"
+        android:label="SigninFragment" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_signinFragment_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgottenPassword"
+        android:name="com.example.android_steam_like.ForgottenPassword"
+        android:label="ForgottenPassword" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/home2"
+        android:name="com.example.android_steam_like.Home"
+        android:label="Home" >
+        <action
+            android:id="@+id/action_home2_to_gameDetail"
+            app:destination="@id/gameDetail" />
+        <action
+            android:id="@+id/action_gameDetail_to_wishList"
+            app:destination="@id/wishList" />
+        <action
+            android:id="@+id/action_gameDetail_to_likeList"
+            app:destination="@id/likeList" />
+        <action
+            android:id="@+id/action_home2_to_searchGameList"
+            app:destination="@id/searchGameList" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameDetail"
+        android:name="com.example.android_steam_like.GameDetail"
+        android:label="GameDetail" >
+        <argument
+            android:name="appid"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/wishList"
+        android:name="com.example.android_steam_like.WishList"
+        android:label="wishlist"
+        tools:layout="@layout/wishlist" />
+    <fragment
+        android:id="@+id/likeList"
+        android:name="com.example.android_steam_like.LikeList"
+        android:label="likelist"
+        tools:layout="@layout/likelist" />
+    <fragment
+        android:id="@+id/searchGameList"
+        android:name="com.example.android_steam_like.SearchGameList"
+        android:label="search_game_list"
+        tools:layout="@layout/search_game_list" >
+        <argument android:name="searchStr"
+            app:argType="string" />
+    </fragment>
+</navigation>

@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/top_guideline"
@@ -12,17 +13,17 @@
         app:layout_constraintGuide_begin="50dp"/>
 
     <TextView
-        android:id="@+id/subscribe"
+        android:id="@+id/welcome"
         style="@style/Title"
-        android:text="@string/forgotten_password"
+        android:text="@string/welcome"
         app:layout_constraintTop_toTopOf="@id/top_guideline"
         />
 
     <TextView
         android:id="@+id/welcome_message"
         style="@style/Subtitle"
-        android:text="@string/label_enter_email"
-        app:layout_constraintTop_toBottomOf="@+id/subscribe"
+        android:text="@string/label_welcome"
+        app:layout_constraintTop_toBottomOf="@+id/welcome"
         />
 
     <EditText
@@ -33,39 +34,31 @@
         />
 
     <EditText
-        android:id="@+id/token"
-        style="@style/TextInput"
-        android:hint="@string/token"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_message"
-        />
-
-    <EditText
         android:id="@+id/user_password"
         style="@style/PasswordInput"
         android:hint="@string/password"
         app:layout_constraintTop_toBottomOf="@+id/user_email"
         />
 
-    <EditText
-        android:id="@+id/user_password_verification"
-        style="@style/PasswordInput"
-        android:hint="@string/password"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/login_button"
+        style="@style/LargeAccentActionButton"
+        android:text="@string/login"
         app:layout_constraintTop_toBottomOf="@+id/user_password"
         />
 
-
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/request_token_button"
-        style="@style/LargeAccentActionButton"
-        android:text="@string/reset_password"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_message"
+        android:id="@+id/new_account_button"
+        style="@style/LargeActionButton"
+        android:background="@drawable/button"
+        android:text="@string/create_account"
+        app:layout_constraintTop_toBottomOf="@+id/login_button"
         />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/reset_password_button"
-        style="@style/LargeAccentActionButton"
-        android:text="@string/reset"
-        app:layout_constraintTop_toBottomOf="@+id/user_password"
-        />
+        android:id="@+id/forgotten_password_button"
+        style="@style/LargeNoAccentActionButton"
+        android:text="@string/forget_password"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -51,9 +51,9 @@ class CommentViewHolder(v: View) : RecyclerView.ViewHolder(v) {
     )
 
     fun updateComment(Comment: Comment) {
-        username.text = Comment.username
+        username.text = Comment.author
         content.text = Comment.content
-        val intScore = ((Comment.score * 100) % 5).toInt()
+        val intScore = ((Comment.score.toDouble() * 100) % 5).toInt()
         for (i in 0 until intScore) {
             stars[i].setImageResource(R.drawable.star_full)
         }

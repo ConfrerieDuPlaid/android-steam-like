@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/top_guideline"
@@ -14,29 +15,30 @@
     <TextView
         android:id="@+id/subscribe"
         style="@style/Title"
-        android:text="@string/forgotten_password"
+        android:text="@string/signup"
         app:layout_constraintTop_toTopOf="@id/top_guideline"
         />
 
     <TextView
         android:id="@+id/welcome_message"
         style="@style/Subtitle"
-        android:text="@string/label_enter_email"
+        android:text="@string/label_signin"
         app:layout_constraintTop_toBottomOf="@+id/subscribe"
+        />
+
+    <EditText
+        android:id="@+id/username"
+        style="@style/TextInput"
+        android:layout_marginTop="50dp"
+        android:hint="@string/username"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_message"
         />
 
     <EditText
         android:id="@+id/user_email"
         style="@style/EmailInput"
         android:hint="@string/email"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_message"
-        />
-
-    <EditText
-        android:id="@+id/token"
-        style="@style/TextInput"
-        android:hint="@string/token"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_message"
+        app:layout_constraintTop_toBottomOf="@+id/username"
         />
 
     <EditText
@@ -53,19 +55,12 @@
         app:layout_constraintTop_toBottomOf="@+id/user_password"
         />
 
-
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/request_token_button"
+        android:id="@+id/signin_button"
         style="@style/LargeAccentActionButton"
-        android:text="@string/reset_password"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_message"
-        />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/reset_password_button"
-        style="@style/LargeAccentActionButton"
-        android:text="@string/reset"
+        android:text="@string/signin"
         app:layout_constraintTop_toBottomOf="@+id/user_password"
         />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,72 +1,101 @@
 package com.example.android_steam_like
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.android_steam_like.databinding.SigninFragmentBinding
 import com.example.android_steam_like.entities.User
-import com.example.android_steam_like.utils.HttpRequest
-import org.json.JSONObject
+import com.example.android_steam_like.entities.UserSignupBody
+import com.example.android_steam_like.utils.CustomSteamAPI
+import com.example.android_steam_like.utils.GenericAPI
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-class Signin : AppCompatActivity() {
-    private var usernameInput: EditText? = null
-    private var emailInput: EditText? = null
-    private var passwordInput: EditText? = null
-    private var passwordVerifInput: EditText? = null
+class SigninFragment: Fragment() {
+    private lateinit var binding: SigninFragmentBinding
+    private var username: String = ""
     private var email: String = ""
     private var password: String = ""
+    private var passwordVerif: String = ""
 
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.signin)
-        supportActionBar?.hide()
+    override fun onStop() {
+        super.onStop()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+    }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = SigninFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setDataFromIntent()
         setSigninListener()
     }
 
     private fun setDataFromIntent () {
-        this.usernameInput = findViewById(R.id.username)
-        this.emailInput = findViewById(R.id.user_email)
-        this.passwordInput = findViewById(R.id.user_password)
-        this.passwordVerifInput = findViewById(R.id.user_password_verification)
-        if (this.intent.hasExtra("email")) {
-            this.email = this.intent.getStringExtra("email")!!
+        email = arguments?.getString("email").toString()
+        password = arguments?.getString("password").toString()
+        if (email != "") {
+            binding.userEmail.setText(email, TextView.BufferType.EDITABLE)
         }
-        if (this.intent.hasExtra("password"))
-            this.password = this.intent.getStringExtra("password")!!
-        if (this.email != "") {
-            this.emailInput?.setText(email, TextView.BufferType.EDITABLE)
-        }
-        if (this.password != "") {
-            this.passwordInput?.setText(password, TextView.BufferType.EDITABLE)
-            this.passwordVerifInput?.setText(password, TextView.BufferType.EDITABLE)
+        if (password != "") {
+            binding.userPassword.setText(password, TextView.BufferType.EDITABLE)
+            binding.userPasswordVerification.setText(password, TextView.BufferType.EDITABLE)
         }
     }
 
-    private fun signin (res: String) {
-        User.setInstanceFromJson(JSONObject(res))
-        intent = Intent(this, Home::class.java)
-        startActivity(intent)
-    }
-
-    private fun signinFail (code: Int) {
-        println(code)
+    private fun signin (res: User) {
+        User.setInstance(res)
+        findNavController().navigate(R.id.home2)
     }
 
     private fun setSigninListener () {
-        findViewById<Button>(R.id.signin_button).setOnClickListener {
-            val username = usernameInput?.text.toString()
-            email = emailInput?.text.toString()
-            password = passwordInput?.text.toString()
-            val passwordVerif = passwordVerifInput?.text.toString()
+        binding.signinButton.setOnClickListener {
+            username = binding.username.text.toString()
+            email = binding.userEmail.text.toString()
+            password = binding.userPassword.text.toString()
+            passwordVerif = binding.userPasswordVerification.text.toString()
 
             if (username != "" && email != "" && password != "" && password == passwordVerif) {
-                User.signin(username, email, password, this::signin, this::signinFail)
+                val userCredentials = UserSignupBody(username, email, password)
+                GlobalScope.launch(Dispatchers.Main) {
+                    GenericAPI.call(CustomSteamAPI.NetworkRequest::signup, userCredentials, ::signin)
+                }
+            } else {
+                setWarningInputOutlines()
             }
+        }
+    }
+
+    private fun setWarningInputOutlines () {
+        if (username == "") {
+            binding.username.setBackgroundResource(R.drawable.warning_outline)
+        }
+        if (email == "") {
+            binding.userEmail.setBackgroundResource(R.drawable.warning_outline)
+        }
+        if (password == ""){
+            binding.userPassword.setBackgroundResource(R.drawable.warning_outline)
+        }
+        if (passwordVerif == ""){
+            binding.userPasswordVerification.setBackgroundResource(R.drawable.warning_outline)
         }
     }
 }

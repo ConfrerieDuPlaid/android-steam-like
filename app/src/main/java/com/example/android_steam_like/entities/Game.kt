@@ -1,41 +1,51 @@
 package com.example.android_steam_like.entities
 
-import com.example.android_steam_like.utils.HttpRequest
-import com.example.android_steam_like.utils.ServerConfig
-import org.json.JSONObject
+
+data class GameData(
+    val name: String,
+    val publishers: List<String>,
+    val priceInCents: Double,
+    val steamAppid: Int,
+    val headerImage: String,
+    val description: String?,
+    val backgroundImage: String?,
+    val screenshots: MutableList<String>,
+)
 
 class Game(
     val name: String,
-    val editors: String,
-    val price: Double,
-    val appId: String,
+    val publishers: String,
+    val priceInCents: Double?,
+    val steamAppId: String,
     val headerImage: String,
     val description: String?,
     val backgroundImage: String?,
     val screenshots: MutableList<String>
 ) {
+
+    fun price (): Double {
+        return priceInCents ?: 0.0;
+    }
+
     fun displayPrice (): String {
-        return if (this.price > 0.0)
-            "Prix : ${this.price} €"
+        return if (this.price() > 0.0)
+            "Prix : ${this.price()} €"
         else "Gratuit"
     }
 
     companion object {
-        private val gameEndpoint: String = ServerConfig.baseURL() + "/game"
-        private val top100Endpoint: String = "$gameEndpoint/top100"
-        private val searchEndpoint: String = "https://steamcommunity.com/actions/SearchApps"
 
-        fun newFromGameData(data: JSONObject): Game {
-            val gameName = data.getString("name")
-            val editors = data.getJSONArray("publishers").join(", ").replace("\"", "")
-            val price = data.getString("priceInCents").toDouble() / 100.0
-            val appId = data.getInt("steamAppid").toString()
-            val headerImage = data.getString("headerImage")
-            val description = data.getString("description")
-            val backgroundImage = data.getString("backgroundImage")
-            val screenshotsJson = data.getJSONArray("screenshots")
+        fun newFromGameData(data: GameData): Game {
+            val gameName = data.name
+            val editors = data.publishers.joinToString()
+            val price = data.priceInCents / 100.0
+            val appId = data.steamAppid.toString()
+            val headerImage = data.headerImage
+            val description = data.description
+            val backgroundImage = data.backgroundImage
+            val screenshotsJson = data.screenshots
             val screenshots: MutableList<String> = mutableListOf()
-            for (i in 0 until screenshotsJson.length()) {
+            for (i in 0 until screenshotsJson.size) {
                 screenshots.add(i, screenshotsJson[i].toString())
             }
             return Game(
@@ -49,19 +59,12 @@ class Game(
                 screenshots
             )
         }
-
-        fun getTop100 (callback: (res: String) -> Unit) {
-            HttpRequest(top100Endpoint, callback).start()
-        }
-
-        fun getGameByAppId (appId: String?, callback: (res: String) -> Unit) {
-            HttpRequest("$gameEndpoint/$appId", callback).start()
-        }
-
-        fun getGamesByName (name: String, callback: (res: String) -> Unit) {
-            if (name != "")
-                HttpRequest("$searchEndpoint/$name", callback).start()
-        }
     }
 
 }
+
+data class GameResponse(
+    val rank: Int?,
+    val appId: Int,
+    val gameData: GameData
+)

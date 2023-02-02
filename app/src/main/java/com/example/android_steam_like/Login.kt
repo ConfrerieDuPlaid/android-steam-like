@@ -1,21 +1,25 @@
 package com.example.android_steam_like
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Button
-import android.widget.EditText
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.android_steam_like.databinding.LoginFragmentBinding
 import com.example.android_steam_like.entities.User
-import org.json.JSONObject
+import com.example.android_steam_like.entities.UserCredentials
+import com.example.android_steam_like.utils.CustomSteamAPI
+import com.example.android_steam_like.utils.GenericAPI
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class Login : AppCompatActivity() {
-    private var email: String = ""
-    private var password: String = ""
-
-    //todo : retirer la navbar
     //todo : message d'erreur on login fail
     //todo : surligner champs vides onclick login
 
@@ -23,32 +27,73 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
         supportActionBar?.hide()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, LoginFragment())
+            .commit()
+    }
+}
 
+class LoginFragment: Fragment () {
+    private lateinit var binding: LoginFragmentBinding
+    private var email: String = ""
+    private var password: String = ""
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = LoginFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setNavLinks()
         setLoginListener()
         setInputListeners()
     }
 
-    private fun login (res: String) {
-        User.setInstanceFromJson(JSONObject(res))
-        intent = Intent(this, Home::class.java)
-        startActivity(intent)
-    }
-
-    private fun failLogin (code: Int) {
-        println("Identifiants invalides !")
+    private fun login (res: User) {
+        User.setInstance(res)
+        findNavController().navigate(R.id.home2)
     }
 
     private fun setLoginListener () {
-        findViewById<Button>(R.id.login_button).setOnClickListener {
-            if (this.email != "" && this.password != "") {
-                User.login(email, password, this::login, this::failLogin)
+        binding.loginButton.setOnClickListener {
+            if (email != "" && password != "") {
+                val userCredentials = UserCredentials(email, password)
+                GlobalScope.launch(Dispatchers.Main) {
+                    GenericAPI.call(CustomSteamAPI.NetworkRequest::login, userCredentials, ::login)
+                }
+            } else {
+                setWarningInputOutlines()
             }
         }
     }
 
+    private fun setWarningInputOutlines () {
+        if (email == "") {
+            binding.userEmail.setBackgroundResource(R.drawable.warning_outline)
+        }
+        if (password == ""){
+            binding.userPassword.setBackgroundResource(R.drawable.warning_outline)
+        }
+    }
+
     private fun setInputListeners () {
-        findViewById<EditText>(R.id.user_email).addTextChangedListener(object : TextWatcher {
+        binding.userEmail.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -58,7 +103,7 @@ class Login : AppCompatActivity() {
                 email = s.toString()
             }
         })
-        findViewById<EditText>(R.id.user_password).addTextChangedListener(object : TextWatcher {
+        binding.userPassword.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -71,16 +116,17 @@ class Login : AppCompatActivity() {
     }
 
     private fun setNavLinks () {
-        findViewById<Button>(R.id.new_account_button).setOnClickListener {
-            intent = Intent(this, Signin::class.java)
-            if (email != "") intent.putExtra("email", email)
-            if (password != "") intent.putExtra("password", password)
-            startActivity(intent)
+        binding.newAccountButton.setOnClickListener {
+            findNavController().navigate(
+                R.id.signinFragment,
+                bundleOf("email" to email, "password" to password)
+            )
         }
-        findViewById<Button>(R.id.forgotten_password_button).setOnClickListener {
-            intent = Intent(this, ForgottenPassword::class.java)
-            if (email != "") intent.putExtra("email", email)
-            startActivity(intent)
+        binding.forgottenPasswordButton.setOnClickListener {
+            findNavController().navigate(
+                R.id.forgottenPassword,
+                bundleOf("email" to email)
+            )
         }
     }
 }

@@ -8,6 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#FF222741</color>
-    <color name="background">#1A2025</color>
+    <color name="background">#FF1A2025</color>
     <color name="button_purple">#636AF6</color>
+    <color name="lavender">#FF5D63DE</color>
+    <color name="warning">#FFFF004F</color>
+    <color name="star">#FFF5A623</color>
+    <color name="grey">#FF1E262C</color>
+    <color name="transparent">#00000000</color>
 </resources>

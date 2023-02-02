@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/scroll_view"
-    tools:context=".MainActivity"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background">
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,47 +28,32 @@
 
             <EditText
                 android:id="@+id/search_bar"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:background="@drawable/edit_text_shape"
+                style="@style/TextInput"
                 android:layout_marginTop="50dp"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:hint="Rechercher un jeu..."
-                android:layout_marginEnd="35dp"
-                android:layout_marginStart="35dp"
-                android:paddingStart="15dp"
-                android:paddingEnd="15dp"
+                android:background="@drawable/edit_text_shape"
+                android:hint="@string/search"
+                android:gravity=""
                 android:imeOptions="actionDone"
-                android:singleLine="true"
                 android:drawableRight="@drawable/search"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 />
 
 
             <ImageView
                 android:id="@+id/game_image"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                style="@style/BannerImage"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/stickies"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/search_bar"
                 app:layout_constraintBottom_toTopOf="@+id/list_guide_line"/>
 
 
             <TextView
                 android:id="@+id/game_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                style="@style/CardMainText"
                 android:layout_marginTop="51dp"
-                android:text="Titan Fall 2 Ultimate edition"
-                android:textColor="@color/white"
+                android:text="@string/example_game_name"
                 android:textSize="20sp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/text_guide_line"
                 app:layout_constraintTop_toTopOf="@+id/game_image"
                 app:layout_constraintRight_toRightOf="@+id/jacket"
@@ -76,11 +61,11 @@
 
             <TextView
                 android:id="@+id/game_desc"
+                style="@style/Text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Une description d'un jeu mis en avant (peut être écris en dur)"
-                android:textColor="@color/white"
+                android:text="@string/example_game_desc"
                 app:layout_constraintEnd_toStartOf="@+id/jacket"
                 app:layout_constraintStart_toStartOf="@+id/text_guide_line"
                 app:layout_constraintTop_toBottomOf="@+id/game_title" />
@@ -97,18 +82,11 @@
                 android:contentDescription="cover image" />
 
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/know_more"
-                android:layout_width="162dp"
-                android:layout_height="0dp"
-                android:background="@drawable/button_home_shape"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:backgroundTint="#5D63DE"
-                android:fontFamily="@font/proxima_nova_font"
-                android:text="En savoir plus"
-                android:textSize="10sp"
-                android:textColor="@color/white"
+                style="@style/NarrowAccentActionButton"
+                android:layout_width="140dp"
+                android:text="@string/more_info"
                 app:layout_constraintBottom_toBottomOf="@+id/game_image"
                 app:layout_constraintStart_toStartOf="@+id/text_guide_line"
                 app:layout_constraintTop_toBottomOf="@+id/game_desc" />
@@ -116,10 +94,7 @@
             <include
                 android:id="@+id/game_list"
                 layout="@layout/default_list"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintEnd_toEndOf="@+id/game_image"
-                app:layout_constraintStart_toStartOf="@+id/game_image"
+                style="@style/GamesList"
                 app:layout_constraintTop_toBottomOf="@+id/game_image"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

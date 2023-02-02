@@ -1,54 +1,75 @@
 package com.example.android_steam_like
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.android_steam_like.components.ActionBar
+import com.example.android_steam_like.databinding.WishlistBinding
 import com.example.android_steam_like.entities.Game
-import layout.Wish
-import org.json.JSONArray
+import com.example.android_steam_like.utils.CustomSteamAPI
+import com.example.android_steam_like.utils.GenericAPI
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import layout.WishLikeData
 
-class WishList : AppCompatActivity() {
+class WishList : Fragment() {
+    private lateinit var binding: WishlistBinding
+    private lateinit var actionBar: androidx.appcompat.app.ActionBar
     private val wishes: MutableList<Game> = mutableListOf()
     private val listAdapter = ListAdapter(wishes)
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.wishlist)
 
-        val list = findViewById<RecyclerView>(R.id.game_list);
-        list.visibility  = View.GONE
-
-        if (wishes.isEmpty())
-            Wish.getUserWishlist(this::addGame)
-
-        val listAdapter = ListAdapter(wishes);
-        findViewById<RecyclerView>(R.id.game_list).apply {
-            layoutManager = LinearLayoutManager(this@WishList)
-            adapter = listAdapter;
-        };
+    override fun onResume() {
+        super.onResume()
+        actionBar = (activity as AppCompatActivity?)!!.supportActionBar!!
+        ActionBar.setActionBarTitle(actionBar.customView, resources.getString(R.string.wishlist))
+        ActionBar.hideUserActionButtons(actionBar.customView)
     }
 
-    private fun addGame(res: String){
-        val gameJson = JSONArray(res)
-        this@WishList.runOnUiThread {
-            for (i in 0 until gameJson.length()) {
-                try{
-                    val game = gameJson.getJSONObject(i).getJSONObject("gameData")
-                    val newGame = Game.newFromGameData(game)
-                    this.wishes.add(newGame)
-                    listAdapter.notifyItemInserted(wishes.size + 1)
-                } catch (e: Exception){
-                    println(e.message)
-                }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = WishlistBinding.inflate(inflater, container, false)
+        setupAdapter()
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        GlobalScope.launch(Dispatchers.Main) {
+            getWishList()
+        }
+    }
+
+    private fun setupAdapter(){
+        val linearLayoutManager = LinearLayoutManager(context)
+        binding.gameList.list.layoutManager = linearLayoutManager
+        binding.gameList.list.adapter = listAdapter
+    }
+
+    private suspend fun getWishList() {
+        GenericAPI.call(CustomSteamAPI.NetworkRequest::getWihList, 0, this::addGame)
+    }
+
+    private fun addGame(res: List<WishLikeData>){
+        GlobalScope.launch(Dispatchers.Main) {
+            for (element in res) {
+                val game = element.gameData!!
+                val newGame = Game.newFromGameData(game)
+                wishes.add(newGame)
+                listAdapter.notifyItemInserted(wishes.size + 1)
             }
-            if (this.wishes.isNotEmpty()) {
-                findViewById<RecyclerView>(R.id.game_list).visibility = View.VISIBLE
-                findViewById<TextView>(R.id.empty_wish_text).visibility = View.GONE;
-                findViewById<ImageView>(R.id.wish_image).visibility = View.GONE;
+            if (wishes.isNotEmpty()) {
+                binding.gameList.list.visibility = View.VISIBLE
+                binding.emptyWishText.visibility = View.GONE;
+                binding.wishImage.visibility = View.GONE;
             }
         }
     }
