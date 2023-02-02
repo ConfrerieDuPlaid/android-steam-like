@@ -52,6 +52,9 @@ class GameDetail : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setImages()
         appId = requireArguments().getString("appid", "1237970")
+
+        setOnClickButton()
+
         GlobalScope.launch(Dispatchers.Main) {
             getGameById(appId)
 //            withContext(Dispatchers.Main) {
@@ -73,7 +76,6 @@ class GameDetail : Fragment() {
 //                e.printStackTrace()
 //            }
         }
-        setOnClickButton()
         binding.progressCircular.visibility = View.GONE
         binding.gameComments.commentsList.visibility  = View.GONE
     }
@@ -85,7 +87,30 @@ class GameDetail : Fragment() {
     }
 
     private suspend fun getGameById(appId: String) {
-        GenericAPI.call(CustomSteamAPI.NetworkRequest::getGameById, appId, this::displayDetail)
+        try {
+            GenericAPI.call(CustomSteamAPI.NetworkRequest::getGameById, appId, this::displayDetail)
+            withContext(Dispatchers.Main) {
+                binding.errors.visibility = View.GONE
+                binding.reload.visibility = View.GONE
+            }
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                binding.errors.visibility = View.VISIBLE
+                binding.reload.visibility = View.VISIBLE
+                binding.errors.text = e.localizedMessage
+
+                binding.reload.setOnClickListener {
+                    GlobalScope.launch(Dispatchers.Main) {
+                        getGameById(appId);
+                        withContext(Dispatchers.Main){
+                            binding.errors.visibility = View.GONE
+                            binding.reload.visibility = View.GONE
+                        }
+                    }
+                }
+
+            }
+        }
     }
 
     private fun setImages() {
@@ -129,8 +154,11 @@ class GameDetail : Fragment() {
 
     private fun addOpinions(res: List<Comment>) {
         GlobalScope.launch(Dispatchers.IO) {
+            println("je suis dans addOpinions")
             for (element in res) {
                 withContext(Dispatchers.Main) {
+                    binding.errors.visibility = View.GONE
+                    binding.reload.visibility = View.GONE
                     comments.add(element)
                     listAdapter.notifyItemInserted(comments.size + 1)
                     binding.progressCircular.visibility = View.GONE
@@ -183,35 +211,109 @@ class GameDetail : Fragment() {
     }
 
     private suspend fun getGameComments(appId: String) {
-        GenericAPI.call(CustomSteamAPI.NetworkRequest::getGameCommentById, appId, this::addOpinions)
+        try{
+            GenericAPI.call(CustomSteamAPI.NetworkRequest::getGameCommentById, appId, this::addOpinions)
+        } catch (e: Exception) {
+            binding.errors.visibility = View.VISIBLE
+            binding.reload.visibility = View.VISIBLE
+            binding.errors.text = e.localizedMessage
+        }
     }
 
     private suspend fun getWishList() {
-        GenericAPI.call(CustomSteamAPI.NetworkRequest::getWihList, 1, this::setWishButton)
+        try{
+            GenericAPI.call(CustomSteamAPI.NetworkRequest::getWihList, 1, this::setWishButton)
+
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                binding.errors.visibility = View.VISIBLE
+                binding.reload.visibility = View.VISIBLE
+                binding.errors.text = e.localizedMessage
+            }
+        }
     }
 
     private suspend fun removeFromWishlist(wishId: String) {
-        GenericAPI.call(CustomSteamAPI.NetworkRequest::removeFromWishList, wishId, this::unsetWish)
+        try{
+            GenericAPI.call(CustomSteamAPI.NetworkRequest::removeFromWishList, wishId, this::unsetWish)
+            withContext(Dispatchers.Main){
+                binding.errors.visibility = View.GONE
+                binding.reload.visibility = View.GONE
+            }
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                binding.errors.visibility = View.VISIBLE
+                binding.errors.text = e.localizedMessage
+            }
+        }
     }
 
     private suspend fun addToWishList(appId: String) {
-        GenericAPI.call(CustomSteamAPI.NetworkRequest::addToWishList, appId, this::setWish)
+        try{
+            GenericAPI.call(CustomSteamAPI.NetworkRequest::addToWishList, appId, this::setWish)
+            withContext(Dispatchers.Main) {
+                binding.errors.visibility = View.GONE
+                binding.reload.visibility = View.GONE
+            }
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                binding.errors.visibility = View.VISIBLE
+                binding.errors.text = e.localizedMessage
+            }
+        }
     }
 
     private suspend fun getLikeList() {
-        GenericAPI.call(CustomSteamAPI.NetworkRequest::getLikeList, 1, this::setLikeButton)
+        try{
+            GenericAPI.call(CustomSteamAPI.NetworkRequest::getLikeList, 1, this::setLikeButton)
+            withContext(Dispatchers.Main) {
+                binding.errors.visibility = View.GONE
+                binding.reload.visibility = View.GONE
+            }
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                binding.errors.visibility = View.VISIBLE
+                binding.errors.text = e.localizedMessage
+            }
+        }
     }
 
     private suspend fun removeFromLikeList(likeId: String) {
-        GenericAPI.call(CustomSteamAPI.NetworkRequest::removeFromLikeList, likeId, this::unsetLike)
+        try{
+            GenericAPI.call(CustomSteamAPI.NetworkRequest::removeFromLikeList, likeId, this::unsetLike)
+            withContext(Dispatchers.Main) {
+                binding.errors.visibility = View.GONE
+                binding.reload.visibility = View.GONE
+            }
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                binding.errors.visibility = View.VISIBLE
+                binding.errors.text = e.localizedMessage
+            }
+        }
     }
 
     private suspend fun addToLikeList(appId: String) {
-        GenericAPI.call(CustomSteamAPI.NetworkRequest::addToLikeList, appId, this::setLike)
+        try{
+            GenericAPI.call(CustomSteamAPI.NetworkRequest::addToLikeList, appId, this::setLike)
+            withContext(Dispatchers.Main) {
+                binding.errors.visibility = View.GONE
+                binding.reload.visibility = View.GONE
+            }
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                binding.errors.visibility = View.VISIBLE
+                binding.errors.text = e.localizedMessage
+            }
+        }
     }
 
     private fun setWishButton (res: List<WishLikeData>) {
         GlobalScope.launch(Dispatchers.Main) {
+            withContext(Dispatchers.Main){
+                binding.errors.visibility = View.GONE
+                binding.reload.visibility = View.GONE
+            }
             for (element in res) {
                 val wishedAppid: String = element.appid
                 if (wishedAppid == appId) {

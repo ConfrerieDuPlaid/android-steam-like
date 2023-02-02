@@ -68,7 +68,6 @@ class SearchGameList : Fragment() {
                 games.clear()
                 listAdapter.notifyItemRangeRemoved(0, previousContentSize);
 
-
                 GlobalScope.launch(Dispatchers.IO) {
                     GenericAPI.call(CustomSteamAPI.NetworkRequest::searchGamesByName, editText.text.toString(), this@SearchGameList::displayGamesFromHome)
                 }

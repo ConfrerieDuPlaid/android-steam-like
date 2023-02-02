@@ -95,6 +95,23 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/errors"
+        style="@style/TextError"
+        app:layout_constraintTop_toBottomOf="@+id/selection_button"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/reload"
+        style="@style/NarrowAccentActionButton"
+        android:text="@string/reload"
+        android:layout_width="140dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/errors" />
+
+
+    <TextView
         android:id="@+id/description"
         style="@style/LargeText"
         app:layout_constraintBottom_toBottomOf="parent"

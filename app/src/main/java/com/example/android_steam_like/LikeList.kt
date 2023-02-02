@@ -15,6 +15,7 @@ import com.example.android_steam_like.utils.GenericAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import layout.WishLikeData
 
 class LikeList : Fragment() {
@@ -42,10 +43,25 @@ class LikeList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.errors.visibility = View.GONE
+        binding.reload.visibility = View.GONE
+
+        setUpButton()
 
         GlobalScope.launch(Dispatchers.Main) {
             getLikeList()
         }
+    }
+
+    private fun setUpButton() {
+        binding.reload.setOnClickListener {
+            GlobalScope.launch(Dispatchers.Main) {
+                binding.reload.visibility = View.GONE
+                binding.errors.visibility = View.GONE
+                getLikeList()
+            }
+        }
+
     }
 
     private fun setupAdapter(){
@@ -55,7 +71,22 @@ class LikeList : Fragment() {
     }
 
     private suspend fun getLikeList () {
-        GenericAPI.call(CustomSteamAPI.NetworkRequest::getLikeList, 0, this::addGame)
+        binding.homeProgressBar.visibility = View.VISIBLE
+        try{
+            GenericAPI.call(CustomSteamAPI.NetworkRequest::getLikeList, 0, this::addGame)
+            withContext(Dispatchers.Main){
+                binding.reload.visibility = View.GONE
+                binding.errors.visibility = View.GONE
+                binding.homeProgressBar.visibility = View.GONE
+            }
+        }catch (e: Exception){
+            withContext(Dispatchers.Main){
+                binding.reload.visibility = View.VISIBLE
+                binding.errors.visibility = View.VISIBLE
+                binding.errors.text = e.message
+                binding.homeProgressBar.visibility = View.GONE
+            }
+        }
     }
 
     private fun addGame(res: List<WishLikeData>) {

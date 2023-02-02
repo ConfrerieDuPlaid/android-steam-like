@@ -91,10 +91,37 @@
                 app:layout_constraintStart_toStartOf="@+id/text_guide_line"
                 app:layout_constraintTop_toBottomOf="@+id/game_desc" />
 
+            <ProgressBar
+                android:id="@+id/homeProgressBar"
+                android:layout_width="wrap_content"
+                style="@style/GamesList"
+                app:layout_constraintTop_toBottomOf="@+id/game_image"
+                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content">
+            </ProgressBar>
+
+
             <include
                 android:id="@+id/game_list"
                 layout="@layout/default_list"
                 style="@style/GamesList"
                 app:layout_constraintTop_toBottomOf="@+id/game_image"/>
+
+            <TextView
+                android:id="@+id/errors"
+                style="@style/TextError"
+                app:layout_constraintTop_toBottomOf="@+id/game_image"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/reload"
+                style="@style/NarrowAccentActionButton"
+                android:text="@string/reload"
+                android:layout_width="140dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/errors" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+</ScrollView>
