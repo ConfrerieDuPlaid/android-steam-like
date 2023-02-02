@@ -47,6 +47,8 @@ class Home : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.reload.visibility = View.GONE
+        binding.errors.visibility = View.GONE
         GlobalScope.launch(Dispatchers.IO) {
             getGames()
         }
@@ -61,12 +63,27 @@ class Home : Fragment() {
     }
 
     private suspend fun getGames() {
-        GenericAPI.call(CustomSteamAPI.NetworkRequest::getGameTop100, null, this::addGameToList)
+        try {
+            GenericAPI.call(CustomSteamAPI.NetworkRequest::getGameTop100, null, this::addGameToList)
+
+        }catch (e: Exception){
+            withContext(Dispatchers.Main){
+                binding.reload.visibility = View.VISIBLE
+                binding.errors.visibility = View.VISIBLE
+                binding.errors.text = e.message
+                binding.homeProgressBar.visibility = View.GONE
+            }
+        }
     }
 
     private fun addGameToList(res: MutableList<GameResponse>){
         lateinit var newGame: Game
         GlobalScope.launch(Dispatchers.IO) {
+            withContext(Dispatchers.Main){
+                binding.homeProgressBar.visibility = View.GONE
+                binding.reload.visibility = View.GONE
+                binding.errors.visibility = View.GONE
+            }
             for (element in res) {
                 try {
                     newGame = Game.newFromGameData(element.gameData)
@@ -75,7 +92,7 @@ class Home : Fragment() {
                         listAdapter.notifyItemInserted(games.size + 1)
                     }
                 } catch (e: Exception) {
-                    println("$e / $element")
+
                 }
             }
         }
@@ -103,6 +120,12 @@ class Home : Fragment() {
 
             override fun afterTextChanged(s: Editable?) {}
         })
+
+        binding.reload.setOnClickListener {
+            GlobalScope.launch(Dispatchers.IO) {
+                getGames()
+            }
+        }
 
         binding.knowMore.setOnClickListener {
             findNavController().navigate(

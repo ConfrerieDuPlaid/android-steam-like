@@ -80,7 +80,13 @@ class LoginFragment: Fragment () {
             if (this.email != "" && this.password != "") {
                 val userCredentials = UserCredentials(email, password)
                 GlobalScope.launch(Dispatchers.Main) {
-                    GenericAPI.call(CustomSteamAPI.NetworkRequest::login, userCredentials, ::login)
+                    try {
+                        GenericAPI.call(CustomSteamAPI.NetworkRequest::login, userCredentials, ::login)
+                        binding.errors.visibility = View.GONE
+                    }catch (e: Exception){
+                        binding.errors.visibility = View.VISIBLE
+                        binding.errors.text = e.message
+                    }
                 }
             }
         }

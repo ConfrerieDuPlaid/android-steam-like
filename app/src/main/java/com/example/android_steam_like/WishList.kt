@@ -15,6 +15,7 @@ import com.example.android_steam_like.utils.GenericAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import layout.WishLikeData
 
 class WishList : Fragment() {
@@ -36,15 +37,29 @@ class WishList : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = WishlistBinding.inflate(inflater, container, false)
+
         setupAdapter()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.errors.visibility = View.GONE
+        binding.reload.visibility = View.GONE
+
+        setUpButton()
 
         GlobalScope.launch(Dispatchers.Main) {
             getWishList()
+        }
+    }
+
+    private fun setUpButton() {
+        binding.reload.setOnClickListener {
+            binding.homeProgressBar.visibility = View.VISIBLE
+            GlobalScope.launch(Dispatchers.Main) {
+                getWishList()
+            }
         }
     }
 
@@ -55,7 +70,21 @@ class WishList : Fragment() {
     }
 
     private suspend fun getWishList() {
-        GenericAPI.call(CustomSteamAPI.NetworkRequest::getWihList, 0, this::addGame)
+        try{
+            GenericAPI.call(CustomSteamAPI.NetworkRequest::getWihList, 0, this::addGame)
+            withContext(Dispatchers.Main){
+                binding.reload.visibility = View.GONE
+                binding.errors.visibility = View.GONE
+                binding.homeProgressBar.visibility = View.GONE
+            }
+        }catch (e: Exception){
+            withContext(Dispatchers.Main){
+                binding.reload.visibility = View.VISIBLE
+                binding.errors.visibility = View.VISIBLE
+                binding.errors.text = e.message
+                binding.homeProgressBar.visibility = View.GONE
+            }
+        }
     }
 
     private fun addGame(res: List<WishLikeData>){

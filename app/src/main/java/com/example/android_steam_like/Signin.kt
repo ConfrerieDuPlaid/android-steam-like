@@ -74,7 +74,13 @@ class SigninFragment: Fragment() {
             if (username != "" && email != "" && password != "" && password == passwordVerif) {
                 val userCredentials = UserSignupBody(username, email, password)
                 GlobalScope.launch(Dispatchers.Main) {
-                    GenericAPI.call(CustomSteamAPI.NetworkRequest::signup, userCredentials, ::signin)
+                    try {
+                        GenericAPI.call(CustomSteamAPI.NetworkRequest::signup, userCredentials, ::signin)
+                        binding.errors.visibility = View.GONE
+                    }catch (e: Exception){
+                        binding.errors.visibility = View.VISIBLE
+                        binding.errors.text = e.message
+                    }
                 }
             }
         }

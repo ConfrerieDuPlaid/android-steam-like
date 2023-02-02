@@ -40,6 +40,12 @@
         app:layout_constraintTop_toBottomOf="@+id/user_email"
         />
 
+    <TextView
+        android:id="@+id/errors"
+        style="@style/TextError"
+        app:layout_constraintTop_toBottomOf="@+id/user_password"
+        />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/login_button"
         style="@style/LargeAccentActionButton"

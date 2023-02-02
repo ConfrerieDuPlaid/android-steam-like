@@ -55,6 +55,12 @@
         app:layout_constraintTop_toBottomOf="@+id/user_password"
         />
 
+    <TextView
+        android:id="@+id/errors"
+        style="@style/TextError"
+        app:layout_constraintTop_toBottomOf="@+id/user_password_verification"
+        />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signin_button"
         style="@style/LargeAccentActionButton"

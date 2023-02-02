@@ -59,9 +59,24 @@ class ForgottenPassword : Fragment() {
         binding.requestTokenButton.setOnClickListener {
             email = binding.userEmail.text.toString()
             if (email != "") {
-                GlobalScope.launch(Dispatchers.Main) {
-                    GenericAPI.call(CustomSteamAPI.NetworkRequest::requestToken, email, ::setToken)
-                }
+
+                    GlobalScope.launch(Dispatchers.Main) {
+                        try {
+                            GenericAPI.call(
+                                CustomSteamAPI.NetworkRequest::requestToken,
+                                email,
+                                ::setToken
+                            )
+
+                            binding.errors.visibility = View.GONE
+                        } catch (e: Exception) {
+                            println(e)
+                            binding.errors.visibility = View.VISIBLE
+                            binding.errors.text = e.localizedMessage
+                        }
+
+                    }
+
             }
         }
     }
@@ -73,9 +88,20 @@ class ForgottenPassword : Fragment() {
             val passwordVerification = binding.userPasswordVerification.text.toString()
             if (token != "" && this.password != "" && passwordVerification == this.password) {
                 val body = ResPassword(token, password)
-                GlobalScope.launch(Dispatchers.Main) {
-                    GenericAPI.call(CustomSteamAPI.NetworkRequest::resetPassword, body, ::backToLogin)
-                }
+
+                    GlobalScope.launch(Dispatchers.Main) {
+                        try {
+                            GenericAPI.call(CustomSteamAPI.NetworkRequest::resetPassword, body, ::backToLogin)
+                            binding.errors.visibility = View.GONE
+
+                        } catch (e: Exception){
+                            println(e)
+                            binding.errors.visibility = View.VISIBLE
+                            binding.errors.text = e.localizedMessage
+                        }
+                    }
+
+
             }
         }
     }
