@@ -1,6 +1,6 @@
 package com.example.android_steam_like
 
-import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
@@ -11,12 +11,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.android_steam_like.entities.Game
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.net.MalformedURLException
+import java.net.URL
 
 class GameList: AppCompatActivity() {
 
@@ -61,12 +66,25 @@ class GameViewHolder(v: View) : RecyclerView.ViewHolder(v) {
     fun updateGame(game: Game) {
         name.text = game.name
         editorName.text = game.publishers
+
         Glide.with(itemView).load(game.headerImage).into(gameImage)
         val spannable = SpannableString(game.displayPrice())
         val separatorIndex = spannable.indexOf(" : ")
         val endIndex = if (separatorIndex < 0) 0 else separatorIndex - 1
         spannable.setSpan(UnderlineSpan(), 0, endIndex, 0)
         gamePrice.text = spannable
+
+        GlobalScope.launch (Dispatchers.IO) {
+            try{
+                val url = URL(game.headerImage)
+                val bmp = BitmapFactory.decodeStream(url.openStream())
+                withContext(Dispatchers.Main){
+                    println(bmp)
+                }
+            }catch (e: MalformedURLException){
+                e.printStackTrace()
+            }
+        }
 
         //Glide.with(itemView).load(game.backgroundImage).into(gameBackground)
         gameButton.setOnClickListener {

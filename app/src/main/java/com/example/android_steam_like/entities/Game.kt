@@ -1,7 +1,5 @@
 package com.example.android_steam_like.entities
 
-import com.bumptech.glide.RequestManager
-
 
 data class GameData(
     val name: String,
