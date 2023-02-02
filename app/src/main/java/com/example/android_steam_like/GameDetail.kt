@@ -1,10 +1,12 @@
 package com.example.android_steam_like
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.core.text.HtmlCompat.fromHtml
@@ -14,22 +16,22 @@ import com.bumptech.glide.Glide
 import com.example.android_steam_like.components.ActionBar
 import com.example.android_steam_like.databinding.GameDetailBinding
 import com.example.android_steam_like.entities.Comment
-import com.example.android_steam_like.entities.Game
 import com.example.android_steam_like.entities.GameData
 import com.example.android_steam_like.utils.CustomSteamAPI
+import com.example.android_steam_like.utils.CustomSteamAPI.NetworkRequest.getGameById
 import com.example.android_steam_like.utils.GenericAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import layout.HtmlImage
 import layout.WishLikeData
+import java.net.MalformedURLException
+import java.net.URL
 
 class GameDetail : Fragment() {
     private lateinit var binding: GameDetailBinding
     private val comments: MutableList<Comment> = mutableListOf()
     private val listAdapter: CommentsListAdapter = CommentsListAdapter(comments)
-    private var game: Game? = null
     private var wishId: String? = null
     private var likeId: String? = null
     private lateinit var appId: String
@@ -37,7 +39,7 @@ class GameDetail : Fragment() {
     override fun onResume() {
         super.onResume()
         val actionBar = (activity as AppCompatActivity?)!!.supportActionBar!!
-        ActionBar.setActionBarTitle(actionBar.customView, resources.getString(R.string.game_detail))
+        ActionBar.setActionBarTitle((activity as AppCompatActivity?)!!.supportActionBar!!.customView, resources.getString(R.string.home))
         ActionBar.supportActionbar(actionBar, this::setHeartListener, this::setStarListener)
     }
 
@@ -57,9 +59,25 @@ class GameDetail : Fragment() {
         appId = requireArguments().getString("appid", "1237970")
         GlobalScope.launch(Dispatchers.Main) {
             getGameById(appId)
+//            withContext(Dispatchers.Main) {
+//                setImages(activity)
+//            }
+//            try{
+//                val url = URL("https://cdn.akamai.steamstatic.com/steam/apps/1237970/page_bg_generated_v6b.jpg?t=1668565264")
+//
+//                println("Coroutine")
+//                println(BitmapFactory.decodeStream(url.openStream()))
+//
+//                val bmp = BitmapFactory.decodeStream(url.openStream())
+//                println(bmp)
+//                withContext(Dispatchers.Main) {
+//                    Toast.makeText(context, "Coucou", Toast.LENGTH_SHORT)
+//                    binding.background.setImageBitmap(bmp)
+//                }
+//            }catch (e: MalformedURLException){
+//                e.printStackTrace()
+//            }
         }
-
-        setImages(activity)
         setOnClickButton()
         binding.progressCircular.visibility = View.GONE
         binding.gameComments.commentsList.visibility  = View.GONE
@@ -76,9 +94,9 @@ class GameDetail : Fragment() {
     }
 
     private fun setImages(activity: AppCompatActivity) {
-        Glide.with(this@GameDetail).load("https://cdn.akamai.steamstatic.com/steam/apps/1237970/page_bg_generated_v6b.jpg?t=1668565264").into(binding.titleCardBackground)
+        Glide.with(this).load("https://cdn.akamai.steamstatic.com/steam/apps/1237970/page_bg_generated_v6b.jpg?t=1668565264").into(binding.background)
 //        HtmlImage(activity, binding.background, requireArguments().getString("backgroundImage", "https://cdn.akamai.steamstatic.com/steam/apps/1237970/page_bg_generated_v6b.jpg?t=1668565264"))
-        HtmlImage(activity, binding.gameCoverImage, requireArguments().getString("headerImage", "https://cdn.akamai.steamstatic.com/steam/apps/1237970/header.jpg?t=1668565264"))
+//        HtmlImage(activity, binding.gameCoverImage, requireArguments().getString("headerImage", "https://cdn.akamai.steamstatic.com/steam/apps/1237970/header.jpg?t=1668565264"))
 //        HtmlImage(this@GameDetail, findViewById(R.id.title_card_background), this.intent.getStringExtra("backgroundImage"))
      }
 

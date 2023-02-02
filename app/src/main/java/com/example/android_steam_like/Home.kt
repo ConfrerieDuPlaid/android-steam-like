@@ -75,8 +75,7 @@ class Home : Fragment() {
                         listAdapter.notifyItemInserted(games.size + 1)
                     }
                 } catch (e: Exception) {
-                    println(e)
-                    print(element)
+                    println("$e / $element")
                 }
             }
         }
