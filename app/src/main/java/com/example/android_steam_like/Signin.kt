@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.android_steam_like.databinding.SigninFragmentBinding
 import com.example.android_steam_like.entities.User
 import com.example.android_steam_like.entities.UserSignupBody
@@ -44,11 +45,11 @@ class SigninFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setDataFromIntent(view)
-        setSigninListener(view)
+        setDataFromIntent()
+        setSigninListener()
     }
 
-    private fun setDataFromIntent (view: View) {
+    private fun setDataFromIntent () {
         this.email = arguments?.getString("email").toString()
         this.password = arguments?.getString("password").toString()
         if (this.email != "") {
@@ -62,12 +63,12 @@ class SigninFragment: Fragment() {
 
     private fun signin (res: User) {
         User.setInstance(res)
-        println(User.getInstance())
+        findNavController().navigate(R.id.home2)
 //            intent = Intent(this, Home::class.java)
 //            startActivity(intent)
     }
 
-    private fun setSigninListener (view: View) {
+    private fun setSigninListener () {
         binding.signinButton.setOnClickListener {
             val username = binding.username.text.toString()
             email = binding.userEmail.text.toString()

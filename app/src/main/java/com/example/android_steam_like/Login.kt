@@ -69,7 +69,7 @@ class LoginFragment: Fragment () {
 
     private fun login (res: User) {
         User.setInstance(res)
-        println(User.getInstance())
+        findNavController().navigate(R.id.home2)
 //            LoginFragment
 //            intent = Intent(this, Home::class.java)
 //            startActivity(intent)

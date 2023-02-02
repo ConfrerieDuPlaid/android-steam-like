@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_loginFragment_to_forgottenPassword"
             app:destination="@id/forgottenPassword" />
+        <action
+            android:id="@+id/action_loginFragment_to_home2"
+            app:destination="@id/home2" />
     </fragment>
     <fragment
         android:id="@+id/signinFragment"
@@ -35,4 +38,8 @@
             android:name="email"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/home2"
+        android:name="com.example.android_steam_like.Home"
+        android:label="Home" />
 </navigation>
