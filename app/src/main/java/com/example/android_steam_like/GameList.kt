@@ -12,6 +12,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.android_steam_like.entities.Game
@@ -44,12 +46,10 @@ class ListAdapter(private val products: List<Game>) : RecyclerView.Adapter<GameV
             products[position]
         )
     }
-
-
 }
 
 class GameViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-
+    private val view = v
     private val name = v.findViewById<TextView>(R.id.game_name)
     private val editorName = v.findViewById<TextView>(R.id.editor_name)
     private val gamePrice = v.findViewById<TextView>(R.id.game_price)
@@ -67,13 +67,10 @@ class GameViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         val endIndex = if (separatorIndex < 0) 0 else separatorIndex - 1
         spannable.setSpan(UnderlineSpan(), 0, endIndex, 0)
         gamePrice.text = spannable
+
         //Glide.with(itemView).load(game.backgroundImage).into(gameBackground)
         gameButton.setOnClickListener {
-            val intent = Intent(it.context, GameDetail::class.java)
-            intent.putExtra("appId",game.steamAppId)
-            intent.putExtra("headerImage",game.headerImage)
-            intent.putExtra("backgroundImage",game.backgroundImage)
-            startActivity(it.context, intent, null)
+            view.findNavController().navigate(R.id.gameDetail, bundleOf("appid" to game.steamAppId))
         }
     }
 }

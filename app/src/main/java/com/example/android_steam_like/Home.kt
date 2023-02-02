@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -105,11 +106,10 @@ class Home : Fragment() {
         })
 
         binding.knowMore.setOnClickListener {
-//            findNavController().navigate(
-//                //titan fall 1237970
-//            )
-//            intent = Intent(this, GameDetail::class.java)
-//            startActivity(intent)
+            findNavController().navigate(
+                R.id.gameDetail,
+                bundleOf("appid" to "1237970")
+            )
         }
     }
 }

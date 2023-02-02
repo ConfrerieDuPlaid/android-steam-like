@@ -1,17 +1,18 @@
 package com.example.android_steam_like
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
+import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.core.text.HtmlCompat.fromHtml
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.android_steam_like.components.ActionBar
+import com.example.android_steam_like.databinding.GameDetailBinding
 import com.example.android_steam_like.entities.Comment
 import com.example.android_steam_like.entities.Game
 import com.example.android_steam_like.entities.GameData
@@ -20,73 +21,85 @@ import com.example.android_steam_like.utils.GenericAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import layout.HtmlImage
 import layout.WishLikeData
-import org.json.JSONArray
 
-class GameDetail : AppCompatActivity() {
-
+class GameDetail : Fragment() {
+    private lateinit var binding: GameDetailBinding
     private val comments: MutableList<Comment> = mutableListOf()
     private val listAdapter: CommentsListAdapter = CommentsListAdapter(comments)
     private var game: Game? = null
     private var wishId: String? = null
     private var likeId: String? = null
-    private var appId: String? = null
+    private lateinit var appId: String
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        this.appId = this.intent.getStringExtra("appId")
+    override fun onResume() {
+        super.onResume()
+        val actionBar = (activity as AppCompatActivity?)!!.supportActionBar!!
+        ActionBar.setActionBarTitle(actionBar.customView, resources.getString(R.string.game_detail))
+        ActionBar.supportActionbar(actionBar, this::setHeartListener, this::setStarListener)
+    }
 
-        setContentView(R.layout.game_detail)
-        ActionBar.supportActionbar(supportActionBar, this::setHeartListener, this::setStarListener)
-        ActionBar.setActionBarTitle(supportActionBar!!.customView, resources.getString(R.string.game_detail))
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = GameDetailBinding.inflate(inflater, container, false)
+        setupAdapter()
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val activity = (activity as AppCompatActivity?)!!
+        appId = requireArguments().getString("appid", "1237970")
         GlobalScope.launch(Dispatchers.Main) {
-            getGameById(appId!!)
+            getGameById(appId)
         }
 
-        val list = findViewById<RecyclerView>(R.id.game_comments)
-        list.visibility  = View.GONE
-        setImages()
-
+        setImages(activity)
         setOnClickButton()
-
-        findViewById<ProgressBar>(R.id.progress_circular).visibility = View.GONE
-        findViewById<RecyclerView>(R.id.game_comments).apply {
-            layoutManager = LinearLayoutManager(this@GameDetail)
-            adapter = listAdapter
-        }
+        binding.progressCircular.visibility = View.GONE
+        binding.gameComments.commentsList.visibility  = View.GONE
+    }
+    
+    private fun setupAdapter () {
+        val linearLayoutManager = LinearLayoutManager(context)
+        binding.gameComments.commentsList.layoutManager = linearLayoutManager
+        binding.gameComments.commentsList.adapter = listAdapter
     }
 
     private suspend fun getGameById(appId: String) {
         GenericAPI.call(CustomSteamAPI.NetworkRequest::getGameById, appId, this::displayDetail)
     }
 
-    private fun setImages() {
-        HtmlImage(this@GameDetail, findViewById(R.id.background), this.intent.getStringExtra("backgroundImage"))
-        HtmlImage(this@GameDetail, findViewById(R.id.game_cover_image), this.intent.getStringExtra("headerImage"))
-        HtmlImage(this@GameDetail, findViewById(R.id.title_card_background), this.intent.getStringExtra("backgroundImage"))
-    }
+    private fun setImages(activity: AppCompatActivity) {
+        Glide.with(this@GameDetail).load("https://cdn.akamai.steamstatic.com/steam/apps/1237970/page_bg_generated_v6b.jpg?t=1668565264").into(binding.titleCardBackground)
+//        HtmlImage(activity, binding.background, requireArguments().getString("backgroundImage", "https://cdn.akamai.steamstatic.com/steam/apps/1237970/page_bg_generated_v6b.jpg?t=1668565264"))
+        HtmlImage(activity, binding.gameCoverImage, requireArguments().getString("headerImage", "https://cdn.akamai.steamstatic.com/steam/apps/1237970/header.jpg?t=1668565264"))
+//        HtmlImage(this@GameDetail, findViewById(R.id.title_card_background), this.intent.getStringExtra("backgroundImage"))
+     }
 
     private fun setOnClickButton() {
-        val list = findViewById<RecyclerView>(R.id.game_comments)
-        val description = findViewById<TextView>(R.id.description)
-        val descriptionButton = findViewById<Button>(R.id.description_button)
-        val commentsButton = findViewById<Button>(R.id.comments_button)
-        val circularWaiting = findViewById<ProgressBar>(R.id.progress_circular)
+        val description = binding.description
+        val descriptionButton = binding.descriptionButton
+        val commentsButton = binding.commentsButton
+        val circularWaiting = binding.progressCircular
 
         descriptionButton.setOnClickListener {
             descriptionButton.setBackgroundResource(R.drawable.button_rounded_left_full)
             commentsButton.setBackgroundResource(R.drawable.button_rounded_right)
             circularWaiting.visibility = View.GONE
-            list.visibility  = View.GONE
+            binding.gameComments.commentsList.visibility  = View.GONE
             description.visibility = View.VISIBLE
         }
 
         commentsButton.setOnClickListener {
             descriptionButton.setBackgroundResource(R.drawable.button_rounded_left)
             commentsButton.setBackgroundResource(R.drawable.button_rounded_right_full)
-            list.visibility  = View.VISIBLE
+            binding.gameComments.commentsList.visibility  = View.VISIBLE
             description.visibility = View.GONE
             if (comments.isEmpty()) {
                 circularWaiting.visibility = View.VISIBLE
@@ -96,39 +109,27 @@ class GameDetail : AppCompatActivity() {
     }
 
     private fun getGameCommentById() {
-        GlobalScope.launch(Dispatchers.Main) {
-            getGameComments(appId!!)
+        GlobalScope.launch(Dispatchers.IO) {
+            getGameComments(appId)
         }
     }
 
     private fun addOpinions(res: List<Comment>) {
-        val commentsJson = JSONArray(res)
-        val circularWaiting = findViewById<ProgressBar>(R.id.progress_circular)
-
-        this@GameDetail.runOnUiThread {
+        GlobalScope.launch(Dispatchers.IO) {
             for (element in res) {
-                this.comments.add(element)
-                listAdapter.notifyItemInserted(comments.size + 1)
-                circularWaiting.visibility = View.GONE
+                withContext(Dispatchers.Main) {
+                    comments.add(element)
+                    listAdapter.notifyItemInserted(comments.size + 1)
+                    binding.progressCircular.visibility = View.GONE
+                }
             }
-//            for (i in 0 until commentsJson.length()) {
-//                try {
-//                        val author = res[i].author
-//                        val score = res[i].score.toDouble()
-//                        val content = res[i].content
-//                        val comment = Comment(author, content, score)
-//
-//                } catch(e: Exception) {
-//                    println(e.message)
-//                }
-//            }
         }
     }
 
     private fun displayDetail(res: GameData) {
-        findViewById<TextView>(R.id.description).text = fromHtml(res.description!!, FROM_HTML_MODE_LEGACY)
-        findViewById<TextView>(R.id.game_name).text = res.name
-        findViewById<TextView>(R.id.game_editor).text = res.publishers
+        binding.description.text = fromHtml(res.description!!, FROM_HTML_MODE_LEGACY)
+        binding.gameName.text = res.name
+        binding.gameEditor.text = res.publishers
             .toString()
             .replace("[", "")
             .replace("]", "")
@@ -138,14 +139,14 @@ class GameDetail : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.Main) {
             getLikeList()
         }
-        findViewById<ImageButton>(R.id.action_heart).setOnClickListener {
+        (activity as AppCompatActivity?)!!.findViewById<ImageButton>(R.id.action_heart).setOnClickListener {
             if (likeId != null) {
                 GlobalScope.launch(Dispatchers.Main) {
                     removeFromLikeList(likeId!!)
                 }
             } else {
                 GlobalScope.launch(Dispatchers.Main) {
-                    addToLikeList(appId!!)
+                    addToLikeList(appId)
                 }
             }
         }
@@ -155,14 +156,14 @@ class GameDetail : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.Main) {
             getWishList()
         }
-        findViewById<ImageButton>(R.id.action_star).setOnClickListener {
+        (activity as AppCompatActivity?)!!.findViewById<ImageButton>(R.id.action_star).setOnClickListener {
             if (wishId != null) {
                 GlobalScope.launch(Dispatchers.Main) {
                     removeFromWishlist(wishId!!)
                 }
             } else {
                 GlobalScope.launch(Dispatchers.Main) {
-                    addToWishList(appId!!)
+                    addToWishList(appId)
                 }
             }
         }
@@ -197,10 +198,10 @@ class GameDetail : AppCompatActivity() {
     }
 
     private fun setWishButton (res: List<WishLikeData>) {
-        this@GameDetail.runOnUiThread {
+        GlobalScope.launch(Dispatchers.Main) {
             for (element in res) {
                 val wishedAppid: String = element.appid
-                if (wishedAppid == this.appId) {
+                if (wishedAppid == appId) {
                     setWish(element)
                 }
             }
@@ -209,29 +210,29 @@ class GameDetail : AppCompatActivity() {
 
     private fun setWish(res: WishLikeData) {
         this.wishId = res._id
-        findViewById<ImageButton>(R.id.action_star).setImageResource(R.drawable.whishlist_full)
+        (activity as AppCompatActivity?)!!.findViewById<ImageButton>(R.id.action_star).setImageResource(R.drawable.whishlist_full)
     }
 
     private fun unsetWish(isGood: Int) {
         this.wishId = null
-        findViewById<ImageButton>(R.id.action_star).setImageResource(R.drawable.whishlist)
+        (activity as AppCompatActivity?)!!.findViewById<ImageButton>(R.id.action_star).setImageResource(R.drawable.whishlist)
     }
 
     private fun setLike(res: WishLikeData) {
         this.likeId = res._id
-        findViewById<ImageButton>(R.id.action_heart).setImageResource(R.drawable.like_full)
+        (activity as AppCompatActivity?)!!.findViewById<ImageButton>(R.id.action_heart).setImageResource(R.drawable.like_full)
     }
 
     private fun unsetLike(isGood: Int) {
         this.likeId = null
-        findViewById<ImageButton>(R.id.action_heart).setImageResource(R.drawable.like)
+        (activity as AppCompatActivity?)!!.findViewById<ImageButton>(R.id.action_heart).setImageResource(R.drawable.like)
     }
 
     private fun setLikeButton (res: List<WishLikeData>) {
-        this@GameDetail.runOnUiThread {
+        GlobalScope.launch(Dispatchers.Main) {
             for (element in res) {
                 val likedAppid: String = element.appid
-                if (likedAppid == this.appId) {
+                if (likedAppid == appId) {
                     setLike(element)
                 }
             }

@@ -49,6 +49,12 @@
         <action
             android:id="@+id/action_home2_to_gameDetail"
             app:destination="@id/gameDetail" />
+        <action
+            android:id="@+id/action_gameDetail_to_wishList"
+            app:destination="@id/wishList" />
+        <action
+            android:id="@+id/action_gameDetail_to_likeList"
+            app:destination="@id/likeList" />
     </fragment>
     <fragment
         android:id="@+id/gameDetail"
@@ -56,13 +62,7 @@
         android:label="GameDetail" >
         <argument
             android:name="appid"
-            app:argType="integer" />
-        <action
-            android:id="@+id/action_gameDetail_to_wishList"
-            app:destination="@id/wishList" />
-        <action
-            android:id="@+id/action_gameDetail_to_likeList"
-            app:destination="@id/likeList" />
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/wishList"

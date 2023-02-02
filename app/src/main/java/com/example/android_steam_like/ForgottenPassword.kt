@@ -1,19 +1,14 @@
 package com.example.android_steam_like
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.android_steam_like.databinding.ForgottenPasswordBinding
-import com.example.android_steam_like.databinding.LoginFragmentBinding
 import com.example.android_steam_like.entities.RecPassword
 import com.example.android_steam_like.entities.ResPassword
 import com.example.android_steam_like.utils.CustomSteamAPI
