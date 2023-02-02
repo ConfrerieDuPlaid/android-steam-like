@@ -43,6 +43,7 @@
             style="@style/CardCoverImage"
             android:layout_width="70dp"
             android:layout_height="97dp"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             />
         <androidx.appcompat.widget.LinearLayoutCompat

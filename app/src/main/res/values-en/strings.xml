@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">android-steam-like</string>
+    <string name="forget_password"><u>Forget password</u></string>
+    <string name="password">Password</string>
+    <string name="more_info">About</string>
+    <string name="search">Search game…</string>
+    <string name="example_game_name">Titan Fall 2 Ultimate edition</string>
+    <string name="example_game_editor">EA</string>
+    <string name="description">Description</string>
+    <string name="opinions">Opinions</string>
+    <string name="forgotten_password">Forgotten password</string>
+    <string name="label_enter_email">Please enter your email to reset your password</string>
+    <string name="email">E-mail</string>
+    <string name="token">Token</string>
+    <string name="template_game_name">Game name</string>
+    <string name="template_game_editor">Editor name</string>
+    <string name="template_game_price">Price : 10 $</string>
+    <string name="label_empty_likelist">You haven\'t liked content yet. Please click on the heart to add content</string>
+    <string name="label_empty_wishlist">You haven\'t wished content yet. Please click on the star to wish content</string>
+    <string name="reset_password">Reset my password</string>
+    <string name="reset">Reset</string>
+    <string name="example_game_desc">Description of a game highlight</string>
+    <string name="label_signin">Please enter the following information to register</string>
+    <string name="username">Username</string>
+    <string name="template_view_title">View title</string>
+    <string name="template_username">User</string>
+    <string name="template_comment">Comments content</string>
+    <string name="welcome">Welcome !</string>
+    <string name="label_welcome">Please login or signup to use the application</string>
+    <string name="login">Log in</string>
+    <string name="create_account">Register a new account</string>
+    <string name="signup">Registering</string>
+    <string name="signin">Sign up</string>
+    <string name="home">Home</string>
+    <string name="wishlist">My wish list</string>
+    <string name="likelist">My like</string>
+    <string name="game_detail">Game detail</string>
+</resources>
