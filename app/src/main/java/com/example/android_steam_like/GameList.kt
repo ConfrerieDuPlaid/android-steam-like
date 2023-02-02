@@ -59,7 +59,7 @@ class GameViewHolder(v: View) : RecyclerView.ViewHolder(v) {
     private val editorName = v.findViewById<TextView>(R.id.editor_name)
     private val gamePrice = v.findViewById<TextView>(R.id.game_price)
     private val gameImage = v.findViewById<ImageView>(R.id.game_image)
-    //private val gameBackground = v.findViewById<ImageView>(R.id.title_card_background)
+    private val gameBackground = v.findViewById<ImageView>(R.id.title_card_background)
     private val gameButton = v.findViewById<AppCompatButton>(R.id.more_info)
 
 
@@ -86,9 +86,10 @@ class GameViewHolder(v: View) : RecyclerView.ViewHolder(v) {
             }
         }
 
-        //Glide.with(itemView).load(game.backgroundImage).into(gameBackground)
+        Glide.with(itemView).load(game.backgroundImage).into(gameBackground)
+
         gameButton.setOnClickListener {
-            view.findNavController().navigate(R.id.gameDetail, bundleOf("appid" to game.steamAppId))
+            view.findNavController().navigate(R.id.gameDetail, bundleOf("appid" to game.steamAppId, "backgroundImage" to game.backgroundImage, "headerImage" to game.headerImage))
         }
     }
 }

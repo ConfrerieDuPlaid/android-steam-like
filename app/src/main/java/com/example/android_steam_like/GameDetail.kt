@@ -21,6 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import layout.HtmlImage
 import layout.WishLikeData
 
 class GameDetail : Fragment() {
@@ -33,9 +34,7 @@ class GameDetail : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val actionBar = (activity as AppCompatActivity?)!!.supportActionBar!!
-        ActionBar.setActionBarTitle((activity as AppCompatActivity?)!!.supportActionBar!!.customView, resources.getString(R.string.home))
-        ActionBar.supportActionbar(actionBar, this::setHeartListener, this::setStarListener)
+
     }
 
     override fun onCreateView(
@@ -44,6 +43,8 @@ class GameDetail : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = GameDetailBinding.inflate(inflater, container, false)
+        ActionBar.setActionBarTitle((activity as AppCompatActivity?)!!.supportActionBar!!.customView, resources.getString(R.string.game_detail))
+        ActionBar.setNavBarActions(this::setHeartListener, this::setStarListener)
         setupAdapter()
         return binding.root
     }
@@ -57,29 +58,12 @@ class GameDetail : Fragment() {
 
         GlobalScope.launch(Dispatchers.Main) {
             getGameById(appId)
-//            withContext(Dispatchers.Main) {
-//                setImages(activity)
-//            }
-//            try{
-//                val url = URL("https://cdn.akamai.steamstatic.com/steam/apps/1237970/page_bg_generated_v6b.jpg?t=1668565264")
-//
-//                println("Coroutine")
-//                println(BitmapFactory.decodeStream(url.openStream()))
-//
-//                val bmp = BitmapFactory.decodeStream(url.openStream())
-//                println(bmp)
-//                withContext(Dispatchers.Main) {
-//                    Toast.makeText(context, "Coucou", Toast.LENGTH_SHORT)
-//                    binding.background.setImageBitmap(bmp)
-//                }
-//            } catch (e: MalformedURLException) {
-//                e.printStackTrace()
-//            }
         }
+
         binding.progressCircular.visibility = View.GONE
         binding.gameComments.commentsList.visibility  = View.GONE
     }
-    
+
     private fun setupAdapter () {
         val linearLayoutManager = LinearLayoutManager(context)
         binding.gameComments.commentsList.layoutManager = linearLayoutManager
@@ -114,11 +98,10 @@ class GameDetail : Fragment() {
     }
 
     private fun setImages() {
-        Glide.with(binding.background.context).load("https://cdn.akamai.steamstatic.com/steam/apps/1237970/page_bg_generated_v6b.jpg?t=1668565264").into(binding.background)
-//        HtmlImage(activity, binding.background, requireArguments().getString("backgroundImage", "https://cdn.akamai.steamstatic.com/steam/apps/1237970/page_bg_generated_v6b.jpg?t=1668565264"))
-//        HtmlImage(activity, binding.gameCoverImage, requireArguments().getString("headerImage", "https://cdn.akamai.steamstatic.com/steam/apps/1237970/header.jpg?t=1668565264"))
-//        HtmlImage(this@GameDetail, findViewById(R.id.title_card_background), this.intent.getStringExtra("backgroundImage"))
-     }
+        Glide.with(binding.background.context).load(requireArguments().getString("backgroundImage", "https://cdn.akamai.steamstatic.com/steam/apps/1237970/page_bg_generated_v6b.jpg?t=1668565264")).into(binding.background)
+        Glide.with(binding.gameCoverImage.context).load(requireArguments().getString("headerImage", "https://cdn.akamai.steamstatic.com/steam/apps/1237970/header.jpg?t=1668565264")).into(binding.gameCoverImage)
+        Glide.with(binding.titleCardBackground.context).load(requireArguments().getString("backgroundImage", "https://cdn.akamai.steamstatic.com/steam/apps/1237970/page_bg_generated_v6b.jpg?t=1668565264")).into(binding.titleCardBackground)
+    }
 
     private fun setOnClickButton() {
         val description = binding.description

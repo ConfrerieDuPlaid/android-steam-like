@@ -33,6 +33,10 @@
         <action
             android:id="@+id/action_signinFragment_to_home2"
             app:destination="@id/home2" />
+        <action
+            android:id="@+id/action_signinFragment_pop"
+            app:popUpTo="@id/signinFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/forgottenPassword"
@@ -58,6 +62,10 @@
         <action
             android:id="@+id/action_home2_to_searchGameList"
             app:destination="@id/searchGameList" />
+        <action
+            android:id="@+id/action_home2_pop"
+            app:popUpTo="@id/home2"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/gameDetail"

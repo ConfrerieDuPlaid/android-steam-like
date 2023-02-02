@@ -28,7 +28,7 @@ class ActionBar : AppCompatActivity() {
             setNavBarActions(setHeartActionCallback, setStarActionCallback)
         }
 
-        private fun setNavBarActions(
+        fun setNavBarActions(
             setHeartActionCallback:  () -> Unit,
             setStarActionCallback:  () -> Unit
         ) {

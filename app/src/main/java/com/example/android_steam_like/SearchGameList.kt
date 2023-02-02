@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.android_steam_like.components.ActionBar
 import com.example.android_steam_like.databinding.SearchGameListBinding
 import com.example.android_steam_like.entities.Game
 import com.example.android_steam_like.entities.GameResponse
@@ -38,6 +39,8 @@ class SearchGameList : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = SearchGameListBinding.inflate(inflater, container, false)
+        ActionBar.setActionBarTitle((activity as AppCompatActivity?)!!.supportActionBar!!.customView, resources.getString(R.string.search))
+
         setupAdapter()
         return binding.root
     }
@@ -45,9 +48,9 @@ class SearchGameList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         searchStr = requireArguments().getString("searchStr").toString()
-
         GlobalScope.launch(Dispatchers.IO) {
             if (searchStr != "") {
+                binding.searchBar.setText(searchStr, TextView.BufferType.EDITABLE);
                 GenericAPI.call(CustomSteamAPI.NetworkRequest::searchGamesByName, searchStr, this@SearchGameList::displayGamesFromHome)
             }
             searchGame()
