@@ -1,22 +1,16 @@
 package com.example.android_steam_like
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.android_steam_like.components.ActionBar
 import com.example.android_steam_like.databinding.HomeBinding
 import com.example.android_steam_like.entities.Game
@@ -37,6 +31,7 @@ class Home : Fragment() {
     override fun onResume() {
         super.onResume()
         ActionBar.supportActionbar((activity as AppCompatActivity?)!!.supportActionBar!!, this::setHeartListener, this::setStarListener)
+        ActionBar.setActionBarTitle((activity as AppCompatActivity?)!!.supportActionBar!!.customView, resources.getString(R.string.home))
     }
 
     override fun onCreateView(
@@ -88,17 +83,14 @@ class Home : Fragment() {
 
     private fun setHeartListener() {
         (activity as AppCompatActivity?)!!.findViewById<ImageButton>(R.id.action_heart).setOnClickListener {
-            println("Heart")
-//            intent = Intent(this, LikeList::class.java)
-//            startActivity(intent)
+            findNavController().navigate(R.id.likeList)
         }
     }
 
     private fun setStarListener() {
-//        findViewById<ImageButton>(R.id.action_star).setOnClickListener {
-//            intent = Intent(this, WishList::class.java)
-//            startActivity(intent)
-//        }
+        (activity as AppCompatActivity?)!!.findViewById<ImageButton>(R.id.action_star).setOnClickListener {
+            findNavController().navigate(R.id.wishList)
+        }
     }
 
     private fun setButtonNavigation() {

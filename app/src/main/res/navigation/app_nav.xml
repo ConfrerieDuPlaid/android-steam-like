@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_nav"
     app:startDestination="@id/loginFragment">
 
@@ -29,6 +30,9 @@
         <argument
             android:name="password"
             app:argType="string" />
+        <action
+            android:id="@+id/action_signinFragment_to_home2"
+            app:destination="@id/home2" />
     </fragment>
     <fragment
         android:id="@+id/forgottenPassword"
@@ -41,5 +45,33 @@
     <fragment
         android:id="@+id/home2"
         android:name="com.example.android_steam_like.Home"
-        android:label="Home" />
+        android:label="Home" >
+        <action
+            android:id="@+id/action_home2_to_gameDetail"
+            app:destination="@id/gameDetail" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameDetail"
+        android:name="com.example.android_steam_like.GameDetail"
+        android:label="GameDetail" >
+        <argument
+            android:name="appid"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_gameDetail_to_wishList"
+            app:destination="@id/wishList" />
+        <action
+            android:id="@+id/action_gameDetail_to_likeList"
+            app:destination="@id/likeList" />
+    </fragment>
+    <fragment
+        android:id="@+id/wishList"
+        android:name="com.example.android_steam_like.WishList"
+        android:label="wishlist"
+        tools:layout="@layout/wishlist" />
+    <fragment
+        android:id="@+id/likeList"
+        android:name="com.example.android_steam_like.LikeList"
+        android:label="likelist"
+        tools:layout="@layout/likelist" />
 </navigation>
