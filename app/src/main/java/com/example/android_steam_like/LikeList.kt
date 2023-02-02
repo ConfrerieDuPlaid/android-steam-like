@@ -75,14 +75,20 @@ class LikeList : Fragment() {
         try{
             GenericAPI.call(CustomSteamAPI.NetworkRequest::getLikeList, 0, this::addGame)
             withContext(Dispatchers.Main){
-                binding.reload.visibility = View.GONE
-                binding.errors.visibility = View.GONE
-                binding.homeProgressBar.visibility = View.GONE
+                if(likes.isNotEmpty()){
+                    binding.reload.visibility = View.GONE
+                    binding.errors.visibility = View.GONE
+                    binding.homeProgressBar.visibility = View.GONE
+                    binding.likeImage.visibility = View.GONE
+                    binding.emptyLikeText.visibility = View.GONE
+                }
             }
         }catch (e: Exception){
             withContext(Dispatchers.Main){
                 binding.reload.visibility = View.VISIBLE
                 binding.errors.visibility = View.VISIBLE
+                binding.likeImage.visibility = View.VISIBLE
+                binding.emptyLikeText.visibility = View.VISIBLE
                 binding.errors.text = e.message
                 binding.homeProgressBar.visibility = View.GONE
             }
@@ -90,6 +96,9 @@ class LikeList : Fragment() {
     }
 
     private fun addGame(res: List<WishLikeData>) {
+        if(res.isEmpty()){
+            binding.homeProgressBar.visibility = View.GONE
+        }
         GlobalScope.launch(Dispatchers.Main) {
             for (element in res) {
                 val game = element.gameData!!
